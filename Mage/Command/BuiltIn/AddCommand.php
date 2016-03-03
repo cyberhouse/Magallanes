@@ -110,5 +110,7 @@ class AddCommand extends AbstractCommand
         }
 
         $baseConfig['tasks']['post-deploy'] = '';
+
+        return $baseConfig;
     }
 }
