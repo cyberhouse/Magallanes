@@ -86,7 +86,7 @@ class AddCommand extends AbstractCommand
             'user' => 'dummy',
             'from' => './',
             'to' => '/var/www/vhosts/example.com/www',
-            'excludes' => null
+            'excludes' => array()
         );
 
         if($withReleases) {
@@ -98,17 +98,17 @@ class AddCommand extends AbstractCommand
             );
         }
 
-        $baseConfig['hosts'] = null;
+        $baseConfig['hosts'] = array();
         $baseConfig['tasks'] = array(
-            'pre-deploy' => null,
-            'on-deploy' => null
+            'pre-deploy' => array(),
+            'on-deploy' => array()
         );
 
         if($withReleases) {
-            $baseConfig['tasks']['post-release'] = null;
+            $baseConfig['tasks']['post-release'] = array();
         }
 
-        $baseConfig['tasks']['post-deploy'] = null;
+        $baseConfig['tasks']['post-deploy'] = array();
 
         return $baseConfig;
     }
