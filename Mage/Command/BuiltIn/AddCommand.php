@@ -13,7 +13,7 @@ namespace Mage\Command\BuiltIn;
 use Mage\Command\AbstractCommand;
 use Mage\Console;
 use Exception;
-use Symfony\Component\Yaml\Dumper;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Command for Adding elements to the Configuration.
@@ -65,7 +65,7 @@ class AddCommand extends AbstractCommand
         $config = $this->getDefaultConfiguration($withReleases);
 
         $dumper = new Dumper();
-        $result = file_put_contents($environmentConfigFile, $dumper->dump($config, 3));
+        $result = file_put_contents($environmentConfigFile, Yaml::dump($config, 3, 2));
 
         if ($result) {
             Console::output('<light_green>Success!!</light_green> Environment config file for <bold>' . $environmentName . '</bold> created successfully at <blue>' . $environmentConfigFile . '</blue>');
@@ -87,7 +87,7 @@ class AddCommand extends AbstractCommand
             'user' => 'dummy',
             'from' => './',
             'to' => '/var/www/vhosts/example.com/www',
-            'excludes' => ''
+            'excludes' => null
         );
 
         if($withReleases) {
@@ -99,17 +99,17 @@ class AddCommand extends AbstractCommand
             );
         }
 
-        $baseConfig['hosts'] = '';
+        $baseConfig['hosts'] = null;
         $baseConfig['tasks'] = array(
-            'pre-deploy' => '',
-            'on-deploy' => ''
+            'pre-deploy' => null,
+            'on-deploy' => null
         );
 
         if($withReleases) {
-            $baseConfig['tasks']['post-release'] = '';
+            $baseConfig['tasks']['post-release'] = null;
         }
 
-        $baseConfig['tasks']['post-deploy'] = '';
+        $baseConfig['tasks']['post-deploy'] = null;
 
         return $baseConfig;
     }
