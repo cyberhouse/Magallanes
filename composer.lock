@@ -4,34 +4,35 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "39dfab7902c20ad0c5546f579e676b90",
-    "content-hash": "9cde9fdc9b5101f985fe29b4ced51f5f",
+    "hash": "38adf898fa331eeaaf7646d75fcb3d45",
+    "content-hash": "f407b6fa73c189a289cdb7f6bc274459",
     "packages": [
         {
             "name": "symfony/yaml",
-            "version": "v2.8.3",
+            "version": "v2.3.38",
+            "target-dir": "Symfony/Component/Yaml",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "2a4ee40acb880c56f29fb1b8886e7ffe94f3b995"
+                "reference": "af253bbd4841b3f6b088a0a35307ecc8c53da2c9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/2a4ee40acb880c56f29fb1b8886e7ffe94f3b995",
-                "reference": "2a4ee40acb880c56f29fb1b8886e7ffe94f3b995",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/af253bbd4841b3f6b088a0a35307ecc8c53da2c9",
+                "reference": "af253bbd4841b3f6b088a0a35307ecc8c53da2c9",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.9"
+                "php": ">=5.3.3"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.8-dev"
+                    "dev-master": "2.3-dev"
                 }
             },
             "autoload": {
-                "psr-4": {
+                "psr-0": {
                     "Symfony\\Component\\Yaml\\": ""
                 },
                 "exclude-from-classmap": [
@@ -54,7 +55,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2016-02-23 07:41:20"
+            "time": "2016-02-17 21:15:58"
         }
     ],
     "packages-dev": [
