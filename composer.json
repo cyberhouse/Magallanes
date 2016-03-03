@@ -24,12 +24,15 @@
     ],
     "keywords": ["deployment"],
     "require": {
-        "php": ">=5.3"
+      "php": ">=5.3",
+      "symfony/yaml": "2.8.3"
     },
     "require-dev": {
-        "phpunit/phpunit": "4.3.5",
-        "satooshi/php-coveralls": ">=0.6.1",
-        "malkusch/php-mock": "dev-php-5.3"
+      "phpunit/phpunit": "4.3.5",
+      "satooshi/php-coveralls": ">=0.6.1",
+      "malkusch/php-mock": "dev-php-5.3",
+      "squizlabs/php_codesniffer": "^2.3.4",
+      "fabpot/php-cs-fixer": "^v1.11"
     },
     "autoload": {
         "psr-4": {
