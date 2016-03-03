@@ -65,7 +65,7 @@ class AddCommand extends AbstractCommand
         $config = $this->getDefaultConfiguration($withReleases);
 
         $dumper = new Dumper();
-        $result = file_put_contents($environmentConfigFile, $dumper->dump($config));
+        $result = file_put_contents($environmentConfigFile, $dumper->dump($config, 3));
 
         if ($result) {
             Console::output('<light_green>Success!!</light_green> Environment config file for <bold>' . $environmentName . '</bold> created successfully at <blue>' . $environmentConfigFile . '</blue>');
