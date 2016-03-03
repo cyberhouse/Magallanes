@@ -64,7 +64,6 @@ class AddCommand extends AbstractCommand
 
         $config = $this->getDefaultConfiguration($withReleases);
 
-        $dumper = new Dumper();
         $result = file_put_contents($environmentConfigFile, Yaml::dump($config, 3, 2));
 
         if ($result) {
