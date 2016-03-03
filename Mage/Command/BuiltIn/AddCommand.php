@@ -13,6 +13,7 @@ namespace Mage\Command\BuiltIn;
 use Mage\Command\AbstractCommand;
 use Mage\Console;
 use Exception;
+use Symfony\Component\Yaml\Dumper;
 
 /**
  * Command for Adding elements to the Configuration.
@@ -32,18 +33,10 @@ class AddCommand extends AbstractCommand
     {
         $subCommand = $this->getConfig()->getArgument(1);
 
-        try {
-            switch ($subCommand) {
-                case 'environment':
-                    $this->addEnvironment();
-                    break;
-
-                default;
-                    throw new Exception('The Type of Add is needed.');
-                    break;
-            }
-        } catch (Exception $exception) {
-            Console::output('<red>' . $exception->getMessage() . '</red>', 1, 2);
+        if(strcmp($subCommand, 'environment') == 0) {
+            $this->addEnvironment();
+        } else {
+            throw new Exception('The Type of Add is needed.');
         }
     }
 
@@ -57,7 +50,7 @@ class AddCommand extends AbstractCommand
         $withReleases = $this->getConfig()->getParameter('enableReleases', false);
         $environmentName = strtolower($this->getConfig()->getParameter('name'));
 
-        if ($environmentName == '') {
+        if (empty($environmentName)) {
             throw new Exception('You must specify a name for the environment.');
         }
 
@@ -69,27 +62,10 @@ class AddCommand extends AbstractCommand
 
         Console::output('Adding new environment: <bold>' . $environmentName . '</bold>');
 
-        $releasesConfig = 'releases:' . PHP_EOL
-            . '  enabled: true' . PHP_EOL
-            . '  max: 10' . PHP_EOL
-            . '  symlink: current' . PHP_EOL
-            . '  directory: releases' . PHP_EOL;
+        $config = $this->getDefaultConfiguration($withReleases);
 
-        $baseConfig = '#' . $environmentName . PHP_EOL
-            . 'deployment:' . PHP_EOL
-            . '  user: dummy' . PHP_EOL
-            . '  from: ./' . PHP_EOL
-            . '  to: /var/www/vhosts/example.com/www' . PHP_EOL
-            . '  excludes:' . PHP_EOL
-            . ($withReleases ? $releasesConfig : '')
-            . 'hosts:' . PHP_EOL
-            . 'tasks:' . PHP_EOL
-            . '  pre-deploy:' . PHP_EOL
-            . '  on-deploy:' . PHP_EOL
-            . ($withReleases ? ('  post-release:' . PHP_EOL) : '')
-            . '  post-deploy:' . PHP_EOL;
-
-        $result = file_put_contents($environmentConfigFile, $baseConfig);
+        $dumper = new Dumper();
+        $result = file_put_contents($environmentConfigFile, $dumper->dump($config));
 
         if ($result) {
             Console::output('<light_green>Success!!</light_green> Environment config file for <bold>' . $environmentName . '</bold> created successfully at <blue>' . $environmentConfigFile . '</blue>');
@@ -97,5 +73,42 @@ class AddCommand extends AbstractCommand
         } else {
             Console::output('<light_red>Error!!</light_red> Unable to create config file for environment called <bold>' . $environmentName . '</bold>', 1, 2);
         }
+    }
+
+    /**
+     * Build up the array of default configurations for an environment
+     *
+     * @param $withReleases flag for adding the releases configuration section
+     */
+    protected function getDefaultConfiguration($withReleases) {
+        $baseConfig = array();
+
+        $baseConfig['deployment'] = array(
+            'user' => 'dummy',
+            'from' => './',
+            'to' => '/var/www/vhosts/example.com/www',
+            'excludes' => ''
+        );
+
+        if($withReleases) {
+            $baseConfig['releases'] = array(
+                'enabled' => true,
+                'max' => 10,
+                'symlink' => 'current',
+                'directory' => 'releases'
+            );
+        }
+
+        $baseConfig['hosts'] = '';
+        $baseConfig['tasks'] = array(
+            'pre-deploy' => '',
+            'on-deploy' => ''
+        );
+
+        if($withReleases) {
+            $baseConfig['tasks']['post-release'] = '';
+        }
+
+        $baseConfig['tasks']['post-deploy'] = '';
     }
 }
