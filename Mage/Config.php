@@ -14,6 +14,7 @@ use Mage\Config\ConfigNotFoundException;
 use Mage\Config\RequiredConfigNotFoundException;
 use Mage\Console;
 use Exception;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Magallanes Configuration
