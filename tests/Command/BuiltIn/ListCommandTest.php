@@ -9,9 +9,6 @@ use phpmock\MockBuilder;
 /**
  * Class ListCommandTest
  * @coversDefaultClass Mage\Command\BuiltIn\ListCommand
- * @uses malkusch\phpmock\Mock
- * @uses malkusch\phpmock\MockBuilder
- * @uses malkusch\phpmock\FixedValueFunction
  * @uses Mage\Console\Colors
  * @uses Mage\Console
  * @uses Mage\Command\AbstractCommand

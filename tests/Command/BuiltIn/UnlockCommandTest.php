@@ -8,8 +8,6 @@ use phpmock\MockBuilder;
 /**
  * Class UnlockCommandTest
  * @coversDefaultClass Mage\Command\BuiltIn\UnlockCommand
- * @uses malkusch\phpmock\MockBuilder
- * @uses malkusch\phpmock\Mock
  * @uses Mage\Command\AbstractCommand
  * @uses Mage\Console
  * @uses Mage\Console\Colors

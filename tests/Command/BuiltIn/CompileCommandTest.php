@@ -9,9 +9,6 @@ use phpmock\MockBuilder;
 /**
  * Class CompileCommandTest
  * @coversDefaultClass Mage\Command\BuiltIn\CompileCommand
- * @uses malkusch\phpmock\FixedValueFunction
- * @uses malkusch\phpmock\Mock
- * @uses malkusch\phpmock\MockBuilder
  * @uses Mage\Console
  * @uses Mage\Console\Colors
  */

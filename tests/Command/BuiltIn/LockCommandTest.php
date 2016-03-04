@@ -9,9 +9,6 @@ use phpmock\MockBuilder;
 /**
  * Class LockCommandTest
  * @coversDefaultClass Mage\Command\BuiltIn\LockCommand
- * @uses malkusch\phpmock\MockBuilder
- * @uses malkusch\phpmock\FixedValueFunction
- * @uses malkusch\phpmock\Mock
  * @uses Mage\Console\Colors
  * @uses Mage\Console
  * @uses Mage\Command\AbstractCommand
