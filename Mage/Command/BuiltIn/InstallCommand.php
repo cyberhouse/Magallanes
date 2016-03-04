@@ -7,7 +7,6 @@
 * For the full copyright and license information, please view the LICENSE
 * file that was distributed with this source code.
 */
-
 namespace Mage\Command\BuiltIn;
 
 use Mage\Command\AbstractCommand;
@@ -34,7 +33,7 @@ class InstallCommand extends AbstractCommand
         $systemWide = $this->getConfig()->getParameter('systemWide', false);
 
         // Clean vars
-        $baseDir = realpath(dirname($installDir));
+        $baseDir    = realpath(dirname($installDir));
         $installDir = basename($installDir);
 
         // Check if install dir is available
@@ -84,7 +83,7 @@ class InstallCommand extends AbstractCommand
      * Copy Files
      * @param string $from
      * @param string $to
-     * @return boolean
+     * @return bool
      */
     protected function recursiveCopy($from, $to)
     {

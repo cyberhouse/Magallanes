@@ -10,7 +10,6 @@ use Mage\Task\SkipException;
  *
  * Usage :
  *   pre-deploy:
- *     - filesystem/permissions: {paths: /var/www/myapp/app/cache:/var/www/myapp/app/cache, recursive: false, checkPathsExist: true, owner: www-data, group: www-data, rights: 775}
  *     - filesystem/permissions:
  *         paths:
  *             - /var/www/myapp/app/cache
@@ -19,8 +18,6 @@ use Mage\Task\SkipException;
  *         checkPathsExist: true
  *         owner: www-data:www-data
  *         rights: 775
- *   on-deploy:
- *     - filesystem/permissions: {paths: app/cache:app/logs, recursive: false, checkPathsExist: true, owner: www-data, group: www-data, rights: 775}
  *
  * @author Jérémy Huet <jeremy.huet@gmail.com>
  */
@@ -41,7 +38,7 @@ class PermissionsTask extends AbstractTask
      * If set to true, will check existance of given paths on the host and
      * throw SkipException if at least one does not exist.
      *
-     * @var boolean
+     * @var bool
      */
     private $checkPathsExist = true;
 
@@ -90,7 +87,9 @@ class PermissionsTask extends AbstractTask
         if (! $this->getParameter('paths')) {
             throw new SkipException('Param paths is mandatory');
         }
-        $this->setPaths(is_array($this->getParameter('paths')) ? $this->getParameter('paths') : explode(PATH_SEPARATOR, $this->getParameter('paths', '')));
+        $this->setPaths(is_array($this->getParameter('paths'))
+            ? $this->getParameter('paths')
+            : explode(PATH_SEPARATOR, $this->getParameter('paths', '')));
 
         if (! is_null($owner = $this->getParameter('owner'))) {
             if (strpos($owner, ':') !== false) {
@@ -119,26 +118,26 @@ class PermissionsTask extends AbstractTask
      */
     public function getName()
     {
-        return "Changing rights / owner / group for given paths [built-in]";
+        return 'Changing rights / owner / group for given paths [built-in]';
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function run()
     {
         $commands = array();
 
         if ($this->paths && $this->owner) {
-            $commands []= 'chown '. $this->getOptionsForCmd() .' ' . $this->owner . ' ' . $this->getPathsForCmd();
+            $commands []= 'chown ' . $this->getOptionsForCmd() . ' ' . $this->owner . ' ' . $this->getPathsForCmd();
         }
 
         if ($this->paths && $this->group) {
-            $commands []= 'chgrp '. $this->getOptionsForCmd()  .' ' . $this->group . ' ' . $this->getPathsForCmd();
+            $commands []= 'chgrp ' . $this->getOptionsForCmd()  . ' ' . $this->group . ' ' . $this->getPathsForCmd();
         }
 
         if ($this->paths && $this->rights) {
-            $commands []= 'chmod '. $this->getOptionsForCmd()  .' ' . $this->rights . ' ' . $this->getPathsForCmd();
+            $commands []= 'chmod ' . $this->getOptionsForCmd()  . ' ' . $this->rights . ' ' . $this->getPathsForCmd();
         }
 
         $result = $this->runCommand(implode(' && ', $commands));
@@ -154,8 +153,8 @@ class PermissionsTask extends AbstractTask
     protected function getOptionsForCmd()
     {
         $optionsForCmd = '';
-        $options = array(
-            'R' => $this->recursive
+        $options       = array(
+            'R' => $this->recursive,
         );
 
         foreach ($options as $option => $apply) {
@@ -171,6 +170,7 @@ class PermissionsTask extends AbstractTask
      * Transforms paths array to a string separated by 1 space in order to use
      * it in a command line.
      *
+     * @param null|array $paths
      * @return string
      */
     protected function getPathsForCmd($paths = null)
@@ -200,7 +200,8 @@ class PermissionsTask extends AbstractTask
 
             $command = implode(' && ', $commands);
             if (! $this->runCommand($command)) {
-                throw new SkipException('Make sure all paths given exist on the host : ' . $this->getPathsForCmd($paths));
+                throw new SkipException('Make sure all paths given exist on the host : ' .
+                                        $this->getPathsForCmd($paths));
             }
         }
 
@@ -220,7 +221,7 @@ class PermissionsTask extends AbstractTask
     /**
      * Set checkPathsExist.
      *
-     * @param boolean $checkPathsExist
+     * @param bool $checkPathsExist
      * @return PermissionsTask
      */
     protected function setCheckPathsExist($checkPathsExist)
@@ -231,7 +232,7 @@ class PermissionsTask extends AbstractTask
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     protected function getCheckPathsExist()
     {
@@ -304,7 +305,7 @@ class PermissionsTask extends AbstractTask
     /**
      * Set recursive.
      *
-     * @param boolean $recursive
+     * @param bool $recursive
      * @return PermissionsTask
      */
     protected function setRecursive($recursive)
@@ -315,7 +316,7 @@ class PermissionsTask extends AbstractTask
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     protected function getRecursive()
     {

@@ -1,8 +1,8 @@
 <?php
 namespace Mage\Task\BuiltIn\Filesystem;
 
-use Mage\Task\AbstractTask;
 use Mage\Config\RequiredConfigNotFoundException;
+use Mage\Task\AbstractTask;
 
 /**
  * Task for creating a symbolic link. Change will be done on local or
@@ -62,11 +62,11 @@ class SymlinkTask extends AbstractTask
      */
     public function getName()
     {
-        return "Creating symbolic link [built-in]";
+        return 'Creating symbolic link [built-in]';
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function run()
     {
@@ -88,8 +88,15 @@ class SymlinkTask extends AbstractTask
     {
         // For release
         if ($this->getStage() != 'pre-deploy' && $path[0] != '/' && $this->getConfig()->deployment('to')) {
-            $releasesDirectory = trim($this->getConfig()->release('directory', 'releases'), '/') . '/' . $this->getConfig()->getReleaseId();
-            return rtrim($this->getConfig()->deployment('to'), '/') . '/' . $releasesDirectory . '/' . ltrim($path, '/');
+            $releasesDirectory = trim($this->getConfig()->release('directory', 'releases'), '/') .
+                                 '/' .
+                                 $this->getConfig()->getReleaseId();
+
+            return rtrim($this->getConfig()->deployment('to'), '/') .
+                   '/' .
+                   $releasesDirectory .
+                   '/' .
+                   ltrim($path, '/');
         }
 
         return $path;

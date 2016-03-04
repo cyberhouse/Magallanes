@@ -7,12 +7,11 @@
 * For the full copyright and license information, please view the LICENSE
 * file that was distributed with this source code.
 */
-
 namespace Mage\Command\BuiltIn;
 
+use Exception;
 use Mage\Command\AbstractCommand;
 use Mage\Console;
-use Exception;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -33,7 +32,7 @@ class AddCommand extends AbstractCommand
     {
         $subCommand = $this->getConfig()->getArgument(1);
 
-        if(strcmp($subCommand, 'environment') == 0) {
+        if (strcmp($subCommand, 'environment') == 0) {
             $this->addEnvironment();
         } else {
             throw new Exception('The Type of Add is needed.');
@@ -47,7 +46,7 @@ class AddCommand extends AbstractCommand
      */
     protected function addEnvironment()
     {
-        $withReleases = $this->getConfig()->getParameter('enableReleases', false);
+        $withReleases    = $this->getConfig()->getParameter('enableReleases', false);
         $environmentName = strtolower($this->getConfig()->getParameter('name'));
 
         if (empty($environmentName)) {
@@ -67,44 +66,49 @@ class AddCommand extends AbstractCommand
         $result = file_put_contents($environmentConfigFile, Yaml::dump($config, 3, 2));
 
         if ($result) {
-            Console::output('<light_green>Success!!</light_green> Environment config file for <bold>' . $environmentName . '</bold> created successfully at <blue>' . $environmentConfigFile . '</blue>');
+            Console::output('<light_green>Success!!</light_green> Environment config file for <bold>' .
+                            $environmentName . '</bold> created successfully at <blue>' .
+                            $environmentConfigFile . '</blue>');
             Console::output('<bold>So please! Review and adjust its configuration.</bold>', 2, 2);
         } else {
-            Console::output('<light_red>Error!!</light_red> Unable to create config file for environment called <bold>' . $environmentName . '</bold>', 1, 2);
+            Console::output('<light_red>Error!!</light_red> Unable to create config file for environment called <bold>'
+                            . $environmentName . '</bold>', 1, 2);
         }
     }
 
     /**
      * Build up the array of default configurations for an environment
      *
-     * @param $withReleases flag for adding the releases configuration section
+     * @param bool $withReleases flag for adding the releases configuration section
+     * @return array
      */
-    protected function getDefaultConfiguration($withReleases) {
+    protected function getDefaultConfiguration($withReleases)
+    {
         $baseConfig = array();
 
         $baseConfig['deployment'] = array(
-            'user' => 'dummy',
-            'from' => './',
-            'to' => '/var/www/vhosts/example.com/www',
-            'excludes' => array()
+            'user'     => 'dummy',
+            'from'     => './',
+            'to'       => '/var/www/vhosts/example.com/www',
+            'excludes' => array(),
         );
 
-        if($withReleases) {
+        if ($withReleases) {
             $baseConfig['releases'] = array(
-                'enabled' => true,
-                'max' => 10,
-                'symlink' => 'current',
-                'directory' => 'releases'
+                'enabled'   => true,
+                'max'       => 10,
+                'symlink'   => 'current',
+                'directory' => 'releases',
             );
         }
 
         $baseConfig['hosts'] = array();
         $baseConfig['tasks'] = array(
             'pre-deploy' => array(),
-            'on-deploy' => array()
+            'on-deploy'  => array(),
         );
 
-        if($withReleases) {
+        if ($withReleases) {
             $baseConfig['tasks']['post-release'] = array();
         }
 

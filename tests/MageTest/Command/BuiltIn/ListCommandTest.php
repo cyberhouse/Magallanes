@@ -1,16 +1,13 @@
 <?php
-
 namespace MageTest\Command\BuiltIn;
 
 use Mage\Command\BuiltIn\ListCommand;
 use MageTest\TestHelper\BaseTest;
 use malkusch\phpmock\FixedValueFunction;
-use malkusch\phpmock\Mock;
 use malkusch\phpmock\MockBuilder;
 
 /**
  * Class ListCommandTest
- * @package MageTest\Command\BuiltIn
  * @coversDefaultClass Mage\Command\BuiltIn\ListCommand
  * @uses malkusch\phpmock\Mock
  * @uses malkusch\phpmock\MockBuilder
@@ -39,9 +36,9 @@ class ListCommandTest extends BaseTest
         $this->listCommand = new ListCommand();
 
         $this->scandirValueObj = new FixedValueFunction();
-        $mockBuilder = new MockBuilder();
-        $scandirMock = $mockBuilder->setNamespace('Mage\Command\BuiltIn')
-            ->setName("scandir")
+        $mockBuilder           = new MockBuilder();
+        $scandirMock           = $mockBuilder->setNamespace('Mage\Command\BuiltIn')
+            ->setName('scandir')
             ->setCallableProvider($this->scandirValueObj)
             ->build();
         $scandirMock->disable();
@@ -57,38 +54,38 @@ class ListCommandTest extends BaseTest
                 'environmentFiles' => array(
                     'rc.yml',
                     'production.yml',
-                    'local.yml'
+                    'local.yml',
                 ),
                 'expectedOutput' => "\tThese are your configured environments:\n"
                     . "\t\t* local\n"
                     . "\t\t* production\n"
                     . "\t\t* rc\n"
                     . "\t\n",
-                'expectedExitCode' => 0
+                'expectedExitCode' => 0,
             ),
             'with_missing_yml_files' => array(
                 'environmentFiles' => array(
                     'rc',
-                    'production.yml'
+                    'production.yml',
                 ),
                 'expectedOutput' => "\tThese are your configured environments:\n"
                     . "\t\t* production\n"
                     . "\t\n",
-                'expectedExitCode' => 0
+                'expectedExitCode' => 0,
             ),
             'with_no_yml_configs' => array(
                 'environmentFiles' => array(
                     'rc.ini',
-                    'production.txt'
+                    'production.txt',
                 ),
-                'expectedOutput' => "\tYou don't have any environment configured.\n\n",
-                'expectedExitCode' => 220
+                'expectedOutput'   => "\tYou don't have any environment configured.\n\n",
+                'expectedExitCode' => 220,
             ),
             'with_no_configs' => array(
                 'environmentFiles' => array(),
-                'expectedOutput' => "\tYou don't have any environment configured.\n\n",
-                'expectedExitCode' => 220
-            )
+                'expectedOutput'   => "\tYou don't have any environment configured.\n\n",
+                'expectedExitCode' => 220,
+            ),
         );
     }
 
@@ -119,7 +116,7 @@ class ListCommandTest extends BaseTest
         $this->mockInputArgument('abc');
 
         $expectedExitCode = 221;
-        $actualExitCode = $this->listCommand->run();
+        $actualExitCode   = $this->listCommand->run();
         $this->assertEquals($expectedExitCode, $actualExitCode);
     }
 

@@ -7,12 +7,10 @@
 * For the full copyright and license information, please view the LICENSE
 * file that was distributed with this source code.
 */
-
 namespace Mage\Task;
 
-use Mage\Config;
-use Mage\Task\AbstractTask;
 use Exception;
+use Mage\Config;
 
 /**
  * Task Factory
@@ -26,7 +24,7 @@ class Factory
      *
      * @param string|array $taskData
      * @param \Mage\Config $taskConfig
-     * @param boolean $inRollback
+     * @param bool $inRollback
      * @param string $stage
      * @return \Mage\Task\AbstractTask
      * @throws \Exception
@@ -34,10 +32,10 @@ class Factory
     public static function get($taskData, Config $taskConfig, $inRollback = false, $stage = null)
     {
         if (is_array($taskData)) {
-            $taskName = $taskData['name'];
+            $taskName       = $taskData['name'];
             $taskParameters = $taskData['parameters'];
         } else {
-            $taskName = $taskData;
+            $taskName       = $taskData;
             $taskParameters = array();
         }
 
@@ -48,7 +46,12 @@ class Factory
         if (strpos($taskName, '/') === false) {
             $className = 'Task\\' . $taskName;
         } else {
-            $className = 'Mage\\Task\\BuiltIn\\' . str_replace(' ', '\\', ucwords(str_replace('/', ' ', $taskName))) . 'Task';
+            $className = str_replace(
+                ' ',
+                '\\',
+                ucwords(str_replace('/', ' ', $taskName))
+            );
+            $className = 'Mage\\Task\\BuiltIn\\' . $className . 'Task';
         }
 
         if (!class_exists($className)) {

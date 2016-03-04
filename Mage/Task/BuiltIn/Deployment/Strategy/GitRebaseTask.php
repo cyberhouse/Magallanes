@@ -7,7 +7,6 @@
 * For the full copyright and license information, please view the LICENSE
 * file that was distributed with this source code.
 */
-
 namespace Mage\Task\BuiltIn\Deployment\Strategy;
 
 use Mage\Task\Releases\IsReleaseAware;
@@ -50,47 +49,47 @@ class GitRebaseTask extends BaseStrategyTaskAbstract implements IsReleaseAware
 
         // Fetch Remote
         $command = $this->getReleasesAwareCommand('git fetch ' . $remote);
-        $result = $this->runCommandRemote($command);
+        $result  = $this->runCommandRemote($command);
 
         if ($result === false) {
             $repository = $this->getConfig()->deployment('repository');
             if ($repository) {
                 $command = $this->getReleasesAwareCommand('git clone ' . $repository . ' .');
-                $result = $this->runCommandRemote($command);
+                $result  = $this->runCommandRemote($command);
 
                 $command = $this->getReleasesAwareCommand('git fetch ' . $remote);
-                $result = $this->runCommandRemote($command);
+                $result  = $this->runCommandRemote($command) && $result;
             }
         }
 
         // Checkout
         $command = $this->getReleasesAwareCommand('git checkout ' . $branch);
-        $result = $this->runCommandRemote($command) && $result;
+        $result  = $this->runCommandRemote($command) && $result;
 
         // Check Working Copy status
         $stashed = false;
-        $status = '';
+        $status  = '';
         $command = $this->getReleasesAwareCommand('git checkout ' . $branch);
-        $result = $this->runCommandRemote($command) && $result;
+        $result  = $this->runCommandRemote($command) && $result;
 
         // Stash if Working Copy is not clean
         if (!$status) {
             $stashResult = '';
-            $command = $this->getReleasesAwareCommand('git stash');
-            $result = $this->runCommandRemote($command, $stashResult) && $result;
-            if ($stashResult != "No local changes to save") {
+            $command     = $this->getReleasesAwareCommand('git stash');
+            $result      = $this->runCommandRemote($command, $stashResult) && $result;
+            if ($stashResult != 'No local changes to save') {
                 $stashed = true;
             }
         }
 
         // Rebase
         $command = $this->getReleasesAwareCommand('git rebase ' . $remote . '/' . $branch);
-        $result = $this->runCommandRemote($command) && $result;
+        $result  = $this->runCommandRemote($command) && $result;
 
         // If Stashed, restore.
         if ($stashed) {
             $command = $this->getReleasesAwareCommand('git stash pop');
-            $result = $this->runCommandRemote($command) && $result;
+            $result  = $this->runCommandRemote($command) && $result;
         }
 
         return $result;

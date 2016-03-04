@@ -1,5 +1,4 @@
 <?php
-
 namespace MageTest\Command;
 
 use Mage\Command\Factory;

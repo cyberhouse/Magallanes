@@ -1,7 +1,6 @@
 <?php
 namespace Mage\Task\BuiltIn\Composer;
 
-use Mage\Task\BuiltIn\Composer\ComposerAbstractTask;
 use Mage\Task\ErrorWithMessageException;
 
 class InstallTask extends ComposerAbstractTask
@@ -18,7 +17,7 @@ class InstallTask extends ComposerAbstractTask
     /**
      * Runs the task
      *
-     * @return boolean
+     * @return bool
      * @throws ErrorWithMessageException
      */
     public function run()

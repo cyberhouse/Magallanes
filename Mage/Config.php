@@ -7,13 +7,11 @@
 * For the full copyright and license information, please view the LICENSE
 * file that was distributed with this source code.
 */
-
 namespace Mage;
 
+use Exception;
 use Mage\Config\ConfigNotFoundException;
 use Mage\Config\RequiredConfigNotFoundException;
-use Mage\Console;
-use Exception;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -38,7 +36,7 @@ class Config
 
     /**
      * Environment
-     * @var string|boolean
+     * @var string|bool
      */
     private $environment = false;
 
@@ -56,14 +54,14 @@ class Config
 
     /**
      * The Release ID
-     * @var integer
+     * @var int
      */
     private $releaseId = null;
 
     /**
      * Magallanes Global and Environment configuration
      */
-    private $generalConfig = array();
+    private $generalConfig     = array();
     private $environmentConfig = array();
 
     /**
@@ -124,7 +122,7 @@ class Config
      * @param $filePath string
      *
      * @throws Exception
-     * @return boolean
+     * @return bool
      */
     protected function loadEnvironment($filePath)
     {
@@ -137,7 +135,7 @@ class Config
      * Initializes the Environment configuration
      *
      * @throws Exception
-     * @return boolean
+     * @return bool
      */
     protected function initEnvironment()
     {
@@ -147,11 +145,15 @@ class Config
             $configFilePath = getcwd() . '/.mage/config/environment/' . $environment . '.yml';
 
             try {
-                $defaults = $this->getDefaultEnvironment();
-                $environmentConfig = $this->loadEnvironment($configFilePath);
+                $defaults                = $this->getDefaultEnvironment();
+                $environmentConfig       = $this->loadEnvironment($configFilePath);
                 $this->environmentConfig = array_replace_recursive($defaults, $environmentConfig);
             } catch (ConfigNotFoundException $e) {
-                throw new RequiredConfigNotFoundException("Not found required config $configFilePath for environment $environment", 0, $e);
+                throw new RequiredConfigNotFoundException(
+                    "Not found required config $configFilePath for environment $environment",
+                    0,
+                    $e
+                );
             }
         }
     }
@@ -161,7 +163,8 @@ class Config
      *
      * @return array the default environment configuration
      */
-    protected function getDefaultEnvironment() {
+    protected function getDefaultEnvironment()
+    {
         $defaults = $this->general('defaults', null);
         return !empty($defaults) ? $defaults : array();
     }
@@ -169,7 +172,7 @@ class Config
     /**
      *
      * @param array $parameters
-     * @return boolean
+     * @return bool
      */
     protected function isRunInSpecialMode(array $parameters)
     {
@@ -210,7 +213,7 @@ class Config
      * Return the invocation argument based on a position
      * 0 = Invoked Command Name
      *
-     * @param integer $position
+     * @param int $position
      * @return mixed
      */
     public function getArgument($position = 0)
@@ -295,7 +298,7 @@ class Config
             $configStage = $stage;
         }
 
-        $tasks = array();
+        $tasks  = array();
         $config = $this->getEnvironmentOption('tasks', array());
 
         // Host Config
@@ -306,11 +309,11 @@ class Config
         }
 
         if (isset($config[$configStage])) {
-            $tasksData = ($config[$configStage] ? (array)$config[$configStage] : array());
+            $tasksData = ($config[$configStage] ? (array) $config[$configStage] : array());
             foreach ($tasksData as $taskData) {
                 if (is_array($taskData)) {
                     $tasks[] = array(
-                        'name' => key($taskData),
+                        'name'       => key($taskData),
                         'parameters' => current($taskData),
                     );
                 } else {
@@ -334,8 +337,10 @@ class Config
         $envConfig = $this->getEnvironmentConfig();
         if (isset($envConfig['hosts'])) {
             if (is_array($envConfig['hosts'])) {
-                $hosts = (array)$envConfig['hosts'];
-            } elseif (is_string($envConfig['hosts']) && file_exists($envConfig['hosts']) && is_readable($envConfig['hosts'])) {
+                $hosts = (array) $envConfig['hosts'];
+            } elseif (is_string($envConfig['hosts'])
+                      && file_exists($envConfig['hosts'])
+                      && is_readable($envConfig['hosts'])) {
                 $hosts = $this->getHostsFromFile($envConfig['hosts']);
             }
         }
@@ -381,11 +386,11 @@ class Config
     /**
      * Get the current Host Port
      *
-     * @return integer
+     * @return int
      */
     public function getHostPort()
     {
-        $info = explode(':', $this->host);
+        $info   = explode(':', $this->host);
         $info[] = $this->deployment('port', '22');
         return $info[1];
     }
@@ -407,7 +412,9 @@ class Config
      */
     public function getConnectTimeoutOption()
     {
-        return $this->environmentConfig('connect-timeout') ? ('-o ConnectTimeout=' . $this->environmentConfig('connect-timeout') . ' ') : '';
+        return $this->environmentConfig('connect-timeout')
+            ? ('-o ConnectTimeout=' . $this->environmentConfig('connect-timeout') . ' ')
+            : '';
     }
 
     /**
@@ -530,7 +537,7 @@ class Config
     /**
      * Sets the Current Release ID
      *
-     * @param integer $id
+     * @param int $id
      * @return \Mage\Config
      */
     public function setReleaseId($id)
@@ -542,7 +549,7 @@ class Config
     /**
      * Gets the Current Release ID
      *
-     * @return integer
+     * @return int
      */
     public function getReleaseId()
     {
@@ -612,7 +619,7 @@ class Config
 
         try {
             $fileContent = stream_get_contents($handle);
-            $hosts = json_decode($fileContent);
+            $hosts       = json_decode($fileContent);
         } catch (Exception $e) {
             rewind($handle);
             //do it old-style: one host per line

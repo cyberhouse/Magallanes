@@ -7,13 +7,12 @@
 * For the full copyright and license information, please view the LICENSE
 * file that was distributed with this source code.
 */
-
 namespace Mage;
 
+use Exception;
 use Mage\Command\Factory;
 use Mage\Command\RequiresEnvironment;
 use Mage\Console\Colors;
-use Exception;
 use RecursiveDirectoryIterator;
 use SplFileInfo;
 
@@ -27,7 +26,11 @@ class Console
     /**
      * @var array
      */
-    public static $paramsNotRequiringEnvironment = array('install' => 'install', 'upgrade' => 'upgrade', 'version' => 'version');
+    public static $paramsNotRequiringEnvironment = array(
+        'install' => 'install',
+        'upgrade' => 'upgrade',
+        'version' => 'version'
+    );
 
     /**
      * Handler to the current Log File.
@@ -43,13 +46,13 @@ class Console
 
     /**
      * Enables or Disables Logging
-     * @var boolean
+     * @var bool
      */
     private static $logEnabled = true;
 
     /**
      * Enables or disables verbose logging
-     * @var boolean
+     * @var bool
      */
     private static $verboseLogEnabled = false;
 
@@ -73,7 +76,9 @@ class Console
 
     /**
      * Runns a Magallanes Command
-     * @throws Exception
+     *
+     * @param array $arguments
+     * @return int
      */
     public function run($arguments)
     {
@@ -89,7 +94,7 @@ class Console
             }
         });
 
-        $config = self::$config = new Config;
+        $config      = self::$config      = new Config;
         $configError = false;
         try {
             // Load configuration
@@ -106,7 +111,7 @@ class Console
 
         if (in_array($commandName, self::$paramsNotRequiringEnvironment)) {
             self::$logEnabled = false;
-            $showGreetings = false;
+            $showGreetings    = false;
         } else {
             self::$logEnabled = $config->general('logging', false);
         }
@@ -119,7 +124,7 @@ class Console
                 self::output('Starting <blue>Magallanes</blue>', 0, 2);
             } else {
                 self::output('Starting <blue>Magallanes</blue>', 0, 1);
-                self::log("Logging enabled");
+                self::log('Logging enabled');
                 self::output('<bold>Logging enabled:</bold> <purple>' . self::getLogFile() . '</purple>', 1, 2);
             }
         }
@@ -170,8 +175,8 @@ class Console
      * Outputs a message to the user's screen.
      *
      * @param string $message
-     * @param integer $tabs
-     * @param integer $newLine
+     * @param int $tabs
+     * @param int $newLine
      */
     public static function output($message, $tabs = 1, $newLine = 1)
     {
@@ -195,7 +200,7 @@ class Console
      *
      * @param string $command
      * @param string $output
-     * @return boolean
+     * @return bool
      */
     public static function executeCommand($command, &$output = null)
     {
@@ -203,7 +208,7 @@ class Console
         self::log('---- Executing: $ ' . $command);
 
         $return = 1;
-        $log = array();
+        $log    = array();
         exec($command . ' 2>&1', $log, $return);
         $log = implode(PHP_EOL, $log);
 
@@ -228,7 +233,7 @@ class Console
         if (self::$logEnabled) {
             if (self::$log === null) {
                 self::$logFile = realpath(getcwd() . '/.mage/logs') . '/log-' . date('Ymd-His') . '.log';
-                self::$log = fopen(self::$logFile, 'w');
+                self::$log     = fopen(self::$logFile, 'w');
             }
 
             $message = date('Y-m-d H:i:s -- ') . $message;
@@ -263,7 +268,7 @@ class Console
      */
     public static function readInput()
     {
-        $fp = fopen("php://stdin", "r");
+        $fp   = fopen('php://stdin', 'r');
         $line = fgets($fp);
 
         return rtrim($line);
@@ -278,8 +283,13 @@ class Console
         if (self::$logEnabled) {
             $maxLogs = $config->general('maxlogs', 30);
 
+            $files = new RecursiveDirectoryIterator(
+                getcwd() . '/.mage/logs',
+                RecursiveDirectoryIterator::SKIP_DOTS
+            );
             $logs = array();
-            foreach (new RecursiveDirectoryIterator(getcwd() . '/.mage/logs', RecursiveDirectoryIterator::SKIP_DOTS) as $log) {
+
+            foreach ($files as $log) {
                 /* @var $log SplFileInfo */
                 if (strpos($log->getFilename(), 'log-') === 0) {
                     $logs[] = $log->getFilename();
@@ -298,7 +308,7 @@ class Console
 
     /**
      * Check if verbose logging is enabled
-     * @return boolean
+     * @return bool
      */
     protected static function isVerboseLoggingEnabled()
     {

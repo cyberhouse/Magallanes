@@ -7,12 +7,11 @@
 * For the full copyright and license information, please view the LICENSE
 * file that was distributed with this source code.
 */
-
 namespace Mage\Task\BuiltIn\Scm;
 
 use Mage\Task\AbstractTask;
-use Mage\Task\SkipException;
 use Mage\Task\ErrorWithMessageException;
+use Mage\Task\SkipException;
 
 /**
  * Task for Changing the Branch of the SCM
@@ -68,26 +67,29 @@ class ChangeBranchTask extends AbstractTask
             case 'git':
                 if ($this->getParameter('_changeBranchRevert', false)) {
                     $command = $preCommand . 'git checkout ' . self::$startingBranch;
-                    $result = $this->runCommandLocal($command);
+                    $result  = $this->runCommandLocal($command);
                 } else {
-                    $command = $preCommand . 'git branch | grep \'*\' | cut -d\' \' -f 2';
+                    $command       = $preCommand . 'git branch | grep \'*\' | cut -d\' \' -f 2';
                     $currentBranch = 'master';
-                    $result = $this->runCommandLocal($command, $currentBranch);
+                    $result        = $this->runCommandLocal($command, $currentBranch);
 
                     $scmData = $this->getConfig()->deployment('scm', false);
 
-                    if ($result && is_array($scmData) && isset($scmData['branch']) && $scmData['branch'] != $currentBranch) {
-                        $command = 'git branch | grep \'' . $scmData['branch'] . '\' | tr -s \' \' | sed \'s/^[ ]//g\'';
+                    if ($result && is_array($scmData) && isset($scmData['branch'])
+                        && $scmData['branch'] != $currentBranch) {
+                        $command         = 'git branch | grep \'' . $scmData['branch'] .
+                                           '\' | tr -s \' \' | sed \'s/^[ ]//g\'';
                         $isBranchTracked = '';
-                        $result = $this->runCommandLocal($command, $isBranchTracked);
+                        $result          = $this->runCommandLocal($command, $isBranchTracked);
 
                         if ($isBranchTracked == '') {
-                            throw new ErrorWithMessageException('The branch <purple>' . $scmData['branch'] . '</purple> must be tracked.');
+                            throw new ErrorWithMessageException('The branch <purple>' . $scmData['branch'] .
+                                                                '</purple> must be tracked.');
                         }
 
-                        $branch = $this->getParameter('branch', $scmData['branch']);
+                        $branch  = $this->getParameter('branch', $scmData['branch']);
                         $command = 'git checkout ' . $branch;
-                        $result = $this->runCommandLocal($command) && $result;
+                        $result  = $this->runCommandLocal($command) && $result;
 
                         self::$startingBranch = $currentBranch;
                     } else {

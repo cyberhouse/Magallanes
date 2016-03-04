@@ -1,5 +1,4 @@
 <?php
-
 namespace MageTest\Console;
 
 use Mage\Console\Colors;
@@ -11,7 +10,7 @@ use PHPUnit_Framework_TestCase;
  */
 class ColorsTest extends PHPUnit_Framework_TestCase
 {
-    private $noColorParameter = "no-color";
+    private $noColorParameter = 'no-color';
     /**
      * @group 159
      * @covers ::color
@@ -27,7 +26,7 @@ class ColorsTest extends PHPUnit_Framework_TestCase
         $string = '<green>FooBar</green>';
 
         // Method need to be non static in the future
-        $result = Colors::color($string, $config);
+        $result   = Colors::color($string, $config);
         $expected = "\033[0;32mFooBar\033[0m";
 
         $this->assertSame($expected, $result);
@@ -48,7 +47,7 @@ class ColorsTest extends PHPUnit_Framework_TestCase
         $string = '<black>FooBar</black>';
 
         // Method need to be non static in the future
-        $result = Colors::color($string, $config);
+        $result   = Colors::color($string, $config);
         $expected = 'FooBar';
 
         $this->assertSame($expected, $result);

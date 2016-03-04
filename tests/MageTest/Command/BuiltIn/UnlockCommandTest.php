@@ -1,5 +1,4 @@
 <?php
-
 namespace MageTest\Command\BuiltIn;
 
 use Mage\Command\BuiltIn\UnlockCommand;
@@ -8,7 +7,6 @@ use malkusch\phpmock\MockBuilder;
 
 /**
  * Class UnlockCommandTest
- * @package MageTest\Command\BuiltIn
  * @coversDefaultClass Mage\Command\BuiltIn\UnlockCommand
  * @uses malkusch\phpmock\MockBuilder
  * @uses malkusch\phpmock\Mock
@@ -34,8 +32,8 @@ class UnlockCommandTest extends BaseTest
                 'file_exists' => true,
             ),
             'file_not_exists' => array(
-                'file_exsits' => false
-            )
+                'file_exsits' => false,
+            ),
         );
     }
 
@@ -46,11 +44,11 @@ class UnlockCommandTest extends BaseTest
     {
         $this->unlockCommand = new UnlockCommand();
 
-        self::$isUnlinkCalled = false;
+        self::$isUnlinkCalled   = false;
         self::$fileExistsResult = false;
-        self::$isFileExists = false;
+        self::$isFileExists     = false;
 
-        $mockBuilder = new MockBuilder();
+        $mockBuilder    = new MockBuilder();
         $fileExistsMock = $mockBuilder
             ->setName('file_exists')
             ->setNamespace('Mage\Command\BuiltIn')
@@ -109,7 +107,7 @@ class UnlockCommandTest extends BaseTest
 
         self::$isFileExists = $fileExists;
 
-        $actualExitCode = $this->unlockCommand->run();
+        $actualExitCode   = $this->unlockCommand->run();
         $expectedExitCode = 0;
 
         $this->assertEquals(self::$isUnlinkCalled, $fileExists);

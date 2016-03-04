@@ -7,13 +7,12 @@
 * For the full copyright and license information, please view the LICENSE
 * file that was distributed with this source code.
 */
-
 namespace Mage\Task;
 
-use Mage\Console;
-use Mage\Config;
-use Mage\Task\Releases\IsReleaseAware;
 use Exception;
+use Mage\Config;
+use Mage\Console;
+use Mage\Task\Releases\IsReleaseAware;
 
 /**
  * Abstract Class for a Magallanes Task
@@ -54,7 +53,7 @@ abstract class AbstractTask
 
     /**
      * Indicates if the Task is running in a Rollback
-     * @var boolean
+     * @var bool
      */
     protected $inRollback = false;
 
@@ -79,7 +78,7 @@ abstract class AbstractTask
     /**
      * Runs the task
      *
-     * @return boolean
+     * @return bool
      * @throws Exception
      * @throws ErrorWithMessageException
      * @throws SkipException
@@ -90,21 +89,21 @@ abstract class AbstractTask
      * Task Constructor
      *
      * @param Config $config
-     * @param boolean $inRollback
+     * @param bool $inRollback
      * @param string $stage
      * @param array $parameters
      */
     final public function __construct(Config $config, $inRollback = false, $stage = null, $parameters = array())
     {
-        $this->config = $config;
+        $this->config     = $config;
         $this->inRollback = $inRollback;
-        $this->stage = $stage;
+        $this->stage      = $stage;
         $this->parameters = $parameters;
     }
 
     /**
      * Indicates if the Task is running in a Rollback operation
-     * @return boolean
+     * @return bool
      */
     public function inRollback()
     {
@@ -164,7 +163,7 @@ abstract class AbstractTask
      * Runs a Shell Command Localy
      * @param string $command
      * @param string $output
-     * @return boolean
+     * @return bool
      */
     final protected function runCommandLocal($command, &$output = null)
     {
@@ -175,8 +174,8 @@ abstract class AbstractTask
      * Runs a Shell Command on the Remote Host
      * @param string $command
      * @param string $output
-     * @param boolean $cdToDirectoryFirst
-     * @return boolean
+     * @param bool $cdToDirectoryFirst
+     * @return bool
      */
     final protected function runCommandRemote($command, &$output = null, $cdToDirectoryFirst = true)
     {
@@ -196,7 +195,8 @@ abstract class AbstractTask
         // if general.yml includes "ssy_needs_tty: true", then add "-t" to the ssh command
         $needs_tty = ($this->getConfig()->general('ssh_needs_tty', false) ? '-t' : '');
 
-        $localCommand = 'ssh ' . $this->getConfig()->getHostIdentityFileOption() . $needs_tty . ' -p ' . $this->getConfig()->getHostPort() . ' '
+        $localCommand = 'ssh ' . $this->getConfig()->getHostIdentityFileOption() . $needs_tty .
+                        ' -p ' . $this->getConfig()->getHostPort() . ' '
             . '-q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no '
             . $this->getConfig()->getConnectTimeoutOption()
             . ($this->getConfig()->deployment('user') != '' ? $this->getConfig()->deployment('user') . '@' : '')
@@ -204,7 +204,8 @@ abstract class AbstractTask
 
         $remoteCommand = str_replace('"', '\"', $command);
         if ($cdToDirectoryFirst) {
-            $remoteCommand = 'cd ' . rtrim($this->getConfig()->deployment('to'), '/') . $releasesDirectory . ' && ' . $remoteCommand;
+            $remoteCommand = 'cd ' . rtrim($this->getConfig()->deployment('to'), '/') .
+                             $releasesDirectory . ' && ' . $remoteCommand;
         }
         $localCommand .= ' ' . '"sh -c \"' . $remoteCommand . '\""';
 
@@ -218,7 +219,7 @@ abstract class AbstractTask
      * If the stage is "deploy" then it will be executed in the remote host.
      * @param string $command
      * @param string $output
-     * @return boolean
+     * @return bool
      */
     final protected function runCommand($command, &$output = null)
     {
@@ -248,32 +249,32 @@ abstract class AbstractTask
     }
 
     /**
-     * @param integer $releaseId
+     * @param int $releaseId
      * @return bool
      */
     protected function tarRelease($releaseId)
     {
         $result = true;
         // for given release, check if tarred
-        $output = '';
+        $output            = '';
         $releasesDirectory = $this->getConfig()->release('directory', 'releases');
 
-        $currentReleaseDirectory = $releasesDirectory . '/' . $releaseId;
+        $currentReleaseDirectory     = $releasesDirectory . '/' . $releaseId;
         $currentReleaseDirectoryTemp = $currentReleaseDirectory . '_tmp/';
-        $currentRelease = $currentReleaseDirectory . '/' . $releaseId . '.tar.gz';
+        $currentRelease              = $currentReleaseDirectory . '/' . $releaseId . '.tar.gz';
 
         $command = 'test -e ' . $currentRelease . ' && echo "true" || echo ""';
         $this->runCommandRemote($command, $output);
 
         // if not, do so
         if (!$output) {
-            $commands = array();
+            $commands   = array();
             $commands[] = 'mv ' . $currentReleaseDirectory . ' ' . $currentReleaseDirectoryTemp;
             $commands[] = 'mkdir ' . $currentReleaseDirectory;
             $commands[] = 'tar cfz ' . $currentRelease . ' ' . $currentReleaseDirectoryTemp;
             $commands[] = 'rm -rf ' . $currentReleaseDirectoryTemp;
-            $command = implode(' && ', $commands);
-            $result = $this->runCommandRemote($command, $output);
+            $command    = implode(' && ', $commands);
+            $result     = $this->runCommandRemote($command, $output);
             return $result;
         }
         return $result;
@@ -283,24 +284,24 @@ abstract class AbstractTask
     {
         $result = true;
         // for given release, check if tarred
-        $output = '';
+        $output            = '';
         $releasesDirectory = $this->getConfig()->release('directory', 'releases');
 
-        $currentReleaseDirectory = $releasesDirectory . '/' . $releaseId;
+        $currentReleaseDirectory     = $releasesDirectory . '/' . $releaseId;
         $currentReleaseDirectoryTemp = $currentReleaseDirectory . '_tmp/';
-        $currentRelease = $currentReleaseDirectory . '/' . $releaseId . '.tar.gz';
+        $currentRelease              = $currentReleaseDirectory . '/' . $releaseId . '.tar.gz';
 
         $command = 'test -e ' . $currentRelease . ' && echo "true" || echo ""';
         $this->runCommandRemote($command, $output);
 
         // if tarred, untar now
         if ($output) {
-            $commands = array();
+            $commands   = array();
             $commands[] = 'tar xfz ' . $currentRelease;
             $commands[] = 'rm -rf ' . $currentReleaseDirectory;
             $commands[] = 'mv ' . $currentReleaseDirectoryTemp . ' ' . $currentReleaseDirectory;
-            $command = implode(' && ', $commands);
-            $result = $this->runCommandRemote($command, $output);
+            $command    = implode(' && ', $commands);
+            $result     = $this->runCommandRemote($command, $output);
             return $result;
         }
         return $result;

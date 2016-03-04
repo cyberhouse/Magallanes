@@ -7,13 +7,12 @@
 * For the full copyright and license information, please view the LICENSE
 * file that was distributed with this source code.
 */
-
 namespace Mage\Task\BuiltIn\Releases;
 
+use DateTime;
 use Mage\Console;
 use Mage\Task\AbstractTask;
 use Mage\Task\Releases\IsReleaseAware;
-use DateTime;
 
 /**
  * Task for Listing Available Releases on an Environment
@@ -35,17 +34,17 @@ class ListTask extends AbstractTask implements IsReleaseAware
     {
         if ($this->getConfig()->release('enabled', false) === true) {
             $releasesDirectory = $this->getConfig()->release('directory', 'releases');
-            $symlink = $this->getConfig()->release('symlink', 'current');
+            $symlink           = $this->getConfig()->release('symlink', 'current');
 
             Console::output('Releases available on <bold>' . $this->getConfig()->getHost() . '</bold>');
 
             // Get Releases
-            $output = '';
-            $result = $this->runCommandRemote('ls -1 ' . $releasesDirectory, $output);
+            $output   = '';
+            $result   = $this->runCommandRemote('ls -1 ' . $releasesDirectory, $output);
             $releases = ($output == '') ? array() : explode(PHP_EOL, $output);
 
             // Get Current
-            $result = $this->runCommandRemote('ls -l ' . $symlink, $output) && $result;
+            $result         = $this->runCommandRemote('ls -l ' . $symlink, $output) && $result;
             $currentRelease = explode('/', $output);
             $currentRelease = trim(array_pop($currentRelease));
 
@@ -56,9 +55,9 @@ class ListTask extends AbstractTask implements IsReleaseAware
                 $releases = array_slice($releases, 0, 10);
 
                 foreach ($releases as $releaseIndex => $release) {
-                    $release = trim($release);
+                    $release      = trim($release);
                     $releaseIndex = str_pad($releaseIndex * -1, 2, ' ', STR_PAD_LEFT);
-                    $releaseDate = $release[0] . $release[1] . $release[2] . $release[3]
+                    $releaseDate  = $release[0] . $release[1] . $release[2] . $release[3]
                         . '-'
                         . $release[4] . $release[5]
                         . '-'
@@ -80,7 +79,9 @@ class ListTask extends AbstractTask implements IsReleaseAware
                     Console::output(
                         'Release: <purple>' . $release . '</purple> '
                         . '- Date: <bold>' . $releaseDate . '</bold> '
-                        . '- Index: <bold>' . $releaseIndex . '</bold>' . $dateDiff . $isCurrent, 2);
+                        . '- Index: <bold>' . $releaseIndex . '</bold>' . $dateDiff . $isCurrent,
+                        2
+                    );
                 }
             }
 
@@ -99,10 +100,10 @@ class ListTask extends AbstractTask implements IsReleaseAware
      */
     protected function dateDiff($releaseDate)
     {
-        $textDiff = '';
+        $textDiff    = '';
         $releaseDate = new DateTime($releaseDate);
-        $now = new DateTime();
-        $diff = $now->diff($releaseDate);
+        $now         = new DateTime();
+        $diff        = $now->diff($releaseDate);
 
         if ($diff->format('%a') <= 7) {
             if ($diff->format('%d') == 7) {

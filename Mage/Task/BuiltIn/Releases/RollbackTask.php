@@ -7,12 +7,11 @@
 * For the full copyright and license information, please view the LICENSE
 * file that was distributed with this source code.
 */
-
 namespace Mage\Task\BuiltIn\Releases;
 
 use Mage\Console;
-use Mage\Task\Factory;
 use Mage\Task\AbstractTask;
+use Mage\Task\Factory;
 use Mage\Task\Releases\IsReleaseAware;
 use Mage\Task\Releases\RollbackAware;
 
@@ -34,7 +33,7 @@ class RollbackTask extends AbstractTask implements IsReleaseAware
 
     /**
      * Gets the Release ID to Rollback To
-     * @return integer
+     * @return int
      */
     public function getReleaseId()
     {
@@ -49,39 +48,43 @@ class RollbackTask extends AbstractTask implements IsReleaseAware
     {
         if ($this->getConfig()->release('enabled', false) === true) {
             $releasesDirectory = $this->getConfig()->release('directory', 'releases');
-            $symlink = $this->getConfig()->release('symlink', 'current');
+            $symlink           = $this->getConfig()->release('symlink', 'current');
 
             if (substr($symlink, 0, 1) == '/') {
                 $releasesDirectory = rtrim($this->getConfig()->deployment('to'), '/') . '/' . $releasesDirectory;
             }
 
-            $output = '';
-            $result = $this->runCommandRemote('ls -1 ' . $releasesDirectory, $output);
+            $output   = '';
+            $result   = $this->runCommandRemote('ls -1 ' . $releasesDirectory, $output);
             $releases = ($output == '') ? array() : explode(PHP_EOL, $output);
 
             if (count($releases) == 0) {
-                Console::output('Release are not available for <bold>' . $this->getConfig()->getHost() . '</bold> ... <red>FAIL</red>');
+                Console::output('Release are not available for <bold>' . $this->getConfig()->getHost() .
+                                '</bold> ... <red>FAIL</red>');
             } else {
                 rsort($releases);
-                $deleteCurrent = $this->getConfig()->getParameter('deleteCurrent',
-                    $this->getConfig()->deployment('delete-on-rollback',
+                $deleteCurrent = $this->getConfig()->getParameter(
+                    'deleteCurrent',
+                    $this->getConfig()->deployment(
+                        'delete-on-rollback',
                         $this->getConfig()->general('delete-on-rollback', false)
                     )
                 );
 
                 $releaseIsAvailable = false;
+                $releaseId = '';
                 if ($this->getReleaseId() == '') {
-                    $releaseId = $releases[0];
+                    $releaseId          = $releases[0];
                     $releaseIsAvailable = true;
                 } elseif ($this->getReleaseId() <= 0) {
                     $index = $this->getReleaseId() * -1;
                     if (isset($releases[$index])) {
-                        $releaseId = $releases[$index];
+                        $releaseId          = $releases[$index];
                         $releaseIsAvailable = true;
                     }
                 } else {
                     if (in_array($this->getReleaseId(), $releases)) {
-                        $releaseId = $this->getReleaseId();
+                        $releaseId          = $this->getReleaseId();
                         $releaseIsAvailable = true;
                     }
                 }
@@ -89,22 +92,24 @@ class RollbackTask extends AbstractTask implements IsReleaseAware
                 $currentCopy = rtrim($releasesDirectory, '/') . '/' . $releaseId;
 
                 if (!$releaseIsAvailable) {
-                    Console::output('Release <bold>' . $this->getReleaseId() . '</bold> is invalid or unavailable for <bold>' . $this->getConfig()->getHost() . '</bold> ... <red>FAIL</red>');
+                    Console::output('Release <bold>' . $this->getReleaseId() .
+                                    '</bold> is invalid or unavailable for <bold>' . $this->getConfig()->getHost() .
+                                    '</bold> ... <red>FAIL</red>');
                 } else {
                     Console::output('Rollback release on <bold>' . $this->getConfig()->getHost() . '</bold>');
                     $rollbackTo = $releasesDirectory . '/' . $releaseId;
 
                     // Get Current Release
                     if ($deleteCurrent) {
-                        $result = $this->runCommandRemote('ls -l ' . $symlink, $output) && $result;
+                        $this->runCommandRemote('ls -l ' . $symlink, $output);
                         $currentRelease = explode('/', $output);
                         $currentRelease = trim(array_pop($currentRelease));
                     }
 
                     // Tasks
-                    $tasks = 1;
+                    $tasks          = 1;
                     $completedTasks = 0;
-                    $tasksToRun = $this->getConfig()->getTasks();
+                    $tasksToRun     = $this->getConfig()->getTasks();
                     $this->getConfig()->setReleaseId($releaseId);
 
                     // Run Deploy Tasks
@@ -132,8 +137,9 @@ class RollbackTask extends AbstractTask implements IsReleaseAware
                     // Changing Release
                     Console::output('Running <purple>Rollback Release [id=' . $releaseId . ']</purple> ... ', 2, false);
 
-                    $userGroup = '';
-                    $resultFetch = $this->runCommandRemote('ls -ld ' . $rollbackTo . ' | awk \'{print \$3":"\$4}\'', $userGroup);
+                    $userGroup   = '';
+                    $resultFetch = $this->runCommandRemote('ls -ld ' . $rollbackTo .
+                                                           ' | awk \'{print \$3":"\$4}\'', $userGroup);
 
                     $tmplink = $symlink . '.tmp';
                     $command = "ln -sfn {$currentCopy} {$tmplink}";
@@ -149,7 +155,7 @@ class RollbackTask extends AbstractTask implements IsReleaseAware
                         $completedTasks++;
 
                         // Delete Old Current Release
-                        if ($deleteCurrent && $currentRelease) {
+                        if ($deleteCurrent && !empty($currentRelease)) {
                             $this->runCommandRemote('rm -rf ' . $releasesDirectory . '/' . $currentRelease, $output);
                         }
                     } else {
@@ -185,7 +191,9 @@ class RollbackTask extends AbstractTask implements IsReleaseAware
                         $tasksColor = 'red';
                     }
 
-                    Console::output('Release rollback on <bold>' . $this->getConfig()->getHost() . '</bold> compted: <' . $tasksColor . '>' . $completedTasks . '/' . $tasks . '</' . $tasksColor . '> tasks done.', 1, 3);
+                    Console::output('Release rollback on <bold>' . $this->getConfig()->getHost() .
+                                    '</bold> compted: <' . $tasksColor . '>' . $completedTasks . '/' .
+                                    $tasks . '</' . $tasksColor . '> tasks done.', 1, 3);
                 }
             }
 

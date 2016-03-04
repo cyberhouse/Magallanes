@@ -7,10 +7,7 @@
 * For the full copyright and license information, please view the LICENSE
 * file that was distributed with this source code.
 */
-
 namespace Mage\Task\BuiltIn\Symfony2;
-
-use Mage\Task\BuiltIn\Symfony2\SymfonyAbstractTask;
 
 /**
  * Task for Warming Up the Cache
@@ -38,7 +35,7 @@ class CacheWarmupTask extends SymfonyAbstractTask
         $env = $this->getParameter('env', 'dev');
 
         $command = $this->getAppPath() . ' cache:warmup --env=' . $env;
-        $result = $this->runCommand($command);
+        $result  = $this->runCommand($command);
 
         return $result;
     }

@@ -7,7 +7,6 @@
 * For the full copyright and license information, please view the LICENSE
 * file that was distributed with this source code.
 */
-
 namespace Mage\Task\BuiltIn\Magento;
 
 use Mage\Task\AbstractTask;
@@ -35,7 +34,7 @@ class ClearFullPageCacheTask extends AbstractTask
     public function run()
     {
         $command = 'rm -rf var/full_page_cache/*';
-        $result = $this->runCommand($command);
+        $result  = $this->runCommand($command);
 
         return $result;
     }

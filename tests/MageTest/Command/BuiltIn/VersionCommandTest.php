@@ -1,11 +1,8 @@
 <?php
-
 namespace MageTest\Command\BuiltIn;
 
 use Mage\Command\BuiltIn\VersionCommand;
-use Mage\Console;
 use MageTest\TestHelper\BaseTest;
-use PHPUnit_Framework_TestCase;
 
 /**
  * @coversDefaultClass Mage\Command\BuiltIn\VersionCommands

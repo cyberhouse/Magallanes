@@ -8,15 +8,12 @@ use Mage\Task\SkipException;
  *
  * Usage :
  *   pre-deploy:
- *     - filesystem/permissions-writable-by-web-server: {paths: /var/www/myapp/app/cache:/var/www/myapp/app/logs, recursive: false, checkPathsExist: true}
  *     - filesystem/permissions-writable-by-web-server:
  *         paths:
  *             - /var/www/myapp/app/cache
  *             - /var/www/myapp/app/logs
  *         recursive: false
  *         checkPathsExist: true
- *   on-deploy:
- *     - filesystem/permissions-writable-by-web-server: {paths: app/cache:app/logs, recursive: false, checkPathsExist: true}
  *
  * @author Jérémy Huet <jeremy.huet@gmail.com>
  */
@@ -38,7 +35,7 @@ class PermissionsWritableByWebServerTask extends PermissionsTask
      */
     public function getName()
     {
-        return "Giving write permissions to web server user for given paths [built-in]";
+        return 'Giving write permissions to web server user for given paths [built-in]';
     }
 
     /**
@@ -49,10 +46,15 @@ class PermissionsWritableByWebServerTask extends PermissionsTask
      */
     protected function getWebServerUser()
     {
-        $this->runCommand("ps aux | grep -E '[a]pache|[h]ttpd|[_]www|[w]ww-data|[n]ginx' | grep -v root | head -1 | cut -d\  -f1", $webServerUser);
+        $this->runCommand(
+            "ps aux | grep -E '[a]pache|[h]ttpd|[_]www|[w]ww-data|[n]ginx' | grep -v root | head -1 | cut -d\  -f1",
+            $webServerUser
+        );
 
         if (empty($webServerUser)) {
-            throw new SkipException("Can't guess web server user. Please check if it is running or force it by setting the group parameter");
+            throw new SkipException(
+                "Can't guess web server user. Please check if it is running or force it by setting the group parameter"
+            );
         }
 
         return $webServerUser;

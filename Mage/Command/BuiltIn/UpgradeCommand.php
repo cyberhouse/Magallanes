@@ -7,7 +7,6 @@
 * For the full copyright and license information, please view the LICENSE
 * file that was distributed with this source code.
 */
-
 namespace Mage\Command\BuiltIn;
 
 use Mage\Command\AbstractCommand;
@@ -49,7 +48,8 @@ class UpgradeCommand extends AbstractCommand
 
         if ($user != 'root' && $user != $owner) {
             Console::output('<red>FAIL</red>', 0, 1);
-            Console::output('You need to be the <bold>' . $owner . '</bold> user to perform the upgrade, or <bold>root</bold>.', 2);
+            Console::output('You need to be the <bold>' . $owner .
+                            '</bold> user to perform the upgrade, or <bold>root</bold>.', 2);
         } else {
             // Check version
             $version = json_decode(file_get_contents(self::UPGRADE));

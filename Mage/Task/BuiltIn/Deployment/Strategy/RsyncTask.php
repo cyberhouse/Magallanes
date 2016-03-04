@@ -7,11 +7,9 @@
 * For the full copyright and license information, please view the LICENSE
 * file that was distributed with this source code.
 */
-
 namespace Mage\Task\BuiltIn\Deployment\Strategy;
 
 use Mage\Console;
-use Mage\Task\BuiltIn\Deployment\Strategy\BaseStrategyTaskAbstract;
 use Mage\Task\Releases\IsReleaseAware;
 
 /**
@@ -31,7 +29,7 @@ class RsyncTask extends BaseStrategyTaskAbstract implements IsReleaseAware
             if ($this->getConfig()->getParameter('overrideRelease', false) === true) {
                 return 'Deploy via Rsync (with Releases override) [built-in]';
             } else {
-                $rsync_copy = $this->getConfig()->deployment("rsync");
+                $rsync_copy = $this->getConfig()->deployment('rsync');
                 if ($rsync_copy && is_array($rsync_copy) && $rsync_copy['copy']) {
                     return 'Deploy via Rsync (with Releases) [built-in, incremental]';
                 } else {
@@ -51,16 +49,16 @@ class RsyncTask extends BaseStrategyTaskAbstract implements IsReleaseAware
     {
         $this->checkOverrideRelease();
 
-        $excludes = $this->getExcludes();
+        $excludes             = $this->getExcludes();
         $excludesListFilePath = $this->getConfig()->deployment('excludes_file', '');
 
         // If we are working with releases
         $deployToDirectory = $this->getConfig()->deployment('to');
         if ($this->getConfig()->release('enabled', false) === true) {
             $releasesDirectory = $this->getConfig()->release('directory', 'releases');
-            $symlink = $this->getConfig()->release('symlink', 'current');
+            $symlink           = $this->getConfig()->release('symlink', 'current');
 
-            $currentRelease = false;
+            $currentRelease    = false;
             $deployToDirectory = rtrim($this->getConfig()->deployment('to'), '/')
                                . '/' . $releasesDirectory
                                . '/' . $this->getConfig()->getReleaseId();
@@ -69,25 +67,38 @@ class RsyncTask extends BaseStrategyTaskAbstract implements IsReleaseAware
             $resultFetch = $this->runCommandRemote('ls -ld ' . $symlink . ' | cut -d"/" -f2', $currentRelease);
 
             if ($resultFetch && $currentRelease) {
-                // If deployment configuration is rsync, include a flag to simply sync the deltas between the prior release
+                // If deployment configuration is rsync, include a
+                // flag to simply sync the deltas between the prior release
                 // rsync: { copy: yes }
                 $rsync_copy = $this->getConfig()->deployment('rsync');
                 // If copy_tool_rsync, use rsync rather than cp for finer control of what is copied
-                if ($rsync_copy && is_array($rsync_copy) && $rsync_copy['copy'] && $this->runCommandRemote('test -d ' . $releasesDirectory . '/' . $currentRelease)) {
+                if ($rsync_copy && is_array($rsync_copy) && $rsync_copy['copy']
+                    && $this->runCommandRemote('test -d ' . $releasesDirectory . '/' . $currentRelease)) {
                     if (isset($rsync_copy['copy_tool_rsync'])) {
-                        $this->runCommandRemote("rsync -a {$this->excludes(array_merge($excludes, $rsync_copy['rsync_excludes']))} "
-                                          . "$releasesDirectory/$currentRelease/ $releasesDirectory/{$this->getConfig()->getReleaseId()}");
+                        $excludes = $this->excludes(array_merge($excludes, $rsync_copy['rsync_excludes']));
+                        $id = $this->getConfig()->getReleaseId();
+                        $this->runCommandRemote(
+                            "rsync -a {$excludes} " .
+                            "$releasesDirectory/$currentRelease/ $releasesDirectory/{$id}"
+                        );
                     } else {
-                        $this->runCommandRemote('cp -R ' . $releasesDirectory . '/' . $currentRelease . ' ' . $releasesDirectory . '/' . $this->getConfig()->getReleaseId());
+                        $this->runCommandRemote('cp -R ' . $releasesDirectory . '/' .
+                                                $currentRelease . ' ' . $releasesDirectory . '/' .
+                                                $this->getConfig()->getReleaseId());
                     }
                 } else {
-                    $this->runCommandRemote('mkdir -p ' . $releasesDirectory . '/' . $this->getConfig()->getReleaseId());
+                    $this->runCommandRemote('mkdir -p ' . $releasesDirectory . '/' .
+                                            $this->getConfig()->getReleaseId());
                 }
             }
         }
 
         // Strategy Flags
-        $strategyFlags = $this->getConfig()->deployment('strategy_flags', $this->getConfig()->general('strategy_flags', array()));
+        $strategyFlags = $this->getConfig()->deployment(
+            'strategy_flags',
+            $this->getConfig()->general('strategy_flags', array())
+        );
+
         if (isset($strategyFlags['rsync'])) {
             $strategyFlags = $strategyFlags['rsync'];
         } else {
@@ -96,7 +107,8 @@ class RsyncTask extends BaseStrategyTaskAbstract implements IsReleaseAware
 
         $command = 'rsync -avz '
                  . $strategyFlags . ' '
-                 . '--rsh="ssh ' . $this->getConfig()->getHostIdentityFileOption() . '-p' . $this->getConfig()->getHostPort() . '" '
+                 . '--rsh="ssh ' . $this->getConfig()->getHostIdentityFileOption()
+                 . '-p' . $this->getConfig()->getHostPort() . '" '
                  . $this->excludes($excludes) . ' '
                  . $this->excludesListFile($excludesListFilePath) . ' '
                  . $this->getConfig()->deployment('from') . ' '
@@ -113,7 +125,7 @@ class RsyncTask extends BaseStrategyTaskAbstract implements IsReleaseAware
      * @param array $excludes
      * @return string
      */
-    protected function excludes(Array $excludes)
+    protected function excludes(array $excludes)
     {
         $excludesRsync = '';
         foreach ($excludes as $exclude) {
@@ -132,7 +144,8 @@ class RsyncTask extends BaseStrategyTaskAbstract implements IsReleaseAware
     protected function excludesListFile($excludesFile)
     {
         $excludesListFileRsync = '';
-        if (!empty($excludesFile) && file_exists($excludesFile) && is_file($excludesFile) && is_readable($excludesFile)) {
+        if (!empty($excludesFile) && file_exists($excludesFile)
+            && is_file($excludesFile) && is_readable($excludesFile)) {
             $excludesListFileRsync = ' --exclude-from=' . $excludesFile;
         }
         return $excludesListFileRsync;

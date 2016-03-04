@@ -7,7 +7,6 @@
 * For the full copyright and license information, please view the LICENSE
 * file that was distributed with this source code.
 */
-
 namespace Mage\Console;
 
 use Mage\Config;
@@ -24,22 +23,22 @@ class Colors
      * @var array
      */
     private static $foregroundColors = array(
-        'black' => '0;30',
-        'bold' => '1',
-        'blue' => '0;34',
-        'light_blue' => '1;34',
-        'green' => '0;32',
-        'light_green' => '1;32',
-        'cyan' => '0;36',
-        'light_cyan' => '1;36',
-        'red' => '0;31',
-        'light_red' => '1;31',
-        'purple' => '0;35',
+        'black'        => '0;30',
+        'bold'         => '1',
+        'blue'         => '0;34',
+        'light_blue'   => '1;34',
+        'green'        => '0;32',
+        'light_green'  => '1;32',
+        'cyan'         => '0;36',
+        'light_cyan'   => '1;36',
+        'red'          => '0;31',
+        'light_red'    => '1;31',
+        'purple'       => '0;35',
         'light_purple' => '1;35',
-        'brown' => '0;33',
-        'yellow' => '1;33',
-        'light_gray' => '0;37',
-        'white' => '1;37'
+        'brown'        => '0;33',
+        'yellow'       => '1;33',
+        'light_gray'   => '0;37',
+        'white'        => '1;37',
 
     );
 
@@ -62,12 +61,12 @@ class Colors
         foreach (self::$foregroundColors as $key => $code) {
             $replaceFrom = array(
                 '<' . $key . '>',
-                '</' . $key . '>'
+                '</' . $key . '>',
             );
 
             $replaceTo = array(
                 "\033[" . $code . 'm',
-                "\033[0m"
+                "\033[0m",
             );
 
             $string = str_replace($replaceFrom, $replaceTo, $string);

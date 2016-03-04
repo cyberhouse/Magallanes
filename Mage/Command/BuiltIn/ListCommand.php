@@ -7,12 +7,11 @@
 * For the full copyright and license information, please view the LICENSE
 * file that was distributed with this source code.
 */
-
 namespace Mage\Command\BuiltIn;
 
+use Exception;
 use Mage\Command\AbstractCommand;
 use Mage\Console;
-use Exception;
 
 /**
  * Adds elements to the Configuration.
@@ -30,7 +29,7 @@ class ListCommand extends AbstractCommand
      */
     public function run()
     {
-        $exitCode = 221;
+        $exitCode   = 221;
         $subCommand = $this->getConfig()->getArgument(1);
 
         try {
@@ -55,9 +54,9 @@ class ListCommand extends AbstractCommand
      */
     protected function listEnvironments()
     {
-        $exitCode = 220;
+        $exitCode     = 220;
         $environments = array();
-        $content = scandir(getcwd() . '/.mage/config/environment/');
+        $content      = scandir(getcwd() . '/.mage/config/environment/');
         foreach ($content as $file) {
             if (strpos($file, '.yml') !== false) {
                 $environments[] = str_replace('.yml', '', $file);

@@ -1,5 +1,4 @@
 <?php
-
 namespace MageTest\Command;
 
 use Mage\Command\AbstractCommand;
@@ -8,7 +7,6 @@ use PHPUnit_Framework_MockObject_MockObject;
 
 /**
  * Class AbstractCommandTest
- * @package MageTest\Command
  * @author Jakub Turek <ja@kubaturek.pl>
  * @coversDefaultClass Mage\Command\AbstractCommand
  */

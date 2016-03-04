@@ -16,7 +16,6 @@ use Mage\Task\SkipException;
  * is not build automatically, you need to provide a clean checkout before you can
  * start using it.
  *
- * @package Mage\Task\BuiltIn\Deployment\Strategy
  * @author Mario Mueller <mueller@freshcells.de>
  */
 class GitRemoteCacheTask extends AbstractTask implements IsReleaseAware
@@ -33,7 +32,7 @@ class GitRemoteCacheTask extends AbstractTask implements IsReleaseAware
     /**
      * Runs the task
      *
-     * @return boolean
+     * @return bool
      * @throws Exception
      * @throws ErrorWithMessageException
      * @throws SkipException
@@ -44,7 +43,7 @@ class GitRemoteCacheTask extends AbstractTask implements IsReleaseAware
 
         if ($overrideRelease === true) {
             $releaseToOverride = false;
-            $resultFetch = $this->runCommandRemote('ls -ld current | cut -d"/" -f2', $releaseToOverride);
+            $resultFetch       = $this->runCommandRemote('ls -ld current | cut -d"/" -f2', $releaseToOverride);
             if ($resultFetch && is_numeric($releaseToOverride)) {
                 $this->getConfig()->setReleaseId($releaseToOverride);
             }
@@ -56,7 +55,7 @@ class GitRemoteCacheTask extends AbstractTask implements IsReleaseAware
             '.mage',
             '.gitignore',
             '.gitkeep',
-            'nohup.out'
+            'nohup.out',
         );
 
         // Look for User Excludes
@@ -75,27 +74,28 @@ class GitRemoteCacheTask extends AbstractTask implements IsReleaseAware
         $branch = $this->getParameter('branch');
         $remote = $this->getParameter('remote', 'origin');
 
-        $remoteCacheParam = $this->getParameter('remote_cache', 'shared/git-remote-cache');
+        $remoteCacheParam  = $this->getParameter('remote_cache', 'shared/git-remote-cache');
         $remoteCacheFolder = rtrim($this->getConfig()->deployment('to'), '/') . '/' . $remoteCacheParam;
 
         // Don't use -C as git 1.7 does not support it
         $command = 'cd ' . $remoteCacheFolder . ' && /usr/bin/env git fetch ' . $remote;
-        $result = $this->runCommandRemote($command);
+        $result  = $this->runCommandRemote($command);
 
         $command = 'cd ' . $remoteCacheFolder . ' && /usr/bin/env git checkout ' . $branch;
-        $result = $this->runCommandRemote($command) && $result;
+        $result  = $this->runCommandRemote($command) && $result;
 
         $command = 'cd ' . $remoteCacheFolder . ' && /usr/bin/env git pull --rebase ' . $branch;
-        $result = $this->runCommandRemote($command) && $result;
+        $result  = $this->runCommandRemote($command) && $result;
 
-        $excludes = array_merge($excludes, $userExcludes);
+        $excludes   = array_merge($excludes, $userExcludes);
         $excludeCmd = '';
         foreach ($excludes as $excludeFile) {
             $excludeCmd .= ' --exclude=' . $excludeFile;
         }
 
-        $command = 'cd ' . $remoteCacheFolder . ' && /usr/bin/env git archive ' . $branch . ' | tar -x -C ' . $deployToDirectory . ' ' . $excludeCmd;
-        $result = $this->runCommandRemote($command) && $result;
+        $command = 'cd ' . $remoteCacheFolder . ' && /usr/bin/env git archive ' . $branch .
+                   ' | tar -x -C ' . $deployToDirectory . ' ' . $excludeCmd;
+        $result  = $this->runCommandRemote($command) && $result;
 
         if ($result) {
             $this->cleanUpReleases();

@@ -7,13 +7,12 @@
 * For the full copyright and license information, please view the LICENSE
 * file that was distributed with this source code.
 */
-
 namespace Mage\Command\BuiltIn;
 
 use Mage\Command\AbstractCommand;
 use Mage\Command\RequiresEnvironment;
-use Mage\Task\Factory;
 use Mage\Console;
+use Mage\Task\Factory;
 
 /**
  * Command for Managing the Releases
@@ -28,7 +27,7 @@ class ReleasesCommand extends AbstractCommand implements RequiresEnvironment
      */
     public function run()
     {
-        $exitCode = 100;
+        $exitCode   = 100;
         $subCommand = $this->getConfig()->getArgument(1);
 
         // Run Tasks for Deployment
@@ -37,7 +36,8 @@ class ReleasesCommand extends AbstractCommand implements RequiresEnvironment
         if (count($hosts) == 0) {
             Console::output(
                 '<light_purple>Warning!</light_purple> <bold>No hosts defined, unable to get releases.</bold>',
-                1, 3
+                1,
+                3
             );
 
             return 101;
@@ -49,7 +49,7 @@ class ReleasesCommand extends AbstractCommand implements RequiresEnvironment
             $hostConfig = null;
             if (is_array($host)) {
                 $hostConfig = $host;
-                $host = $hostKey;
+                $host       = $hostKey;
             }
 
             // Set Host and Host Specific Config

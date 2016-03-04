@@ -16,7 +16,7 @@ class FrontControllerCleanTask extends AbstractTask
     public function run()
     {
         $command = 'rm -rf web/app_*.php';
-        $result = $this->runCommandRemote($command);
+        $result  = $this->runCommandRemote($command);
 
         return $result;
     }

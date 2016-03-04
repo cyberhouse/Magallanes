@@ -7,7 +7,6 @@
 * For the full copyright and license information, please view the LICENSE
 * file that was distributed with this source code.
 */
-
 namespace Mage;
 
 /**
@@ -20,12 +19,12 @@ class Autoload
     /**
      * Autoload a Class by it's Class Name
      * @param string $className
-     * @return boolean
+     * @return bool
      */
-    public function autoLoad($className)
+    public function loadClass($className)
     {
         $className = ltrim($className, '/');
-        $postfix = '/' . str_replace(array('_', '\\'), '/', $className . '.php');
+        $postfix   = '/' . str_replace(array('_', '\\'), '/', $className . '.php');
 
         // Change BaseDir according to Namespace
         if (strpos($className, 'Task\\') === 0) {
@@ -60,7 +59,7 @@ class Autoload
     /**
      * Checks if a file can be read.
      * @param string $filePath
-     * @return boolean
+     * @return bool
      */
     public function isReadable($filePath)
     {

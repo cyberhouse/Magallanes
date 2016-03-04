@@ -7,10 +7,7 @@
 * For the full copyright and license information, please view the LICENSE
 * file that was distributed with this source code.
 */
-
 namespace Mage\Task\BuiltIn\Symfony2;
-
-use Mage\Task\BuiltIn\Symfony2\SymfonyAbstractTask;
 
 /**
  * Task for Installing Assets
@@ -35,17 +32,19 @@ class AssetsInstallTask extends SymfonyAbstractTask
     public function run()
     {
         // Options
-        $target = $this->getParameter('target', 'web');
-        $symlink = $this->getParameter('symlink', false);
+        $target   = $this->getParameter('target', 'web');
+        $symlink  = $this->getParameter('symlink', false);
         $relative = $this->getParameter('relative', false);
-        $env = $this->getParameter('env', 'dev');
+        $env      = $this->getParameter('env', 'dev');
 
         if ($relative) {
             $symlink = true;
         }
 
-        $command = $this->getAppPath() . ' assets:install ' . ($symlink ? '--symlink' : '') . ' ' . ($relative ? '--relative' : '') . ' --env=' . $env . ' ' . $target;
-        $result = $this->runCommand($command);
+        $command = $this->getAppPath() . ' assets:install ' . ($symlink ? '--symlink' : '') . ' ' .
+                   ($relative ? '--relative' : '') .
+                   ' --env=' . $env . ' ' . $target;
+        $result  = $this->runCommand($command);
 
         return $result;
     }

@@ -7,11 +7,10 @@
 * For the full copyright and license information, please view the LICENSE
 * file that was distributed with this source code.
 */
-
 namespace Mage\Task\BuiltIn\Ioncube;
 
-use Mage\Task\AbstractTask;
 use Mage\Console;
+use Mage\Task\AbstractTask;
 use Mage\Task\ErrorWithMessageException;
 
 /**
@@ -250,7 +249,7 @@ class EncryptTask extends AbstractTask
          *
          */
         if (isset($this->mageConfig ['checkignoreextens'])) {
-            $this->checkIgnoreExtens = array_merge($this->ignoreExtens, $this->mageConfig['ignoreextens']);
+            $this->checkIgnoreExtens = array_merge($this->checkIgnoreExtens, $this->mageConfig['ignoreextens']);
         }
 
         /*
@@ -262,7 +261,6 @@ class EncryptTask extends AbstractTask
         if (isset($this->mageConfig ['checkignorepaths'])) {
             $this->checkIgnorePaths = array_merge($this->checkIgnorePaths, $this->mageConfig['checkignorepaths']);
         }
-
 
         /*
          * now merge all the config options together
@@ -294,7 +292,7 @@ class EncryptTask extends AbstractTask
         } else {
             $this->yaml = array(
                 's' => array(),
-                'p' => array()
+                'p' => array(),
             );
         }
         /*
@@ -306,7 +304,7 @@ class EncryptTask extends AbstractTask
         } else {
             $this->file = array(
                 's' => array(),
-                'p' => array()
+                'p' => array(),
             );
         }
     }
@@ -330,7 +328,7 @@ class EncryptTask extends AbstractTask
         $this->switchSrcToTmp();
         $this->writeProjectFile();
         $result = $this->runIonCube();
-        Console::output("Encoding result :" . ($result ? '<green>OK</green>' : '<red>Bad!</red>') . "\n", 0, 2);
+        Console::output('Encoding result :' . ($result ? '<green>OK</green>' : '<red>Bad!</red>') . "\n", 0, 2);
         if (!$result) {
             $this->deleteTmpFiles();
             throw new ErrorWithMessageException('Ioncube failed to encode your project :' . $result);
@@ -384,7 +382,8 @@ class EncryptTask extends AbstractTask
                         // file was encrypted/encoded
                     } else {
                         // file was not encrypted/encoded
-                        Console::output("<blue>File :" . $srcFileName . "</blue> -> <red>Was not encrypted</red>", 0, 1);
+                        Console::output('<blue>File :' . $srcFileName .
+                                        '</blue> -> <red>Was not encrypted</red>', 0, 1);
                         $ask = true;
                     }
                 }
@@ -412,8 +411,8 @@ class EncryptTask extends AbstractTask
      */
     private function promptYn()
     {
-        $handle = fopen("php://stdin", "r");
-        $line = strtolower(fgets($handle));
+        $handle = fopen('php://stdin', 'r');
+        $line   = strtolower(fgets($handle));
         if (trim($line) != 'y') {
             return false;
         }
@@ -430,7 +429,7 @@ class EncryptTask extends AbstractTask
      *
      * @param string $filename Filename, with path, to check
      *
-     * @return boolean True if file was encoded/encrypted
+     * @return bool True if file was encoded/encrypted
      */
     private function checkFileCoding($filename)
     {
@@ -441,7 +440,7 @@ class EncryptTask extends AbstractTask
             return true;
         }
         // read first line of file
-        $f = fopen($filename, 'r');
+        $f    = fopen($filename, 'r');
         $line = trim(fgets($f, 32));
         fclose($f);
         // if first line is longer than 30, then this isnt a php file
@@ -455,7 +454,6 @@ class EncryptTask extends AbstractTask
         // otherwise its most likley un-encrypted/encoded
         return false;
     }
-
 
     /**
      * Deletes tempory folder and project file
@@ -471,7 +469,7 @@ class EncryptTask extends AbstractTask
         if (isset($this->mageConfig ['keeptemp'])) {
             return;
         }
-        Console::log('Deleting tempory files :', 1);
+        Console::log('Deleting tempory files :');
         $ret1 = Console::executeCommand('rm -Rf ' . $this->ionSource, $out1);
         $ret2 = Console::executeCommand('rm ' . $this->projectFile, $out2);
         if ($ret1 && $ret2) {
@@ -488,7 +486,8 @@ class EncryptTask extends AbstractTask
      */
     private function runIonCube()
     {
-        $cli = $this->encoder . ' --project-file ' . $this->projectFile . ' ' . $this->ionSource . DIRECTORY_SEPARATOR . '*';
+        $cli = $this->encoder . ' --project-file ' . $this->projectFile .
+               ' ' . $this->ionSource . DIRECTORY_SEPARATOR . '*';
         $ret = Console::executeCommand($cli, $out);
         return $ret;
     }
@@ -554,27 +553,25 @@ class EncryptTask extends AbstractTask
          * more options could be added to make this a bit more flexable
          *
          */
-        $s = array();
-        $p = array();
         switch (strtolower($this->ionOverRide)) {
-            case 'fyd' :
+            case 'fyd':
                 // FILE / YAML / DEFAULT
                 $s = array_merge($this->file ['s'], $this->yaml ['s'], $this->default ['s']);
                 $p = array_merge($this->file ['p'], $this->yaml ['p'], $this->default ['p']);
                 break;
 
-            case 'yfd' :
+            case 'yfd':
                 // YAML / FILE / DEFAULT
                 $s = array_merge($this->yaml ['s'], $this->file ['s'], $this->default ['s']);
                 $p = array_merge($this->yaml ['p'], $this->file ['p'], $this->default ['p']);
                 break;
-            case 'dyf' :
+            case 'dyf':
                 // DEFAULT / YAML / FILE
                 $s = array_merge($this->default ['s'], $this->yaml ['s'], $this->file ['s']);
                 $p = array_merge($this->default ['p'], $this->yaml ['p'], $this->file ['p']);
                 break;
-            case 'd' :
-            default :
+            case 'd':
+            default:
                 // Use defaults only
                 $s = $this->default ['s'];
                 $p = $this->default ['p'];
@@ -582,7 +579,7 @@ class EncryptTask extends AbstractTask
         }
         return array(
             's' => $s,
-            'p' => $p
+            'p' => $p,
         );
     }
 
@@ -619,6 +616,9 @@ class EncryptTask extends AbstractTask
      * is ignored
      *
      * return array
+     *
+     * @param array $options
+     * @return array
      */
     private function getOptionsFromYaml($options)
     {
@@ -634,7 +634,7 @@ class EncryptTask extends AbstractTask
         }
         return array(
             's' => $s,
-            'p' => $p
+            'p' => $p,
         );
     }
 
@@ -647,8 +647,8 @@ class EncryptTask extends AbstractTask
      */
     private function getOptionsFromFile($fileName)
     {
-        $s = array();
-        $p = array();
+        $s            = array();
+        $p            = array();
         $fileContents = file_get_contents($fileName);
         /*
          * split the config file on every occurance of '--' at start of a line
@@ -669,7 +669,7 @@ class EncryptTask extends AbstractTask
                      */
                     $str = strlen($line);
                 }
-                $key = substr($line, $str);
+                $key   = substr($line, $str);
                 $value = substr($line, $str + 1);
                 if ((array_key_exists($key, $this->default ['s']))) {
                     /*
@@ -689,7 +689,7 @@ class EncryptTask extends AbstractTask
         }
         return array(
             's' => $s,
-            'p' => $p
+            'p' => $p,
         );
     }
 
@@ -734,13 +734,13 @@ class EncryptTask extends AbstractTask
         // Set the switches
         $s ['allow-encoding-into-source'] = false;
 
-        $s ['ascii'] = false;
+        $s ['ascii']  = false;
         $s ['binary'] = true;
 
         $s ['replace-target'] = true;
-        $s ['merge-target'] = false;
-        $s ['rename-target'] = false;
-        $s ['update-target'] = false;
+        $s ['merge-target']   = false;
+        $s ['rename-target']  = false;
+        $s ['update-target']  = false;
 
         $s ['only-include-encoded-files'] = false;
 
@@ -752,11 +752,11 @@ class EncryptTask extends AbstractTask
 
         $s ['no-short-open-tags'] = false;
 
-        $s ['ignore-strict-warnings'] = false;
+        $s ['ignore-strict-warnings']     = false;
         $s ['ignore-deprecated-warnings'] = false;
 
         $s ['without-runtime-loader-support'] = false;
-        $s ['without-loader-check'] = false;
+        $s ['without-loader-check']           = false;
 
         $s ['disable-auto-prepend-append'] = true;
 
@@ -764,47 +764,47 @@ class EncryptTask extends AbstractTask
 
         // Now set the params
         $p ['encrypt'] [] = '*.tpl.html';
-        $p ['encode'] = array();
-        $p ['copy'] = array();
-        $p ['ignore'] = array(
+        $p ['encode']     = array();
+        $p ['copy']       = array();
+        $p ['ignore']     = array(
             '.git',
             '.svn',
             getcwd() . '/.mage',
             '.gitignore',
             '.gitkeep',
-            'nohup.out'
+            'nohup.out',
         );
-        $p ['keep'] = array();
-        $p ['obfuscate'] = '';
-        $p ['obfuscation-key'] = '';
+        $p ['keep']                       = array();
+        $p ['obfuscate']                  = '';
+        $p ['obfuscation-key']            = '';
         $p ['obfuscation-exclusion-file'] = '';
-        $p ['expire-in'] = '7d';
-        $p ['expire-on'] = '';
-        $p ['allowed-server'] = '';
-        $p ['with-license'] = 'license.txt';
-        $p ['passphrase'] = '';
-        $p ['license-check'] = '';
-        $p ['apply-file-user'] = '';
-        $p ['apply-file-group'] = '';
-        $p ['register-autoglobal'] = array();
-        $p ['message-if-no-loader'] = '';
-        $p ['action-if-no-loader'] = '';
-        $p ['loader-path'] = '';
-        $p ['preamble-file'] = '';
-        $p ['add-comment'] = array();
-        $p ['add-comments'] = '';
-        $p ['loader-event'] = array();
-        $p ['callback-file'] = '';
-        $p ['property'] = '';
-        $p ['propertys'] = '';
-        $p ['include-if-property'] = array();
-        $p ['optimise'] = 'max';
-        $p ['shell-script-line'] = '';
-        $p ['min-loader-version'] = '';
+        $p ['expire-in']                  = '7d';
+        $p ['expire-on']                  = '';
+        $p ['allowed-server']             = '';
+        $p ['with-license']               = 'license.txt';
+        $p ['passphrase']                 = '';
+        $p ['license-check']              = '';
+        $p ['apply-file-user']            = '';
+        $p ['apply-file-group']           = '';
+        $p ['register-autoglobal']        = array();
+        $p ['message-if-no-loader']       = '';
+        $p ['action-if-no-loader']        = '';
+        $p ['loader-path']                = '';
+        $p ['preamble-file']              = '';
+        $p ['add-comment']                = array();
+        $p ['add-comments']               = '';
+        $p ['loader-event']               = array();
+        $p ['callback-file']              = '';
+        $p ['property']                   = '';
+        $p ['propertys']                  = '';
+        $p ['include-if-property']        = array();
+        $p ['optimise']                   = 'max';
+        $p ['shell-script-line']          = '';
+        $p ['min-loader-version']         = '';
 
         return array(
             's' => $s,
-            'p' => $p
+            'p' => $p,
         );
     }
 }

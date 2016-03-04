@@ -1,55 +1,63 @@
 {
   "name": "cyberhouse/magallanes",
-    "description": "A Deployment Tool for PHP Applications",
-    "homepage": "http://magephp.com",
-    "license": "MIT",
-    "type": "library",
-    "authors": [
-        {
-            "name": "Andrés Montañez",
-            "role": "Developer"
-        },
-        {
-            "name": "Johannes Pichler",
-            "email": "johannes.pichler@cyberhouse.at",
-            "homepage": "https://www.cyberhouse.at",
-            "role": "Developer"
-        },
-        {
-            "name": "Georg Großberger",
-            "email": "georg.grossberger@cyberhouse.ats",
-            "homepage": "https://www.cyberhouse.at",
-            "role": "Developer"
-        }
-    ],
-    "keywords": ["deployment"],
-    "require": {
-      "php": ">=5.3",
-      "symfony/yaml": "2.6.1"
+  "description": "A Deployment Tool for PHP Applications",
+  "homepage": "http://magephp.com",
+  "license": "MIT",
+  "type": "library",
+  "authors": [
+    {
+      "name": "Andrés Montañez",
+      "role": "Developer"
     },
-    "require-dev": {
-      "phpunit/phpunit": "4.3.5",
-      "satooshi/php-coveralls": ">=0.6.1",
-      "malkusch/php-mock": "dev-php-5.3",
+    {
+      "name": "Johannes Pichler",
+      "email": "johannes.pichler@cyberhouse.at",
+      "homepage": "https://www.cyberhouse.at",
+      "role": "Developer"
+    },
+    {
+      "name": "Georg Großberger",
+      "email": "georg.grossberger@cyberhouse.ats",
+      "homepage": "https://www.cyberhouse.at",
+      "role": "Developer"
+    }
+  ],
+  "keywords": [
+    "deployment"
+  ],
+  "require": {
+    "php": ">=5.3",
+    "symfony/yaml": "2.6.1"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "4.3.5",
+    "satooshi/php-coveralls": ">=0.6.1",
+    "malkusch/php-mock": "dev-php-5.3",
     "fabpot/php-cs-fixer": "^1.11",
     "squizlabs/php_codesniffer": "^2.5"
-    },
-    "autoload": {
-        "psr-4": {
-            "Mage\\": "./Mage",
-            "Task\\": [".mage/tasks", "../../../.mage/tasks"],
-            "Command\\": [".mage/tasks", "../../../.mage/commands"]
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "MageTest\\": "./tests/MageTest"
-        }
-    },
-    "config": {
-        "bin-dir": "bin"
-    },
-    "bin": [
-        "bin/mage"
-    ]
+  },
+  "autoload": {
+    "psr-4": {
+      "Mage\\": "./Mage",
+      "Task\\": [
+        ".mage/tasks",
+        "../../../.mage/tasks"
+      ],
+      "Command\\": [
+        ".mage/tasks",
+        "../../../.mage/commands"
+      ]
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "MageTest\\": "./tests/MageTest"
+    }
+  },
+  "config": {
+    "bin-dir": "bin"
+  },
+  "bin": [
+    "bin/mage"
+  ]
 }

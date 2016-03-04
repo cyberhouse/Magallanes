@@ -1,16 +1,18 @@
 {
-    "files": ["LICENSE"],
-    "finder": [
-        {
-            "name": "*.php",
-            "exclude": [
-                "docs"
-            ],
-            "in": "Mage"
-        }
-    ],
-    "git-version": "git_tag",
-    "main": "bin/mage",
-    "output": "mage.phar",
-    "stub": true
+  "files": [
+    "LICENSE"
+  ],
+  "finder": [
+    {
+      "name": "*.php",
+      "exclude": [
+        "docs"
+      ],
+      "in": "Mage"
+    }
+  ],
+  "git-version": "git_tag",
+  "main": "bin/mage",
+  "output": "mage.phar",
+  "stub": true
 }

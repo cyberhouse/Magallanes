@@ -1,5 +1,4 @@
 <?php
-
 namespace MageTest\Command\BuiltIn;
 
 use Mage\Command\BuiltIn\LockCommand;
@@ -9,7 +8,6 @@ use malkusch\phpmock\MockBuilder;
 
 /**
  * Class LockCommandTest
- * @package MageTest\Command\BuiltIn
  * @coversDefaultClass Mage\Command\BuiltIn\LockCommand
  * @uses malkusch\phpmock\MockBuilder
  * @uses malkusch\phpmock\FixedValueFunction
@@ -42,17 +40,17 @@ class LockCommandTest extends BaseTest
      */
     public function before()
     {
-        self::$fgetsCount = 0;
-        self::$mockName = '';
-        self::$mockEmail = '';
-        self::$mockDesc = '';
+        self::$fgetsCount            = 0;
+        self::$mockName              = '';
+        self::$mockEmail             = '';
+        self::$mockDesc              = '';
         self::$filePutContentsResult = '';
-        self::$filePutContentsFile = '';
+        self::$filePutContentsFile   = '';
 
         $this->lockCommand = new LockCommand();
 
         $mockBuilder = new MockBuilder();
-        $fopenMock = $mockBuilder
+        $fopenMock   = $mockBuilder
             ->setName('fopen')
             ->setNamespace('Mage')
             ->setFunction(function () {
@@ -61,7 +59,7 @@ class LockCommandTest extends BaseTest
             ->build();
 
         $this->fgetsValue = new FixedValueFunction();
-        $fgetsMock = $mockBuilder
+        $fgetsMock        = $mockBuilder
             ->setNamespace('Mage')
             ->setName('fgets')
             ->setFunction(
@@ -131,43 +129,43 @@ class LockCommandTest extends BaseTest
     {
         return array(
             'normal' => array(
-                'name' => 'John Smith',
-                'email' => 'john.smith@example.com',
-                'description' => "There's a critical bug here!",
+                'name'                     => 'John Smith',
+                'email'                    => 'john.smith@example.com',
+                'description'              => "There's a critical bug here!",
                 'expectedLockFileContents' => "Locked environment at date: 2015-01-01 12:00:00\n"
                     . "Locked by John Smith (john.smith@example.com)\n"
                     . "There's a critical bug here!\n",
             ),
             'with_no_name' => array(
-                'name' => '',
-                'email' => 'john.smith@example.com',
-                'description' => "There's a critical bug here!",
+                'name'                     => '',
+                'email'                    => 'john.smith@example.com',
+                'description'              => "There's a critical bug here!",
                 'expectedLockFileContents' => "Locked environment at date: 2015-01-01 12:00:00\n"
                     . "(john.smith@example.com)\n"
                     . "There's a critical bug here!\n",
             ),
             'with_no_email' => array(
-                'name' => 'John Smith',
-                'email' => '',
-                'description' => "There's a critical bug here!",
+                'name'                     => 'John Smith',
+                'email'                    => '',
+                'description'              => "There's a critical bug here!",
                 'expectedLockFileContents' => "Locked environment at date: 2015-01-01 12:00:00\n"
                     . "Locked by John Smith \n"
                     . "There's a critical bug here!\n",
             ),
             'with_no_name_nor_email' => array(
-                'name' => '',
-                'email' => '',
-                'description' => "There's a critical bug here!",
+                'name'                     => '',
+                'email'                    => '',
+                'description'              => "There's a critical bug here!",
                 'expectedLockFileContents' => "Locked environment at date: 2015-01-01 12:00:00\n"
                     . "\n"
                     . "There's a critical bug here!\n",
             ),
             'with_no_desciption' => array(
-                'name' => 'John Smith',
-                'email' => 'john.smith@example.com',
-                'description' => '',
+                'name'                     => 'John Smith',
+                'email'                    => 'john.smith@example.com',
+                'description'              => '',
                 'expectedLockFileContents' => "Locked environment at date: 2015-01-01 12:00:00\n"
-                    . "Locked by John Smith (john.smith@example.com)"
+                    . 'Locked by John Smith (john.smith@example.com)',
             ),
         );
     }
@@ -178,17 +176,17 @@ class LockCommandTest extends BaseTest
      */
     public function testRun($name, $email, $description, $expectedLockFileContents)
     {
-        $expectedOutput = "Your name (enter to leave blank): "
-            . "Your email (enter to leave blank): "
-            . "Reason of lock (enter to leave blank): "
+        $expectedOutput = 'Your name (enter to leave blank): '
+            . 'Your email (enter to leave blank): '
+            . 'Reason of lock (enter to leave blank): '
             . "\tLocked deployment to production environment\n\n";
         $this->expectOutputString($expectedOutput);
         $expectedLockFilePath = '/.mage/production.lock';
-        $expectedExitCode = 0;
+        $expectedExitCode     = 0;
 
-        self::$mockName = $name;
+        self::$mockName  = $name;
         self::$mockEmail = $email;
-        self::$mockDesc = $description;
+        self::$mockDesc  = $description;
 
         $configMock = $this->getMock('Mage\Config');
         $configMock->expects($this->atLeastOnce())

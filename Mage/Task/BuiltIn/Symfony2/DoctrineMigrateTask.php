@@ -7,10 +7,7 @@
 * For the full copyright and license information, please view the LICENSE
 * file that was distributed with this source code.
 */
-
 namespace Mage\Task\BuiltIn\Symfony2;
-
-use Mage\Task\BuiltIn\Symfony2\SymfonyAbstractTask;
 
 /**
  * Task for Doctrine migrations
@@ -36,7 +33,7 @@ class DoctrineMigrateTask extends SymfonyAbstractTask
         $env = $this->getParameter('env', 'dev');
 
         $command = $this->getAppPath() . ' doctrine:migrations:migrate -n --env=' . $env;
-        
+
         return $this->runCommand($command);
     }
 }

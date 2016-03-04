@@ -7,7 +7,6 @@
 * For the full copyright and license information, please view the LICENSE
 * file that was distributed with this source code.
 */
-
 namespace Mage\Task\BuiltIn\Scm;
 
 use Mage\Task\AbstractTask;
@@ -63,15 +62,15 @@ class ForceUpdateTask extends AbstractTask
             case 'git':
                 $branch = $this->getParameter('branch', 'master');
                 $remote = $this->getParameter('remote', 'origin');
-                
+
                 $command = 'git fetch ' . $remote . ' ' . $branch;
-                $result = $this->runCommand($command);
+                $result  = $this->runCommand($command);
 
                 $command = 'git reset --hard ' . $remote . '/' . $branch;
-                $result = $result && $this->runCommand($command);
+                $result  = $result && $this->runCommand($command);
 
                 $command = 'git pull ' . $remote . ' ' . $branch;
-                $result = $result && $this->runCommand($command);
+                $result  = $result && $this->runCommand($command);
                 break;
 
             default:

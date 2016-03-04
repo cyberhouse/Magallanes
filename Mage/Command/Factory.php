@@ -7,12 +7,10 @@
 * For the full copyright and license information, please view the LICENSE
 * file that was distributed with this source code.
 */
-
 namespace Mage\Command;
 
-use Mage\Command\AbstractCommand;
-use Mage\Config;
 use Exception;
+use Mage\Config;
 
 /**
  * Loads a Magallanes Command.
@@ -31,12 +29,12 @@ class Factory
      */
     public static function get($commandName, Config $config)
     {
-        $instance = null;
+        $instance    = null;
         $commandName = ucwords(str_replace('-', ' ', $commandName));
         $commandName = str_replace(' ', '', $commandName);
 
         $commandName = str_replace(' ', '_', ucwords(str_replace('/', ' ', $commandName)));
-        $className = 'Mage\\Command\\BuiltIn\\' . $commandName . 'Command';
+        $className   = 'Mage\\Command\\BuiltIn\\' . $commandName . 'Command';
 
         if (!class_exists($className)) {
             // try a custom command
@@ -50,7 +48,8 @@ class Factory
         /** @var AbstractCommand $instance */
         $instance = new $className;
         if (! $instance instanceof AbstractCommand) {
-            throw new Exception('The command ' . $commandName . ' must be an instance of Mage\Command\AbstractCommand.');
+            throw new Exception('The command ' . $commandName .
+                                ' must be an instance of Mage\Command\AbstractCommand.');
         }
 
         $instance->setConfig($config);

@@ -1,5 +1,4 @@
 <?php
-
 namespace MageTest\Task;
 
 use Mage\Task\Factory;
@@ -37,7 +36,7 @@ class FactoryTest extends PHPUnit_Framework_TestCase
     public function testGetTaskDataIsArray()
     {
         $taskData = array(
-            'name' => 'composer/install',
+            'name'       => 'composer/install',
             'parameters' => array(),
         );
 

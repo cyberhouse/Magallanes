@@ -7,17 +7,16 @@
 * For the full copyright and license information, please view the LICENSE
 * file that was distributed with this source code.
 */
-
 namespace Mage;
 
 use Phar;
-use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 
 /**
  * Compiles the library into a .phar file
  *
- * @author Ismael Ambrosi<ismaambrosi@gmail.com>
+ * @author Ismael Ambrosi <ismaambrosi@gmail.com>
  */
 class Compiler
 {
@@ -38,11 +37,18 @@ class Compiler
 
         $phar->startBuffering();
 
-        $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(__DIR__), RecursiveIteratorIterator::CHILD_FIRST);
+        $iterator = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator(__DIR__),
+            RecursiveIteratorIterator::CHILD_FIRST
+        );
+
         /** @var \SplFileInfo $path */
         foreach ($iterator as $path) {
             if ($path->isFile()) {
-                $phar->addFromString(str_replace(dirname(__DIR__) . '/', '', $path->getPathname()), file_get_contents($path));
+                $phar->addFromString(
+                    str_replace(dirname(__DIR__) . '/', '', $path->getPathname()),
+                    file_get_contents($path)
+                );
             }
         }
 
@@ -56,7 +62,8 @@ class Compiler
             $binary
         ));
 
-        $phar->setStub("#!/usr/bin/env php\n<?php Phar::mapPhar('mage.phar'); require 'phar://mage.phar/mage'; __HALT_COMPILER();");
+        $phar->setStub("#!/usr/bin/env php\n<?php Phar::mapPhar('mage.phar'); " .
+                       "require 'phar://mage.phar/mage'; __HALT_COMPILER();");
 
         $phar->stopBuffering();
 

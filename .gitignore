@@ -2,6 +2,8 @@ vendor
 mage.phar
 bin
 !bin/mage
+.php_cs.cache
+
 
 # OS generated files # // GitHub Recommendation
 ######################

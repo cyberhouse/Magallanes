@@ -2,8 +2,8 @@
 namespace Mage\Task\BuiltIn\Filesystem;
 
 use Mage\Task\AbstractTask;
-use Mage\Task\SkipException;
 use Mage\Task\Releases\IsReleaseAware;
+use Mage\Task\SkipException;
 
 class ApplyFaclsTask extends AbstractTask implements IsReleaseAware
 {
@@ -19,21 +19,20 @@ class ApplyFaclsTask extends AbstractTask implements IsReleaseAware
     /**
      * Runs the task
      *
-     * @return boolean
+     * @return bool
      * @throws SkipException
      */
     public function run()
     {
         $releasesDirectory = $this->getConfig()->release('directory', 'releases');
-        $currentCopy = $releasesDirectory . '/' . $this->getConfig()->getReleaseId();
-
+        $currentCopy       = $releasesDirectory . '/' . $this->getConfig()->getReleaseId();
 
         $aclParam = $this->getParameter('acl_param', '');
         if (empty($aclParam)) {
             throw new SkipException('Parameter acl_param not set.');
         }
 
-        $folders = $this->getParameter('folders', []);
+        $folders   = $this->getParameter('folders', array());
         $recursive = $this->getParameter('recursive', false) ? ' -R ' : ' ';
 
         foreach ($folders as $folder) {

@@ -7,7 +7,6 @@
 * For the full copyright and license information, please view the LICENSE
 * file that was distributed with this source code.
 */
-
 namespace Mage\Command\BuiltIn;
 
 use Mage\Command\AbstractCommand;
@@ -27,7 +26,7 @@ class InitCommand extends AbstractCommand
      */
     public function run()
     {
-        $exitCode = 50;
+        $exitCode  = 50;
         $configDir = getcwd() . '/.mage';
 
         Console::output('Initiating managing process for application with <bold>Magallanes</bold>');
@@ -36,7 +35,7 @@ class InitCommand extends AbstractCommand
         if (file_exists($configDir)) {
             Console::output('<light_red>Error!!</light_red> Already exists <bold>.mage</bold> directory.', 1, 2);
         } else {
-            $results = array();
+            $results   = array();
             $results[] = mkdir($configDir);
             $results[] = mkdir($configDir . '/logs');
             $results[] = file_put_contents($configDir . '/logs/.gitignore', "*\n!.gitignore");
@@ -48,15 +47,15 @@ class InitCommand extends AbstractCommand
             $results[] = file_put_contents($configDir . '/config/general.yml', $this->getGeneralConfig());
 
             if (!in_array(false, $results)) {
-                Console::output('<light_green>Success!!</light_green> The configuration for <bold>Magallanes</bold> has been generated at <blue>.mage</blue> directory.');
+                Console::output('<light_green>Success!!</light_green> The configuration for <bold>Magallanes</bold> ' .
+                                'has been generated at <blue>.mage</blue> directory.');
                 Console::output('<bold>Please!! Review and adjust the configuration.</bold>', 2, 2);
                 $exitCode = 0;
             } else {
                 Console::output('<light_red>Error!!</light_red> Unable to generate the configuration.', 1, 2);
             }
-
-            return $exitCode;
         }
+        return $exitCode;
     }
 
     /**
@@ -66,8 +65,8 @@ class InitCommand extends AbstractCommand
     protected function getGeneralConfig()
     {
         // Assamble Global Settings
-        $projectName = $this->getConfig()->getParameter('name', '');
-        $notificationEmail = $this->getConfig()->getParameter('email', '');
+        $projectName         = $this->getConfig()->getParameter('name', '');
+        $notificationEmail   = $this->getConfig()->getParameter('email', '');
         $notificationEnabled = ($notificationEmail != '') ? 'true' : 'false';
 
         $globalSettings = str_replace(
@@ -85,7 +84,7 @@ class InitCommand extends AbstractCommand
                 $notificationEnabled,
                 'true',
                 30,
-                'false'
+                'false',
             ),
             $this->getGeneralConfigTemplate()
         );

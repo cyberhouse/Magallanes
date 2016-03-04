@@ -7,7 +7,6 @@
 * For the full copyright and license information, please view the LICENSE
 * file that was distributed with this source code.
 */
-
 namespace Mage\Task\BuiltIn\Composer;
 
 use Mage\Task\AbstractTask;
@@ -21,7 +20,10 @@ abstract class ComposerAbstractTask extends AbstractTask
 {
     protected function getComposerCmd()
     {
-        $composerCmd = $this->getParameter('composer_cmd', $this->getConfig()->general('composer_cmd', 'php composer.phar'));
+        $composerCmd = $this->getParameter(
+            'composer_cmd',
+            $this->getConfig()->general('composer_cmd', 'php composer.phar')
+        );
         return $this->getConfig()->general('composer_cmd', $composerCmd);
     }
 }

@@ -7,7 +7,6 @@
 * For the full copyright and license information, please view the LICENSE
 * file that was distributed with this source code.
 */
-
 namespace Mage\Command;
 
 use Mage\Config;
@@ -28,7 +27,7 @@ abstract class AbstractCommand
 
     /**
      * Runs the Command
-     * @return integer exit code
+     * @return int exit code
      * @throws \Exception
      */
     abstract public function run();
