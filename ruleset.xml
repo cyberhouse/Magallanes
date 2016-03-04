@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<ruleset name="Magallanes">
+    <description>Magallanes PHP Codestyle</description>
+
+    <exclude-pattern>*/bin/*</exclude-pattern>
+    <exclude-pattern>*/docs/*</exclude-pattern>
+    <exclude-pattern>*/vendor/*</exclude-pattern>
+
+    <rule ref="PSR2"/>
+
+    <rule ref="Generic.Arrays.DisallowShortArraySyntax"/>
+    <rule ref="Generic.Formatting.SpaceAfterCast"/>
+    <rule ref="Generic.NamingConventions.ConstructorName"/>
+    <rule ref="Generic.PHP.DeprecatedFunctions"/>
+</ruleset>
