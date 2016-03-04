@@ -13,6 +13,7 @@ install:
 
 script:
   - mkdir -p build/logs
+  - bin/phpcs --colors -p --standard=ruleset.xml --extensions=php --severity=1 .
   - bin/phpunit --coverage-clover build/logs/coverage.xml
 
 after_script:
