@@ -3,7 +3,7 @@ namespace MageTest\Command\BuiltIn;
 
 use Mage\Command\BuiltIn\UnlockCommand;
 use MageTest\TestHelper\BaseTest;
-use malkusch\phpmock\MockBuilder;
+use phpmock\MockBuilder;
 
 /**
  * Class UnlockCommandTest

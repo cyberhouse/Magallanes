@@ -3,8 +3,8 @@ namespace MageTest\Command\BuiltIn;
 
 use Mage\Command\BuiltIn\CompileCommand;
 use MageTest\TestHelper\BaseTest;
-use malkusch\phpmock\FixedValueFunction;
-use malkusch\phpmock\MockBuilder;
+use phpmock\functions\FixedValueFunction;
+use phpmock\MockBuilder;
 
 /**
  * Class CompileCommandTest
@@ -31,7 +31,7 @@ class CompileCommandTest extends BaseTest
         $mockBuilder       = new MockBuilder();
         $iniGetMock        = $mockBuilder->setNamespace('Mage\Command\BuiltIn')
             ->setName('ini_get')
-            ->setCallableProvider($this->iniGetValue)
+            ->setFunctionProvider($this->iniGetValue)
             ->build();
         $iniGetMock->disable();
         $iniGetMock->enable();

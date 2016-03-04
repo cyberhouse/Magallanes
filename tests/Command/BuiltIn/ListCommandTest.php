@@ -3,8 +3,8 @@ namespace MageTest\Command\BuiltIn;
 
 use Mage\Command\BuiltIn\ListCommand;
 use MageTest\TestHelper\BaseTest;
-use malkusch\phpmock\FixedValueFunction;
-use malkusch\phpmock\MockBuilder;
+use phpmock\functions\FixedValueFunction;
+use phpmock\MockBuilder;
 
 /**
  * Class ListCommandTest
@@ -39,7 +39,7 @@ class ListCommandTest extends BaseTest
         $mockBuilder           = new MockBuilder();
         $scandirMock           = $mockBuilder->setNamespace('Mage\Command\BuiltIn')
             ->setName('scandir')
-            ->setCallableProvider($this->scandirValueObj)
+            ->setFunctionProvider($this->scandirValueObj)
             ->build();
         $scandirMock->disable();
         $scandirMock->enable();

@@ -3,8 +3,8 @@ namespace MageTest\Command\BuiltIn;
 
 use Mage\Command\BuiltIn\LockCommand;
 use MageTest\TestHelper\BaseTest;
-use malkusch\phpmock\FixedValueFunction;
-use malkusch\phpmock\MockBuilder;
+use phpmock\functions\FixedValueFunction;
+use phpmock\MockBuilder;
 
 /**
  * Class LockCommandTest
