@@ -466,7 +466,7 @@ class DeployCommand extends AbstractCommand implements RequiresEnvironment
 
         if (!in_array($task->getStage(), $this->acceptedStagesToRollback)) {
             $stagesString = implode(', ', $this->acceptedStagesToRollback);
-            Console::output("<light_purple>Warning!</light_purple> <bold>Rollback during deployment can be called " .
+            Console::output('<light_purple>Warning!</light_purple> <bold>Rollback during deployment can be called ' .
                             "only at the stages: $stagesString <bold>", 1);
             Console::output('<bold>Rollback:<bold> <red>ABORTING</red>', 1, 3);
         } elseif (count($hosts) == 0) {

@@ -72,7 +72,7 @@ class RollbackTask extends AbstractTask implements IsReleaseAware
                 );
 
                 $releaseIsAvailable = false;
-                $releaseId = '';
+                $releaseId          = '';
                 if ($this->getReleaseId() == '') {
                     $releaseId          = $releases[0];
                     $releaseIsAvailable = true;

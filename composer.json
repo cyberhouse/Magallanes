@@ -38,7 +38,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Mage\\": "./Mage",
+      "Mage\\": "./src",
       "Task\\": [
         ".mage/tasks",
         "../../../.mage/tasks"
@@ -51,7 +51,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "MageTest\\": "./tests/MageTest"
+      "MageTest\\": "./tests"
     }
   },
   "config": {

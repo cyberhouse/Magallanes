@@ -29,7 +29,7 @@ class Console
     public static $paramsNotRequiringEnvironment = array(
         'install' => 'install',
         'upgrade' => 'upgrade',
-        'version' => 'version'
+        'version' => 'version',
     );
 
     /**

@@ -17,7 +17,7 @@ if (PHP_SAPI !== 'cli') {
 }
 
 $finder = DefaultFinder::create()
-    ->in(array(__DIR__ . '/Mage', __DIR__ . '/tests'));
+    ->in(array(__DIR__ . '/src', __DIR__ . '/tests'));
 
 return Config::create()
     ->setUsingCache(true)
