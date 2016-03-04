@@ -1,4 +1,6 @@
 # Magallanes #
+
+[![Join the chat at https://gitter.im/cyberhouse/Magallanes](https://badges.gitter.im/cyberhouse/Magallanes.svg)](https://gitter.im/cyberhouse/Magallanes?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 This repository is a fork of [andres-montanez/Magallanes](https://github.com/andres-montanez/Magallanes) due to project inactivity.
 
 ### Project Status
