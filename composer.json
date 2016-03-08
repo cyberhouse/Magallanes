@@ -26,7 +26,7 @@
     "deployment"
   ],
   "require": {
-    "php": ">=5.3",
+    "php": ">=5.5",
     "symfony/yaml": "2.6.1"
   },
   "require-dev": {
