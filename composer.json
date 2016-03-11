@@ -43,6 +43,9 @@
     "squizlabs/php_codesniffer": "^2.5",
     "php-mock/php-mock": "^1.0"
   },
+  "suggest": {
+    "ext-yaml": "*"
+  },
   "autoload": {
     "psr-4": {
       "Mage\\": "./src",

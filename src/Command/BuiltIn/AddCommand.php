@@ -12,7 +12,7 @@ namespace Mage\Command\BuiltIn;
 use Exception;
 use Mage\Command\AbstractCommand;
 use Mage\Console;
-use Symfony\Component\Yaml\Yaml;
+use Mage\Yaml;
 
 /**
  * Command for Adding elements to the Configuration.
@@ -62,8 +62,7 @@ class AddCommand extends AbstractCommand
         Console::output('Adding new environment: <bold>' . $environmentName . '</bold>');
 
         $config = $this->getDefaultConfiguration($withReleases);
-
-        $result = file_put_contents($environmentConfigFile, Yaml::dump($config, 3, 2));
+        $result = Yaml::dump($config, $environmentConfigFile);
 
         if ($result) {
             Console::output('<light_green>Success!!</light_green> Environment config file for <bold>' .

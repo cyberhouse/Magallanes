@@ -19,7 +19,6 @@ use Mage\Console;
  */
 class InitCommand extends AbstractCommand
 {
-
     /**
      * Command for Initalize a new Configuration Proyect
      * @see \Mage\Command\AbstractCommand::run()
