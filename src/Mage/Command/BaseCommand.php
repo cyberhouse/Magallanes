@@ -18,9 +18,9 @@ abstract class BaseCommand extends ContainerAwareCommand
     /** @var SymfonyStyle */
     private $io;
 
-    public function __construct($name = null)
+    public function __construct($container = null)
     {
-        parent::__construct($name);
+        parent::__construct($container);
     }
 
     /**

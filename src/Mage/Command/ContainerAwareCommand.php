@@ -11,12 +11,20 @@ use Symfony\Component\Console\Command\Command;
  */
 abstract class ContainerAwareCommand extends Command
 {
+    private $container;
+
+    public function __construct(Container $container = null)
+    {
+        parent::__construct(null);
+        $this->container = $container;
+    }
+
     /**
      * retreive the dependency injection container from application
      *
      * @return Container the DI container
      */
     protected function getContainer() {
-        return $this->getApplication()->getContainer();
+        return $this->container;
     }
 }

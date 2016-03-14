@@ -1,19 +1,16 @@
 <?php
 namespace Mage;
 
-use Mage\Command\Environment\LockCommand;
-use Mage\Command\Environment\UnlockCommand;
+use Mage\Command\BaseCommand;
 use Mage\DI\ApplicationProvider;
 use Pimple\Container;
 use Symfony\Component\Console\Application;
-
-use Mage\Command\Environment\AddCommand;
-use Mage\Command\Environment\RemoveCommand;
-use Mage\Command\Environment\ListCommand;
-use Mage\Command\General\InitCommand;
+use Symfony\Component\Finder\Finder;
 
 /**
  * Class Mage
+ *
+ * @author Johannes Pichler <johannes.pichler@cyberhouse.at>
  */
 class Mage extends Application
 {
@@ -42,18 +39,50 @@ class Mage extends Application
 
     /**
      * Register the available console commands
+     * by scanning the namespace Mage\Command for available commands
      */
     private function registerCommands()
     {
-        $this->addCommands(
-            array(
-            new AddCommand(),
-            new RemoveCommand(),
-            new ListCommand(),
-            new LockCommand(),
-            new UnlockCommand(),
-            new InitCommand()
-            )
-        );
+        $psr4Namespaces = include $this->getProjectRootDirectory() . 'vendor/composer/autoload_psr4.php';
+
+        $namespacePaths = $psr4Namespaces['Mage\\'];
+
+        foreach($namespacePaths as $path) {
+            $basePath = $path . '/Command';
+            $files = Finder::create()->files()->name('*Command.php')->in($basePath);
+
+            foreach($files as $file) {
+                $subPath = str_replace($basePath, '', $file->getPathName());
+                $fullClasspath = str_replace('/', '\\', 'Mage\\Command' . $subPath);
+                $fullClasspath = substr($fullClasspath, 0, -4);
+                try {
+                    $reflectionClass = new \ReflectionClass($fullClasspath);
+
+                    if(!$reflectionClass->isAbstract() && $reflectionClass->newInstance() instanceof BaseCommand) {
+                        $instance = $reflectionClass->newInstance($this->container);
+
+                        $this->add($instance);
+                    }
+                }
+                catch(\Exception $ignored) {}
+            }
+        }
+    }
+
+    /**
+     * get the project root directory by finding the vendor autoloader
+     *
+     * @return string the project root directory path
+     */
+    private function getProjectRootDirectory() {
+        $path = __DIR__ . '/../../';
+        if(!file_exists($path . 'vendor/autoload.php')) {
+            $path =  __DIR__ . '/../../../../';
+            if(!file_exists($path . 'vendor/autoload.php')) {
+                return __DIR__;
+            }
+        }
+
+        return $path;
     }
 }
