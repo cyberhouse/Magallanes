@@ -3,6 +3,7 @@ mage.phar
 bin
 !bin/mage
 .php_cs.cache
+.mage
 
 
 # OS generated files # // GitHub Recommendation
