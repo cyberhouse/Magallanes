@@ -15,6 +15,7 @@ use Mage\Config;
  * Parses the different colors available for the Terminal or Console.
  *
  * @author Andrés Montañez <andres@andresmontanez.com>
+ * @deprecated since version 2.0
  */
 class Colors
 {

@@ -15,6 +15,7 @@ use Mage\Config;
  * Abstract Class for a Magallanes Command
  *
  * @author Andrés Montañez <andres@andresmontanez.com>
+ * @deprecated since version 2.0
  */
 abstract class AbstractCommand
 {

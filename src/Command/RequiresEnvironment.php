@@ -13,6 +13,7 @@ namespace Mage\Command;
  * Indicates that a Command depends of an Environment.
  *
  * @author Andrés Montañez <andres@andresmontanez.com>
+ * @deprecated since version 2.0
  */
 interface RequiresEnvironment
 {
