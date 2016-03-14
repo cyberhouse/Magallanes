@@ -20,6 +20,8 @@ use Symfony\Component\Yaml\Yaml;
  *   - environments
  *
  * @author Andrés Montañez <andres@andresmontanez.com>
+ * @deprecated since version 2.0
+ * @see Mage\Command\Environment\AddCommand
  */
 class AddCommand extends AbstractCommand
 {

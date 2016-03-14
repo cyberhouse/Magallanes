@@ -27,6 +27,7 @@ use Mage\Task\SkipException;
  * Command for Deploying
  *
  * @author Andrés Montañez <andres@andresmontanez.com>
+ * @deprecated since version 2.0
  */
 class DeployCommand extends AbstractCommand implements RequiresEnvironment
 {

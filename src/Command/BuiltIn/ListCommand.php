@@ -19,6 +19,8 @@ use Mage\Console;
  *   - environments
  *
  * @author Andrés Montañez <andres@andresmontanez.com>
+ * @deprecated since version 2.0
+ * @see Mage\Command\Environment\ListCommand
  */
 class ListCommand extends AbstractCommand
 {

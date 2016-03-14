@@ -18,6 +18,7 @@ use Mage\Task\Factory;
  * Command for Managing the Releases
  *
  * @author Andrés Montañez <andres@andresmontanez.com>
+ * @deprecated since version 2.0
  */
 class ReleasesCommand extends AbstractCommand implements RequiresEnvironment
 {

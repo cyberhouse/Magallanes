@@ -17,6 +17,7 @@ use Mage\Console;
  * Command for Compile Magallanes into a PHAR executable
  *
  * @author Ismael Ambrosi<ismaambrosi@gmail.com>
+ * @deprecated since version 2.0
  */
 class CompileCommand extends AbstractCommand
 {

@@ -16,6 +16,7 @@ use Mage\Console;
  * Upgrades the Magallanes Version on the Local System
  *
  * @author Andrés Montañez <andres@andresmontanez.com>
+ * @deprecated since version 2.0
  */
 class UpgradeCommand extends AbstractCommand
 {

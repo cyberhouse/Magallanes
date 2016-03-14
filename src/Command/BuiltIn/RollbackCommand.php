@@ -18,6 +18,7 @@ use Mage\Task\Factory;
  * This is an Alias of "release rollback"
  *
  * @author Andrés Montañez <andres@andresmontanez.com>
+ * @deprecated since version 2.0
  */
 class RollbackCommand extends AbstractCommand implements RequiresEnvironment
 {

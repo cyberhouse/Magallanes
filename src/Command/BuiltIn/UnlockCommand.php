@@ -17,6 +17,8 @@ use Mage\Console;
  * Command for Unlocking an Environment
  *
  * @author Andrés Montañez <andres@andresmontanez.com>
+ * @deprecated since version 2.0
+ * @see Mage\Command\Environment\UnlockCommand
  */
 class UnlockCommand extends AbstractCommand implements RequiresEnvironment
 {

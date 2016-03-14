@@ -16,6 +16,8 @@ use Mage\Console;
  * Initializes a Magallanes Configuration into a Proyect
  *
  * @author Andrés Montañez <andres@andresmontanez.com>
+ * @deprecated since version 2.0
+ * @see Mage\Command\General\InitCommand
  */
 class InitCommand extends AbstractCommand
 {

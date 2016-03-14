@@ -16,6 +16,7 @@ use Mage\Console;
  * Installs Magallanes in the Local System
  *
  * @author Andrés Montañez <andres@andresmontanez.com>
+ * @deprecated since version 2.0
  */
 class InstallCommand extends AbstractCommand
 {

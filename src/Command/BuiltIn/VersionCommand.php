@@ -16,6 +16,7 @@ use Mage\Console;
  * Command for displaying the Version of Magallanes
  *
  * @author Andrés Montañez <andres@andresmontanez.com>
+ * @deprecated since version 2.0
  */
 class VersionCommand extends AbstractCommand
 {
