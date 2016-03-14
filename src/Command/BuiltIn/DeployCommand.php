@@ -490,7 +490,7 @@ class DeployCommand extends AbstractCommand implements RequiresEnvironment
                 $task = Factory::get(
                     array(
                     'name'       => 'releases/rollback',
-                    'parameters' => array('inDeploy'=>true),
+                    'parameters' => array('inDeploy'=> true),
                     ),
                     $this->getConfig(),
                     false,

@@ -1,9 +1,9 @@
 {
   "name": "cyberhouse/magallanes",
   "description": "A Deployment Tool for PHP Applications",
-  "homepage": "http://magephp.com",
+  "homepage": "https://github.com/cyberhouse/magallanes",
   "license": "MIT",
-  "type": "library",
+  "type": "project",
   "authors": [
     {
       "name": "Andrés Montañez",
@@ -17,16 +17,23 @@
     },
     {
       "name": "Georg Großberger",
-      "email": "georg.grossberger@cyberhouse.ats",
+      "email": "georg.grossberger@cyberhouse.at",
       "homepage": "https://www.cyberhouse.at",
       "role": "Developer"
     }
   ],
   "keywords": [
-    "deployment"
+    "deployment",
+    "PHP"
   ],
+  "support": {
+    "email": "georg.grossberger@cyberhouse.at",
+    "issues": "https://github.com/cyberhouse/Magallanes/issues",
+    "source": "https://github.com/cyberhouse/Magallanes",
+    "docs": "https://github.com/cyberhouse/Magallanes/wiki"
+  },
   "require": {
-    "php": ">=5.3",
+    "php": ">=5.5",
     "symfony/console": "^2.8.3",
     "symfony/yaml": "2.6.1",
     "pimple/pimple": "^3.0"
@@ -38,16 +45,15 @@
     "squizlabs/php_codesniffer": "^2.5",
     "php-mock/php-mock": "^1.0"
   },
+  "suggest": {
+    "ext-yaml": "*"
+  },
   "autoload": {
     "psr-4": {
       "Mage\\": "./src",
       "Task\\": [
         ".mage/tasks",
         "../../../.mage/tasks"
-      ],
-      "Command\\": [
-        ".mage/tasks",
-        "../../../.mage/commands"
       ]
     }
   },
