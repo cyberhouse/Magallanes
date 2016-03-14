@@ -13,6 +13,7 @@ namespace Mage;
  * Magallanes custom Autoload for BuiltIn and Userspace Commands and Tasks.
  *
  * @author Andrés Montañez <andres@andresmontanez.com>
+ * @deprecated since version 2.0
  */
 class Autoload
 {

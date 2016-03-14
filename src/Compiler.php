@@ -17,6 +17,7 @@ use RecursiveIteratorIterator;
  * Compiles the library into a .phar file
  *
  * @author Ismael Ambrosi <ismaambrosi@gmail.com>
+ * @deprecated since version 2.0
  */
 class Compiler
 {

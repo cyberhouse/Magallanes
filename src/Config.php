@@ -18,6 +18,8 @@ use Symfony\Component\Yaml\Yaml;
  * Magallanes Configuration
  *
  * @author Andrés Montañez <andres@andresmontanez.com>
+ * @deprecated since version 2.0
+ * @see Mage\Configuration
  */
 class Config
 {

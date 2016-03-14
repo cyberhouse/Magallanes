@@ -20,6 +20,7 @@ use SplFileInfo;
  * Magallanes interface between the Tasks and Commands and the User's Console.
  *
  * @author Andrés Montañez <andres@andresmontanez.com>
+ * @deprecated since version 2.0
  */
 class Console
 {
