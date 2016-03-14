@@ -21,11 +21,11 @@ class ApplicationProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        $pimple['generalConfiguration'] = function($c) {
+        $pimple['generalConfiguration'] = function ($c) {
             return new General('general');
         };
 
-        $pimple['environmentHelper'] = function($c) {
+        $pimple['environmentHelper'] = function ($c) {
             return new EnvironmentHelper($c);
         };
     }

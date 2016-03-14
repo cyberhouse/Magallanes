@@ -19,6 +19,7 @@ class General extends Configuration
 
     /**
      * initialize a new configuration object
+     *
      * @param $arguments array list of all necessary arguments to initialize the configuration
      */
     public function initialize($arguments)

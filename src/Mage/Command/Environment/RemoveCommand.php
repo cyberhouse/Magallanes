@@ -14,10 +14,13 @@ class RemoveCommand extends EnvironmentCommand
     {
         $this->setName("environment:remove")
             ->setDescription("Removes a deployment environment")
-            ->setDefinition(array(
+            ->setDefinition(
+                array(
                 new InputOption('name', null, InputOption::VALUE_REQUIRED, 'the name of the deployment environment', null)
-            ))
-            ->setHelp(<<<EOT
+                )
+            )
+            ->setHelp(
+                <<<EOT
 Removes deployment environment configuration
 
 Usage:

@@ -17,10 +17,13 @@ class UnlockCommand extends EnvironmentCommand
     {
         $this->setName("environment:unlock")
             ->setDescription("Unlocks the deployment to the given environment")
-            ->setDefinition(array(
+            ->setDefinition(
+                array(
                 new InputOption('name', 'e', InputOption::VALUE_REQUIRED, 'the name of the deployment environment', null)
-            ))
-            ->setHelp(<<<EOT
+                )
+            )
+            ->setHelp(
+                <<<EOT
 Unlocks the deployment to the given environment
 
 Usage:

@@ -1,7 +1,6 @@
 <?php
 /**
  * This file is part of the magallanes application
- *
  */
 namespace Mage\Command\Environment;
 
@@ -21,11 +20,14 @@ class AddCommand extends EnvironmentCommand
     {
         $this->setName("environment:add")
             ->setDescription("Adds a new deployment environment")
-            ->setDefinition(array(
+            ->setDefinition(
+                array(
                 new InputOption('name', null, InputOption::VALUE_REQUIRED, 'the name of the deployment environment', null),
                 new InputOption('enableReleases', 'r', InputOption::VALUE_OPTIONAL, 'flag for enabling releases', false)
-            ))
-            ->setHelp(<<<EOT
+                )
+            )
+            ->setHelp(
+                <<<EOT
 Add new deployment environment configuration
 
 Usage:

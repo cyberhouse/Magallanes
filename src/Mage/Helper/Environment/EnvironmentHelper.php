@@ -13,13 +13,15 @@ use Mage\Configuration\General;
 class EnvironmentHelper extends BaseHelper
 {
 
-    public function environmentExists($environmentName) {
+    public function environmentExists($environmentName) 
+    {
         $environment = new Environment($environmentName);
 
         return $environment->exists();
     }
 
-    public function getAvailableEnvironments() {
+    public function getAvailableEnvironments() 
+    {
         $environments = array();
 
         $environmentDirectory = Environment::getConfigurationDirectory();
@@ -39,19 +41,22 @@ class EnvironmentHelper extends BaseHelper
         return $environments;
     }
 
-    public function addEnvironment($environmentName, $enableReleases) {
+    public function addEnvironment($environmentName, $enableReleases) 
+    {
         $environment = new Environment($environmentName);
         $environment->initialize(array('enableReleases' => $enableReleases));
 
         return $environment->save();
     }
 
-    public function removeEnvironment($environmentName) {
+    public function removeEnvironment($environmentName) 
+    {
         $environment = new Environment($environmentName);
         return $environment->remove();
     }
 
-    public function lockEnvironment($environmentName, $name, $email, $reason) {
+    public function lockEnvironment($environmentName, $name, $email, $reason) 
+    {
         $lockMessage = '';
 
         if(!empty($name)) {
@@ -70,7 +75,8 @@ class EnvironmentHelper extends BaseHelper
         file_put_contents($lockFile, $lockMessage);
     }
 
-    public function unlockEnvironment($environmentName) {
+    public function unlockEnvironment($environmentName) 
+    {
         $lockFile = $this->getLockFilename($environmentName);
 
         if(file_exists($lockFile)) {
@@ -81,7 +87,8 @@ class EnvironmentHelper extends BaseHelper
         return false;
     }
 
-    private function getLockFilename($environmentName) {
+    private function getLockFilename($environmentName) 
+    {
         return General::getConfigurationDirectory() . "/$environmentName.lock";
     }
 }

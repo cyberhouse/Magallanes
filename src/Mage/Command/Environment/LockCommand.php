@@ -14,10 +14,13 @@ class LockCommand extends EnvironmentCommand
     {
         $this->setName("environment:lock")
             ->setDescription("Locks the deployment to the given environment")
-            ->setDefinition(array(
+            ->setDefinition(
+                array(
                 new InputOption('name', 'e', InputOption::VALUE_REQUIRED, 'the name of the deployment environment', null)
-            ))
-            ->setHelp(<<<EOT
+                )
+            )
+            ->setHelp(
+                <<<EOT
 Locks the deployment to the given environment
 
 Usage:

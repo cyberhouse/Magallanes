@@ -13,7 +13,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 abstract class EnvironmentCommand extends BaseCommand
 {
-    /** @var EnvironmentHelper */
+    /**
+ * @var EnvironmentHelper 
+*/
     protected $environmentHelper;
 
     protected function initialize(InputInterface $input, OutputInterface $output)

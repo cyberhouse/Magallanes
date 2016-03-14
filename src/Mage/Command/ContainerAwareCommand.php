@@ -24,7 +24,8 @@ abstract class ContainerAwareCommand extends Command
      *
      * @return Container the DI container
      */
-    protected function getContainer() {
+    protected function getContainer() 
+    {
         return $this->container;
     }
 }

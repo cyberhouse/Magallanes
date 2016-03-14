@@ -14,7 +14,8 @@ class ListCommand extends EnvironmentCommand
         $this->setName("environment:list")
             ->setDescription("Lists available deployment environments")
             ->setDefinition(array())
-            ->setHelp(<<<EOT
+            ->setHelp(
+                <<<EOT
 Lists available deployment environments
 
 Usage:

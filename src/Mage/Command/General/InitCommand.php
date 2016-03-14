@@ -16,11 +16,14 @@ class InitCommand extends BaseCommand
     {
         $this->setName("init")
             ->setDescription("Initializes a new magallanes project")
-            ->setDefinition(array(
+            ->setDefinition(
+                array(
                 new InputOption('name', null, InputOption::VALUE_REQUIRED, 'the name of the project', null),
                 new InputOption('email', null, InputOption::VALUE_OPTIONAL, 'email address of developer/maintainer', null)
-            ))
-            ->setHelp(<<<EOT
+                )
+            )
+            ->setHelp(
+                <<<EOT
 Initializes a new magallanes project
 
 Usage:
@@ -65,7 +68,7 @@ EOT
             $results[] = mkdir($configDir . '/config/environment');
             $results[] = touch($configDir . '/config/environment/.gitignore');
 
-            $generalConfiguration->initialize( array('name' => $name, 'email' => $email));
+            $generalConfiguration->initialize(array('name' => $name, 'email' => $email));
 
             $results[] = $generalConfiguration->save();
             if (!in_array(false, $results)) {

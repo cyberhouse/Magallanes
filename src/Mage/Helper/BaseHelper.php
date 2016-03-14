@@ -17,7 +17,8 @@ abstract class BaseHelper extends ContainerAwareHelper
         $this->container = $container;
     }
 
-    function getContainer() {
+    function getContainer() 
+    {
         return $this->container;
     }
 }

@@ -6,6 +6,7 @@ use Pimple\Container;
 
 /**
  * Class ContainerAwareHelper
+ *
  * @author Johannes Pichler <johannes.pichler@cyberhouse.at>
  */
 abstract class ContainerAwareHelper
