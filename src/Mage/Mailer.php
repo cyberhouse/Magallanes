@@ -13,6 +13,7 @@ namespace Mage;
  * Mailer Helper.
  *
  * @author Andrés Montañez <andres@andresmontanez.com>
+ * @deprecated since version 2.0
  */
 class Mailer
 {
