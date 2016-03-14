@@ -50,7 +50,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Mage\\": "./src",
+      "Mage\\": "./src/Mage",
       "Task\\": [
         ".mage/tasks",
         "../../../.mage/tasks"
