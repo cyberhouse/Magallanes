@@ -8,8 +8,10 @@ use Pimple\Container;
  */
 class ListCommandTest extends \MageTest\Command\BaseCommandTest
 {
+    /** @var \Mage\Command\Environment\ListCommand */
     private $listCommand;
-    private $environmentHelper;
+    /** @var PHPUnit_Framework_MockObject_MockObject */
+    private $environmentHelperMock;
 
     protected function setUp()
     {
@@ -17,11 +19,11 @@ class ListCommandTest extends \MageTest\Command\BaseCommandTest
 
         $container = new Container();
 
-        $this->environmentHelper = $this->getMockBuilder('EnvironmentHelper')
+        $this->environmentHelperMock = $this->getMockBuilder('EnvironmentHelper')
             ->setMethods(array('getAvailableEnvironments'))
             ->getMock();
 
-        $container['environmentHelper'] = $this->environmentHelper;
+        $container['environmentHelper'] = $this->environmentHelperMock;
         $this->listCommand = new \Mage\Command\Environment\ListCommand($container);
     }
 
@@ -33,7 +35,7 @@ class ListCommandTest extends \MageTest\Command\BaseCommandTest
         $expectedExitCode = 0;
         $expectedMessage = "[WARNING] There are no environment configurations available";
 
-        $this->environmentHelper->method('getAvailableEnvironments')->willReturn(array());
+        $this->environmentHelperMock->method('getAvailableEnvironments')->willReturn(array());
 
         $this->executeTest($this->listCommand, 'environment:list', $arguments, $expectedExitCode, $expectedMessage);
     }
@@ -45,7 +47,7 @@ class ListCommandTest extends \MageTest\Command\BaseCommandTest
         $arguments = array();
         $expectedExitCode = 0;
 
-        $this->environmentHelper->method('getAvailableEnvironments')->willReturn(array('foo', 'bar'));
+        $this->environmentHelperMock->method('getAvailableEnvironments')->willReturn(array('foo', 'bar'));
 
         $this->executeTest($this->listCommand, 'environment:list', $arguments, $expectedExitCode);
     }

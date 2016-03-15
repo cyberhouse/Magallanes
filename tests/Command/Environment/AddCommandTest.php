@@ -8,8 +8,10 @@ use Pimple\Container;
  */
 class AddCommandTest extends \MageTest\Command\BaseCommandTest
 {
+    /** @var AddCommand */
     private $addCommand;
-    private $environmentHelper;
+    /** @var PHPUnit_Framework_MockObject_MockObject */
+    private $environmentHelperMock;
 
     protected function setUp()
     {
@@ -17,11 +19,11 @@ class AddCommandTest extends \MageTest\Command\BaseCommandTest
 
         $container = new Container();
 
-        $this->environmentHelper = $this->getMockBuilder('EnvironmentHelper')
+        $this->environmentHelperMock = $this->getMockBuilder('EnvironmentHelper')
             ->setMethods(array('environmentExists', 'addEnvironment'))
             ->getMock();
 
-        $container['environmentHelper'] = $this->environmentHelper;
+        $container['environmentHelper'] = $this->environmentHelperMock;
         $this->addCommand = new AddCommand($container);
     }
 
@@ -46,7 +48,7 @@ class AddCommandTest extends \MageTest\Command\BaseCommandTest
         $expectedExitCode = 1;
         $expectedMessage = "[ERROR] the environment \"$environmentName\" already exists.";
 
-        $this->environmentHelper->method('environmentExists')->willReturn(true);
+        $this->environmentHelperMock->method('environmentExists')->willReturn(true);
 
         $this->executeTest($this->addCommand, 'environment:add', $arguments, $expectedExitCode, $expectedMessage);
     }
@@ -62,11 +64,11 @@ class AddCommandTest extends \MageTest\Command\BaseCommandTest
 
         $expectedExitCode = 0;
 
-        $this->environmentHelper
+        $this->environmentHelperMock
             ->method('environmentExists')
             ->willReturn(false);
 
-        $this->environmentHelper
+        $this->environmentHelperMock
             ->expects($this->any(), false)
             ->method('addEnvironment')
             ->willReturn(true);
@@ -85,11 +87,11 @@ class AddCommandTest extends \MageTest\Command\BaseCommandTest
 
         $expectedExitCode = 1;
 
-        $this->environmentHelper
+        $this->environmentHelperMock
             ->method('environmentExists')
             ->willReturn(false);
 
-        $this->environmentHelper
+        $this->environmentHelperMock
             ->expects($this->any(), false)
             ->method('addEnvironment')
             ->willReturn(false);
