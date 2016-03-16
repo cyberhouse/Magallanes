@@ -2,13 +2,14 @@
 namespace Mage\Task\BuiltIn;
 
 /*
- * This file is (c) 2016 by Cyberhouse GmbH
+ * (c) 2011-2015 Andrés Montañez <andres@andresmontanez.com>
+ * (c) 2016 by Cyberhouse GmbH <office@cyberhouse.at>
  *
- * It is free software; you can redistribute it and/or
- * modify it under the terms of the MIT License
+ * This is free software; you can redistribute it and/or
+ * modify it under the terms of the MIT License (MIT)
  *
  * For the full copyright and license information see
- * the file LICENSE.md
+ * <https://opensource.org/licenses/MIT>
  */
 
 use Mage\Task\AbstractTask;
@@ -36,7 +37,7 @@ class ClearOpcache extends AbstractTask implements IsReleaseAware
     public function run()
     {
         if ($this->getConfig()->release('enabled', false) === true) {
-            $path = $this->getConfig()->release('directory', 'releases'). '/' . $this->getConfig()->getReleaseId();
+            $path = $this->getConfig()->release('directory', 'releases') . '/' . $this->getConfig()->getReleaseId();
         } else {
             $path = $this->getConfig()->deployment('to');
         }
@@ -61,5 +62,4 @@ class ClearOpcache extends AbstractTask implements IsReleaseAware
 
         $this->runCommandRemote($command, $output, false);
     }
-
 }

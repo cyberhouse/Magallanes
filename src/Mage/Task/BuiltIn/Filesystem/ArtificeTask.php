@@ -2,13 +2,14 @@
 namespace Mage\Task\BuiltIn\Filesystem;
 
 /*
- * This file is (c) 2016 by Cyberhouse GmbH
+ * (c) 2011-2015 Andrés Montañez <andres@andresmontanez.com>
+ * (c) 2016 by Cyberhouse GmbH <office@cyberhouse.at>
  *
- * It is free software; you can redistribute it and/or
- * modify it under the terms of the MIT License
+ * This is free software; you can redistribute it and/or
+ * modify it under the terms of the MIT License (MIT)
  *
  * For the full copyright and license information see
- * the file LICENSE.md
+ * <https://opensource.org/licenses/MIT>
  */
 
 use Mage\Task\AbstractTask;
@@ -36,7 +37,7 @@ class ArtificeTask extends AbstractTask implements IsReleaseAware
         $path = $this->getParameter('to', '.mage/artifact/');
         $from = $this->getConfig()->environmentConfig('from');
 
-        $excludes = array(
+        $excludes = [
             '.git*',
             '.travis.yml',
             '.coveralls.yml',
@@ -45,8 +46,8 @@ class ArtificeTask extends AbstractTask implements IsReleaseAware
             '.php*',
             'composer.lock',
             '*.md',
-        );
-        $excludes = array_replace($excludes, $this->getParameter('excludes', array()));
+        ];
+        $excludes = array_replace($excludes, $this->getParameter('excludes', []));
 
         $command = 'rsync -a -l --delete --force ' .
                    escapeshellarg($from) .

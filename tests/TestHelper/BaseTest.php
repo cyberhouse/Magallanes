@@ -1,15 +1,17 @@
 <?php
 namespace MageTest\TestHelper;
 
-/**
- * Class BaseTest
+/*
+ * (c) 2011-2015 Andrés Montañez <andres@andresmontanez.com>
+ * (c) 2016 by Cyberhouse GmbH <office@cyberhouse.at>
  *
- * Class containing common methods useful for unit testing.
- * Since Magallanes keeps compatibility with PHP 5.3, those methods can't be moved to a trait.
- * This class extends \PHPUnit_Framework_TestCase so it can be used with any test class.
+ * This is free software; you can redistribute it and/or
+ * modify it under the terms of the MIT License (MIT)
  *
- * @author Jakub Turek <ja@kubaturek.pl>
+ * For the full copyright and license information see
+ * <https://opensource.org/licenses/MIT>
  */
+
 abstract class BaseTest extends \PHPUnit_Framework_TestCase
 {
     /**

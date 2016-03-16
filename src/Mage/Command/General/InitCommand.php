@@ -1,6 +1,17 @@
 <?php
 namespace Mage\Command\General;
 
+/*
+ * (c) 2011-2015 Andrés Montañez <andres@andresmontanez.com>
+ * (c) 2016 by Cyberhouse GmbH <office@cyberhouse.at>
+ *
+ * This is free software; you can redistribute it and/or
+ * modify it under the terms of the MIT License (MIT)
+ *
+ * For the full copyright and license information see
+ * <https://opensource.org/licenses/MIT>
+ */
+
 use Mage\Command\BaseCommand;
 use Mage\Configuration\General;
 use Symfony\Component\Console\Input\InputInterface;
@@ -14,13 +25,13 @@ class InitCommand extends BaseCommand
 {
     protected function configure()
     {
-        $this->setName("init")
-            ->setDescription("Initializes a new magallanes project")
+        $this->setName('init')
+            ->setDescription('Initializes a new magallanes project')
             ->setDefinition(
-                array(
+                [
                 new InputOption('name', null, InputOption::VALUE_REQUIRED, 'the name of the project', null),
-                new InputOption('email', null, InputOption::VALUE_OPTIONAL, 'email address of developer/maintainer', null)
-                )
+                new InputOption('email', null, InputOption::VALUE_OPTIONAL, 'email address of developer/maintainer', null),
+                ]
             )
             ->setHelp(
                 <<<EOT
@@ -40,25 +51,25 @@ EOT
     {
         $io = $this->getIO();
 
-        $name = $input->getOption("name");
+        $name = $input->getOption('name');
 
         $generalConfiguration = new General('general');
 
-        if(empty($name)) {
-            $io->error("The name of the project cannot be empty!");
+        if (empty($name)) {
+            $io->error('The name of the project cannot be empty!');
             return 1;
         }
 
-        $email = $input->getOption("email");
+        $email     = $input->getOption('email');
         $configDir = $generalConfiguration->getConfigurationDirectory();
 
-        $io->text("Initiation managing process for application with Magallanes");
+        $io->text('Initiation managing process for application with Magallanes');
 
         // Check if there is already a config dir
         if (file_exists($configDir)) {
-            return $this->error("Magallanes already initialized!");
+            return $this->error('Magallanes already initialized!');
         } else {
-            $results   = array();
+            $results   = [];
             $results[] = mkdir($configDir);
             $results[] = mkdir($configDir . '/logs');
             $results[] = file_put_contents($configDir . '/logs/.gitignore', "*\n!.gitignore");
@@ -68,13 +79,13 @@ EOT
             $results[] = mkdir($configDir . '/config/environment');
             $results[] = touch($configDir . '/config/environment/.gitignore');
 
-            $generalConfiguration->initialize(array('name' => $name, 'email' => $email));
+            $generalConfiguration->initialize(['name' => $name, 'email' => $email]);
 
             $results[] = $generalConfiguration->save();
             if (!in_array(false, $results)) {
-                return $this->success("The configuration for Magallanes has been generated in the .mage directory.");
+                return $this->success('The configuration for Magallanes has been generated in the .mage directory.');
             } else {
-                return $this->error("Unable to generate the configuration.");
+                return $this->error('Unable to generate the configuration.');
             }
         }
     }

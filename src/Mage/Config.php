@@ -1,13 +1,16 @@
 <?php
-/*
- * This file is part of the Magallanes package.
-*
-* (c) Andrés Montañez <andres@andresmontanez.com>
-*
-* For the full copyright and license information, please view the LICENSE
-* file that was distributed with this source code.
-*/
 namespace Mage;
+
+/*
+ * (c) 2011-2015 Andrés Montañez <andres@andresmontanez.com>
+ * (c) 2016 by Cyberhouse GmbH <office@cyberhouse.at>
+ *
+ * This is free software; you can redistribute it and/or
+ * modify it under the terms of the MIT License (MIT)
+ *
+ * For the full copyright and license information see
+ * <https://opensource.org/licenses/MIT>
+ */
 
 use Exception;
 use Mage\Config\ConfigNotFoundException;
@@ -27,13 +30,13 @@ class Config
      * Arguments loaded
      * @var array
      */
-    private $arguments = array();
+    private $arguments = [];
 
     /**
      * Parameters loaded
      * @var array
      */
-    private $parameters = array();
+    private $parameters = [];
 
     /**
      * Environment
@@ -51,7 +54,7 @@ class Config
      * Custom Configuration for the current Host
      * @var array
      */
-    private $hostConfig = array();
+    private $hostConfig = [];
 
     /**
      * The Release ID
@@ -62,8 +65,8 @@ class Config
     /**
      * Magallanes Global and Environment configuration
      */
-    private $generalConfig     = array();
-    private $environmentConfig = array();
+    private $generalConfig     = [];
+    private $environmentConfig = [];
 
     /**
      * Parse the Command Line options
@@ -110,8 +113,8 @@ class Config
      *
      * @param $filePath
      *
-     * @return array
      * @throws Config\ConfigNotFoundException
+     * @return array
      */
     protected function loadGeneral($filePath)
     {
@@ -167,7 +170,7 @@ class Config
     protected function getDefaultEnvironment()
     {
         $defaults = $this->general('defaults', null);
-        return !empty($defaults) ? $defaults : array();
+        return !empty($defaults) ? $defaults : [];
     }
 
     /**
@@ -244,7 +247,7 @@ class Config
      * @param array $extraParameters
      * @return mixed
      */
-    public function getParameter($name, $default = null, $extraParameters = array())
+    public function getParameter($name, $default = null, $extraParameters = [])
     {
         if (isset($this->parameters[$name])) {
             return $this->parameters[$name];
@@ -299,8 +302,8 @@ class Config
             $configStage = $stage;
         }
 
-        $tasks  = array();
-        $config = $this->getEnvironmentOption('tasks', array());
+        $tasks  = [];
+        $config = $this->getEnvironmentOption('tasks', []);
 
         // Host Config
         if (is_array($this->hostConfig) && isset($this->hostConfig['tasks'])) {
@@ -310,13 +313,13 @@ class Config
         }
 
         if (isset($config[$configStage])) {
-            $tasksData = ($config[$configStage] ? (array) $config[$configStage] : array());
+            $tasksData = ($config[$configStage] ? (array) $config[$configStage] : []);
             foreach ($tasksData as $taskData) {
                 if (is_array($taskData)) {
-                    $tasks[] = array(
+                    $tasks[] = [
                         'name'       => key($taskData),
                         'parameters' => current($taskData),
-                    );
+                    ];
                 } else {
                     $tasks[] = $taskData;
                 }
@@ -333,7 +336,7 @@ class Config
      */
     public function getHosts()
     {
-        $hosts = array();
+        $hosts = [];
 
         $envConfig = $this->getEnvironmentConfig();
         if (isset($envConfig['hosts'])) {
@@ -478,7 +481,7 @@ class Config
         }
 
         // Global Config
-        $config = $this->getEnvironmentOption('deployment', array());
+        $config = $this->getEnvironmentOption('deployment', []);
         if (isset($config[$option])) {
             if (is_array($default) && ($config[$option] == '')) {
                 return $default;
@@ -511,7 +514,7 @@ class Config
             }
         }
 
-        $config = $this->getEnvironmentOption('releases', array());
+        $config = $this->getEnvironmentOption('releases', []);
         if (isset($config[$option])) {
             if (is_array($default) && ($config[$option] == '')) {
                 return $default;
@@ -564,7 +567,7 @@ class Config
      * @param mixed $default
      * @return mixed
      */
-    public function getEnvironmentOption($option, $default = array())
+    public function getEnvironmentOption($option, $default = [])
     {
         $config = $this->getEnvironmentConfig();
         if (isset($config[$option])) {
@@ -616,7 +619,7 @@ class Config
     {
         $handle = fopen($filePath, 'r');
 
-        $hosts = array();
+        $hosts = [];
 
         try {
             $fileContent = stream_get_contents($handle);

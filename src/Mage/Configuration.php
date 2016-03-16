@@ -1,6 +1,17 @@
 <?php
 namespace Mage;
 
+/*
+ * (c) 2011-2015 Andrés Montañez <andres@andresmontanez.com>
+ * (c) 2016 by Cyberhouse GmbH <office@cyberhouse.at>
+ *
+ * This is free software; you can redistribute it and/or
+ * modify it under the terms of the MIT License (MIT)
+ *
+ * For the full copyright and license information see
+ * <https://opensource.org/licenses/MIT>
+ */
+
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -9,9 +20,9 @@ use Symfony\Component\Yaml\Yaml;
 abstract class Configuration
 {
     private $configurationName;
-    private $configurationData = array();
+    private $configurationData = [];
 
-    public static abstract function getConfigurationDirectory();
+    abstract public static function getConfigurationDirectory();
 
     /**
      * Configuration constructor
@@ -22,7 +33,7 @@ abstract class Configuration
     {
         $this->configurationName = $configurationName;
 
-        if($this->exists()) {
+        if ($this->exists()) {
             $this->load();
         }
     }
@@ -39,7 +50,7 @@ abstract class Configuration
      */
     public function getOption($name, $default = null)
     {
-        if(array_key_exists($name, $this->configurationData)) {
+        if (array_key_exists($name, $this->configurationData)) {
             return $this->configurationData[$name];
         }
 
@@ -69,7 +80,7 @@ abstract class Configuration
     {
         $path = $this->getConfigurationFilepath();
 
-        if(file_exists($path)) {
+        if (file_exists($path)) {
             unlink($path);
             return true;
         }
@@ -82,7 +93,8 @@ abstract class Configuration
      *
      * @return string the file path
      */
-    public function getConfigurationFilepath() {
+    public function getConfigurationFilepath()
+    {
         return static::getConfigurationDirectory() . "/$this->configurationName.yml";
     }
 
@@ -91,22 +103,26 @@ abstract class Configuration
      *
      * @return bool true if configuration exists on disk
      */
-    public function exists() {
+    public function exists()
+    {
         return file_exists($this->getConfigurationFilepath());
     }
 
     /**4
      * load the configuration from disk
      */
-    protected function load() {
+    protected function load()
+    {
         $this->configurationData = Yaml::parse($this->getConfigurationFilepath());
     }
 
-    protected function getConfigurationData() {
+    protected function getConfigurationData()
+    {
         return $this->configurationData;
     }
 
-    protected function setConfigurationData($onfigurationData) {
+    protected function setConfigurationData($onfigurationData)
+    {
         $this->configurationData = $onfigurationData;
     }
 
@@ -115,5 +131,5 @@ abstract class Configuration
      * @param $arguments array list of all necessary arguments to initialize the configuration
      * @return
      */
-    public abstract function initialize($arguments);
+    abstract public function initialize($arguments);
 }

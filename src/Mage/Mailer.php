@@ -1,20 +1,17 @@
 <?php
-/*
- * This file is part of the Magallanes package.
-*
-* (c) Andrés Montañez <andres@andresmontanez.com>
-*
-* For the full copyright and license information, please view the LICENSE
-* file that was distributed with this source code.
-*/
 namespace Mage;
 
-/**
- * Mailer Helper.
+/*
+ * (c) 2011-2015 Andrés Montañez <andres@andresmontanez.com>
+ * (c) 2016 by Cyberhouse GmbH <office@cyberhouse.at>
  *
- * @author Andrés Montañez <andres@andresmontanez.com>
- * @deprecated since version 2.0
+ * This is free software; you can redistribute it and/or
+ * modify it under the terms of the MIT License (MIT)
+ *
+ * For the full copyright and license information see
+ * <https://opensource.org/licenses/MIT>
  */
+
 class Mailer
 {
     const EOL     = "\r\n";
@@ -62,8 +59,8 @@ class Mailer
             . 'Content-Type: multipart/mixed; boundary=Mage-mixed-' . $boundary;
 
         $subject = str_replace(
-            array('{project}', '{environment}', '{result}'),
-            array($this->project, $this->environment, $result ? 'SUCCESS' : 'FAILURE'),
+            ['{project}', '{environment}', '{result}'],
+            [$this->project, $this->environment, $result ? 'SUCCESS' : 'FAILURE'],
             self::SUBJECT
         );
         $attachment = chunk_split(base64_encode(file_get_contents($this->logFile)));

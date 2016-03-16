@@ -1,13 +1,16 @@
 <?php
-/*
- * This file is part of the Magallanes package.
-*
-* (c) Andrés Montañez <andres@andresmontanez.com>
-*
-* For the full copyright and license information, please view the LICENSE
-* file that was distributed with this source code.
-*/
 namespace Mage\Task;
+
+/*
+ * (c) 2011-2015 Andrés Montañez <andres@andresmontanez.com>
+ * (c) 2016 by Cyberhouse GmbH <office@cyberhouse.at>
+ *
+ * This is free software; you can redistribute it and/or
+ * modify it under the terms of the MIT License (MIT)
+ *
+ * For the full copyright and license information see
+ * <https://opensource.org/licenses/MIT>
+ */
 
 use Exception;
 use Mage\Config;
@@ -26,8 +29,8 @@ class Factory
      * @param \Mage\Config $taskConfig
      * @param bool $inRollback
      * @param string $stage
-     * @return \Mage\Task\AbstractTask
      * @throws \Exception
+     * @return \Mage\Task\AbstractTask
      */
     public static function get($taskData, Config $taskConfig, $inRollback = false, $stage = null)
     {
@@ -36,7 +39,7 @@ class Factory
             $taskParameters = $taskData['parameters'];
         } else {
             $taskName       = $taskData;
-            $taskParameters = array();
+            $taskParameters = [];
         }
 
         $instance = null;

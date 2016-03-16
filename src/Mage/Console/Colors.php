@@ -1,13 +1,16 @@
 <?php
-/*
- * This file is part of the Magallanes package.
-*
-* (c) Andrés Montañez <andres@andresmontanez.com>
-*
-* For the full copyright and license information, please view the LICENSE
-* file that was distributed with this source code.
-*/
 namespace Mage\Console;
+
+/*
+ * (c) 2011-2015 Andrés Montañez <andres@andresmontanez.com>
+ * (c) 2016 by Cyberhouse GmbH <office@cyberhouse.at>
+ *
+ * This is free software; you can redistribute it and/or
+ * modify it under the terms of the MIT License (MIT)
+ *
+ * For the full copyright and license information see
+ * <https://opensource.org/licenses/MIT>
+ */
 
 use Mage\Config;
 
@@ -23,7 +26,7 @@ class Colors
      * List of Colors and they Terminal/Console representation.
      * @var array
      */
-    private static $foregroundColors = array(
+    private static $foregroundColors = [
         'black'        => '0;30',
         'bold'         => '1',
         'blue'         => '0;34',
@@ -41,7 +44,7 @@ class Colors
         'light_gray'   => '0;37',
         'white'        => '1;37',
 
-    );
+    ];
 
     /**
      * Parses a Text to represent Colors in the Terminal/Console.
@@ -60,15 +63,15 @@ class Colors
         }
 
         foreach (self::$foregroundColors as $key => $code) {
-            $replaceFrom = array(
+            $replaceFrom = [
                 '<' . $key . '>',
                 '</' . $key . '>',
-            );
+            ];
 
-            $replaceTo = array(
+            $replaceTo = [
                 "\033[" . $code . 'm',
                 "\033[0m",
-            );
+            ];
 
             $string = str_replace($replaceFrom, $replaceTo, $string);
         }

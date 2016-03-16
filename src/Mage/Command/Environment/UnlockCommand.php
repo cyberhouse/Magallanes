@@ -1,9 +1,18 @@
 <?php
 namespace Mage\Command\Environment;
 
-use Mage\Command\BaseCommand;
+/*
+ * (c) 2011-2015 Andrés Montañez <andres@andresmontanez.com>
+ * (c) 2016 by Cyberhouse GmbH <office@cyberhouse.at>
+ *
+ * This is free software; you can redistribute it and/or
+ * modify it under the terms of the MIT License (MIT)
+ *
+ * For the full copyright and license information see
+ * <https://opensource.org/licenses/MIT>
+ */
+
 use Mage\Configuration\Environment;
-use Mage\Configuration\General;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -15,12 +24,12 @@ class UnlockCommand extends EnvironmentCommand
 {
     protected function configure()
     {
-        $this->setName("environment:unlock")
-            ->setDescription("Unlocks the deployment to the given environment")
+        $this->setName('environment:unlock')
+            ->setDescription('Unlocks the deployment to the given environment')
             ->setDefinition(
-                array(
-                new InputOption('name', 'e', InputOption::VALUE_REQUIRED, 'the name of the deployment environment', null)
-                )
+                [
+                new InputOption('name', 'e', InputOption::VALUE_REQUIRED, 'the name of the deployment environment', null),
+                ]
             )
             ->setHelp(
                 <<<EOT
@@ -38,14 +47,13 @@ EOT
     {
         $environmentName = $input->getOption('name');
 
-        if(empty($environmentName)) {
-            return $this->error("the name parameter cannot be empty.");
+        if (empty($environmentName)) {
+            return $this->error('the name parameter cannot be empty.');
         }
 
-        if($this->environmentHelper->unlockEnvironment($environmentName)) {
+        if ($this->environmentHelper->unlockEnvironment($environmentName)) {
             return $this->success("Released deployment lock for environment $environmentName.");
-        }
-        else {
+        } else {
             return $this->error("Unable to release deployment lock for environment $environmentName.");
         }
     }

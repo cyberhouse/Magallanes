@@ -1,14 +1,15 @@
 vendor
-mage.phar
 bin
 !bin/mage
 !bin/mage2
-.php_cs.cache
-.mage
 
+.php_cs.cache
+mage.phar
+.mage
+composer.phar
 
 # OS generated files # // GitHub Recommendation
-######################
+._*
 .DS_Store*
 ehthumbs.db
 Icon?

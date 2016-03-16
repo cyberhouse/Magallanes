@@ -1,24 +1,17 @@
 <?php
-/*
- * This file is part of the Magallanes package.
-*
-* (c) Andrés Montañez <andres@andresmontanez.com>
-*
-* For the full copyright and license information, please view the LICENSE
-* file that was distributed with this source code.
-*/
 namespace Mage\Task\BuiltIn\Symfony2;
 
-/**
- * Task for Clearing the Cache
+/*
+ * (c) 2011-2015 Andrés Montañez <andres@andresmontanez.com>
+ * (c) 2016 by Cyberhouse GmbH <office@cyberhouse.at>
  *
- * Example of usage:
- *    symfony2/cache-clear: { env: dev }
- *    symfony2/cache-clear: { env: dev, optional: --no-warmup }
+ * This is free software; you can redistribute it and/or
+ * modify it under the terms of the MIT License (MIT)
  *
- * @author Andrés Montañez <andres@andresmontanez.com>
- * @author Samuel Chiriluta <samuel4x4@gmail.com>
+ * For the full copyright and license information see
+ * <https://opensource.org/licenses/MIT>
  */
+
 class CacheClearTask extends SymfonyAbstractTask
 {
     /**

@@ -1,29 +1,60 @@
 <?php
 
 /*
+ * (c) 2016 by Cyberhouse GmbH
+ *
  * This is free software; you can redistribute it and/or
- * modify it under the terms of the MIT License
+ * modify it under the terms of the MIT License (MIT)
  *
  * For the full copyright and license information see
  * <https://opensource.org/licenses/MIT>
  */
 
-use \Symfony\CS\Finder\DefaultFinder;
-use \Symfony\CS\Config\Config;
+use Cyberhouse\Phpstyle\Fixer\LowerHeaderCommentFixer;
+use Cyberhouse\Phpstyle\Fixer\NamespaceFirstFixer;
+use Cyberhouse\Phpstyle\Fixer\SingleEmptyLineFixer;
+use Symfony\CS\Config\Config;
+use Symfony\CS\Finder\DefaultFinder;
 use Symfony\CS\FixerInterface;
 
 if (PHP_SAPI !== 'cli') {
-    die('This script supports command line usage only. Please check your command.');
+    die('Nope');
 }
 
+$cstart = 2016;
+$cend = (int) date('Y');
+
+$cline = (string) $cstart;
+
+if ($cend > $cstart) {
+    $cline = $cstart . '-' . $cend;
+}
+
+$header = '(c) 2011-2015 Andrés Montañez <andres@andresmontanez.com>
+(c) ' . $cline . ' by Cyberhouse GmbH <office@cyberhouse.at>
+
+This is free software; you can redistribute it and/or
+modify it under the terms of the MIT License (MIT)
+
+For the full copyright and license information see
+<https://opensource.org/licenses/MIT>';
+
+LowerHeaderCommentFixer::setHeader($header);
+
 $finder = DefaultFinder::create()
-    ->in(array(__DIR__ . '/src', __DIR__ . '/tests'));
+    ->exclude('docs')
+    ->exclude('tests/Fixtures')
+    ->name('/\.php$/')
+    ->in(__DIR__);
 
 return Config::create()
     ->setUsingCache(true)
     ->level(FixerInterface::PSR2_LEVEL)
     ->fixers([
         '-psr0',
+        'encoding',
+        'lower_header_comment',
+        'namespace_first',
         'remove_leading_slash_use',
         'single_array_no_trailing_comma',
         'ereg_to_preg',
@@ -43,7 +74,7 @@ return Config::create()
         'standardize_not_equal',
         'align_double_arrow',
         'align_equals',
-        'long_array_syntax',
+        'short_array_syntax',
         'single_quote',
         'extra_empty_lines',
         'hash_to_slash_comment',
@@ -52,5 +83,9 @@ return Config::create()
         'duplicate_semicolon',
         'phpdoc_no_package',
         'phpdoc_scalar',
+        'phpdoc_order',
     ])
+    ->addCustomFixer(new LowerHeaderCommentFixer())
+    ->addCustomFixer(new NamespaceFirstFixer())
+    ->addCustomFixer(new SingleEmptyLineFixer())
     ->finder($finder);

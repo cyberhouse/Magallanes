@@ -1,6 +1,17 @@
 <?php
 namespace MageTest\Task;
 
+/*
+ * (c) 2011-2015 Andrés Montañez <andres@andresmontanez.com>
+ * (c) 2016 by Cyberhouse GmbH <office@cyberhouse.at>
+ *
+ * This is free software; you can redistribute it and/or
+ * modify it under the terms of the MIT License (MIT)
+ *
+ * For the full copyright and license information see
+ * <https://opensource.org/licenses/MIT>
+ */
+
 use Mage\Task\Factory;
 use PHPUnit_Framework_TestCase;
 
@@ -35,10 +46,10 @@ class FactoryTest extends PHPUnit_Framework_TestCase
      */
     public function testGetTaskDataIsArray()
     {
-        $taskData = array(
+        $taskData = [
             'name'       => 'composer/install',
-            'parameters' => array(),
-        );
+            'parameters' => [],
+        ];
 
         $task = Factory::get($taskData, $this->config);
         $this->assertInstanceOf('\\Mage\\Task\\BuiltIn\\Composer\\InstallTask', $task);
@@ -50,7 +61,7 @@ class FactoryTest extends PHPUnit_Framework_TestCase
     public function testGetCustomTask()
     {
         $this->getMockBuilder('Mage\\Task\\AbstractTask')
-            ->setConstructorArgs(array($this->config))
+            ->setConstructorArgs([$this->config])
             ->setMockClassName('MyTask')
             ->getMock();
 

@@ -1,7 +1,19 @@
 <?php
+
+
+/*
+ * (c) 2011-2015 Andrés Montañez <andres@andresmontanez.com>
+ * (c) 2016 by Cyberhouse GmbH <office@cyberhouse.at>
+ *
+ * This is free software; you can redistribute it and/or
+ * modify it under the terms of the MIT License (MIT)
+ *
+ * For the full copyright and license information see
+ * <https://opensource.org/licenses/MIT>
+ */
+
 use Mage\Command\Environment\AddCommand;
 use Pimple\Container;
-
 
 /**
  * Class AddCommandTest
@@ -20,20 +32,21 @@ class AddCommandTest extends \MageTest\Command\BaseCommandTest
         $container = new Container();
 
         $this->environmentHelperMock = $this->getMockBuilder('EnvironmentHelper')
-            ->setMethods(array('environmentExists', 'addEnvironment'))
+            ->setMethods(['environmentExists', 'addEnvironment'])
             ->getMock();
 
         $container['environmentHelper'] = $this->environmentHelperMock;
-        $this->addCommand = new AddCommand($container);
+        $this->addCommand               = new AddCommand($container);
     }
 
     /**
      * @covers Mage\Command\Environment\AddCommand::execute
      */
-    public function testExecuteWithoutNameOption() {
-        $arguments = array();
+    public function testExecuteWithoutNameOption()
+    {
+        $arguments        = [];
         $expectedExitCode = 1;
-        $expectedMessage = "[ERROR] the name parameter cannot be empty.";
+        $expectedMessage  = '[ERROR] the name parameter cannot be empty.';
 
         $this->executeTest($this->addCommand, 'environment:add', $arguments, $expectedExitCode, $expectedMessage);
     }
@@ -41,12 +54,13 @@ class AddCommandTest extends \MageTest\Command\BaseCommandTest
     /**
      * @covers Mage\Command\Environment\AddCommand::execute
      */
-    public function testExecuteWithExistingEnvironment() {
+    public function testExecuteWithExistingEnvironment()
+    {
         $environmentName = 'foo';
 
-        $arguments = array('--name' => $environmentName);
+        $arguments        = ['--name' => $environmentName];
         $expectedExitCode = 1;
-        $expectedMessage = "[ERROR] the environment \"$environmentName\" already exists.";
+        $expectedMessage  = "[ERROR] the environment \"$environmentName\" already exists.";
 
         $this->environmentHelperMock->method('environmentExists')->willReturn(true);
 
@@ -56,11 +70,12 @@ class AddCommandTest extends \MageTest\Command\BaseCommandTest
     /**
      * @covers Mage\Command\Environment\AddCommand::execute
      */
-    public function testExecuteWithoutEnabledReleases() {
-        $arguments = array(
-            '--name' => 'foo',
-            '--enableReleases' => false
-        );
+    public function testExecuteWithoutEnabledReleases()
+    {
+        $arguments = [
+            '--name'           => 'foo',
+            '--enableReleases' => false,
+        ];
 
         $expectedExitCode = 0;
 
@@ -79,11 +94,12 @@ class AddCommandTest extends \MageTest\Command\BaseCommandTest
     /**
      * @covers Mage\Command\Environment\AddCommand::execute
      */
-    public function testExecuteWithAddError() {
-        $arguments = array(
-            '--name' => 'foo',
-            '--enableReleases' => false
-        );
+    public function testExecuteWithAddError()
+    {
+        $arguments = [
+            '--name'           => 'foo',
+            '--enableReleases' => false,
+        ];
 
         $expectedExitCode = 1;
 

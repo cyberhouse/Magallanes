@@ -1,13 +1,16 @@
 <?php
-/*
- * This file is part of the Magallanes package.
-*
-* (c) Andrés Montañez <andres@andresmontanez.com>
-*
-* For the full copyright and license information, please view the LICENSE
-* file that was distributed with this source code.
-*/
 namespace Mage\Task\BuiltIn\Deployment\Strategy;
+
+/*
+ * (c) 2011-2015 Andrés Montañez <andres@andresmontanez.com>
+ * (c) 2016 by Cyberhouse GmbH <office@cyberhouse.at>
+ *
+ * This is free software; you can redistribute it and/or
+ * modify it under the terms of the MIT License (MIT)
+ *
+ * For the full copyright and license information see
+ * <https://opensource.org/licenses/MIT>
+ */
 
 use Mage\Task\Releases\IsReleaseAware;
 
@@ -70,7 +73,7 @@ class TarGzTask extends BaseStrategyTaskAbstract implements IsReleaseAware
         // Strategy Flags
         $strategyFlags = $this->getConfig()->deployment(
             'strategy_flags',
-            $this->getConfig()->general('strategy_flags', array())
+            $this->getConfig()->general('strategy_flags', [])
         );
 
         if (isset($strategyFlags['targz']) && isset($strategyFlags['targz']['create'])) {
@@ -89,7 +92,7 @@ class TarGzTask extends BaseStrategyTaskAbstract implements IsReleaseAware
         // Strategy Flags
         $strategyFlags = $this->getConfig()->deployment(
             'strategy_flags',
-            $this->getConfig()->general('strategy_flags', array())
+            $this->getConfig()->general('strategy_flags', [])
         );
 
         if (isset($strategyFlags['targz']) && isset($strategyFlags['targz']['exctract'])) {
@@ -110,7 +113,7 @@ class TarGzTask extends BaseStrategyTaskAbstract implements IsReleaseAware
         // Strategy Flags
         $strategyFlags = $this->getConfig()->deployment(
             'strategy_flags',
-            $this->getConfig()->general('strategy_flags', array())
+            $this->getConfig()->general('strategy_flags', [])
         );
 
         if (isset($strategyFlags['targz']) && isset($strategyFlags['targz']['scp'])) {

@@ -2,13 +2,14 @@
 namespace Mage;
 
 /*
- * This file is (c) 2016 by Cyberhouse GmbH
+ * (c) 2011-2015 Andrés Montañez <andres@andresmontanez.com>
+ * (c) 2016 by Cyberhouse GmbH <office@cyberhouse.at>
  *
- * It is free software; you can redistribute it and/or
- * modify it under the terms of the MIT License
+ * This is free software; you can redistribute it and/or
+ * modify it under the terms of the MIT License (MIT)
  *
  * For the full copyright and license information see
- * the file LICENSE.md
+ * <https://opensource.org/licenses/MIT>
  */
 
 use Symfony\Component\Yaml\Exception\ParseException;

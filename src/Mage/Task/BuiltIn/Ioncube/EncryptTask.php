@@ -1,13 +1,16 @@
 <?php
-/*
-* This file is part of the Magallanes package.
-*
-* (c) Andrés Montañez <andres@andresmontanez.com>
-*
-* For the full copyright and license information, please view the LICENSE
-* file that was distributed with this source code.
-*/
 namespace Mage\Task\BuiltIn\Ioncube;
+
+/*
+ * (c) 2011-2015 Andrés Montañez <andres@andresmontanez.com>
+ * (c) 2016 by Cyberhouse GmbH <office@cyberhouse.at>
+ *
+ * This is free software; you can redistribute it and/or
+ * modify it under the terms of the MIT License (MIT)
+ *
+ * For the full copyright and license information see
+ * <https://opensource.org/licenses/MIT>
+ */
 
 use Mage\Console;
 use Mage\Task\AbstractTask;
@@ -54,7 +57,7 @@ class EncryptTask extends AbstractTask
      *
      * @var array
      */
-    private $default = array();
+    private $default = [];
 
     /**
      * Array of YAML Ioncube
@@ -62,7 +65,7 @@ class EncryptTask extends AbstractTask
      *
      * @var array
      */
-    private $yaml = array();
+    private $yaml = [];
 
     /**
      * Array of file Ioncube
@@ -71,7 +74,7 @@ class EncryptTask extends AbstractTask
      *
      * @var array
      */
-    private $file = array();
+    private $file = [];
 
     /**
      * Source directory as used by
@@ -104,7 +107,7 @@ class EncryptTask extends AbstractTask
      *
      * @var array
      */
-    private $mageConfig = array();
+    private $mageConfig = [];
 
     /**
      * Final version of the IonCube
@@ -113,7 +116,7 @@ class EncryptTask extends AbstractTask
      *
      * @var array
      */
-    private $ionCubeConfig = array();
+    private $ionCubeConfig = [];
 
     /**
      * Default encoder version to use
@@ -151,7 +154,7 @@ class EncryptTask extends AbstractTask
      *
      * @var array
      */
-    private $checkIgnoreExtens = array();
+    private $checkIgnoreExtens = [];
 
     /**
      * List of paths to exclude from
@@ -162,7 +165,7 @@ class EncryptTask extends AbstractTask
      *
      * @var array
      */
-    private $checkIgnorePaths = array();
+    private $checkIgnorePaths = [];
 
     /**
      * (non-PHPdoc)
@@ -182,7 +185,7 @@ class EncryptTask extends AbstractTask
     public function init()
     {
         // Set the default extensions to ignore
-        $this->checkIgnoreExtens = array(
+        $this->checkIgnoreExtens = [
             'jpg',
             'jpeg',
             'png',
@@ -194,7 +197,7 @@ class EncryptTask extends AbstractTask
             'map',
             'ico',
 
-        );
+        ];
         // Get any options specfic to this task
         $this->mageConfig = $this->getConfig()->environmentConfig('ioncube');
         /*
@@ -290,10 +293,10 @@ class EncryptTask extends AbstractTask
         if (isset($this->mageConfig ['project'])) {
             $this->yaml = $this->getOptionsFromYaml($this->mageConfig ['project']);
         } else {
-            $this->yaml = array(
-                's' => array(),
-                'p' => array(),
-            );
+            $this->yaml = [
+                's' => [],
+                'p' => [],
+            ];
         }
         /*
          * Check if a seperate projectfile has been specified, and if so
@@ -302,10 +305,10 @@ class EncryptTask extends AbstractTask
         if (isset($this->mageConfig ['projectfile'])) {
             $this->file = $this->getOptionsFromFile($this->mageConfig ['projectfile']);
         } else {
-            $this->file = array(
-                's' => array(),
-                'p' => array(),
-            );
+            $this->file = [
+                's' => [],
+                'p' => [],
+            ];
         }
     }
 
@@ -320,8 +323,8 @@ class EncryptTask extends AbstractTask
      *
      * @see \Mage\Task\AbstractTask::run()
      *
-     * @return bool
      * @throws \Mage\Task\ErrorWithMessageException
+     * @return bool
      */
     public function run()
     {
@@ -504,7 +507,7 @@ class EncryptTask extends AbstractTask
     private function writeProjectFile()
     {
         // array used to build config file into
-        $out = array();
+        $out = [];
         // set the project destination
         $out [] = '--into ' . $this->source . PHP_EOL;
         // output the switches
@@ -577,10 +580,10 @@ class EncryptTask extends AbstractTask
                 $p = $this->default ['p'];
                 break;
         }
-        return array(
+        return [
             's' => $s,
             'p' => $p,
-        );
+        ];
     }
 
     /**
@@ -622,8 +625,8 @@ class EncryptTask extends AbstractTask
      */
     private function getOptionsFromYaml($options)
     {
-        $s = array();
-        $p = array();
+        $s = [];
+        $p = [];
         foreach ($options as $key => $value) {
             if (array_key_exists($key, $this->default ['s'])) {
                 $s [$key] = true;
@@ -632,10 +635,10 @@ class EncryptTask extends AbstractTask
                 $p [$key] = $value;
             }
         }
-        return array(
+        return [
             's' => $s,
             'p' => $p,
-        );
+        ];
     }
 
     /**
@@ -647,8 +650,8 @@ class EncryptTask extends AbstractTask
      */
     private function getOptionsFromFile($fileName)
     {
-        $s            = array();
-        $p            = array();
+        $s            = [];
+        $p            = [];
         $fileContents = file_get_contents($fileName);
         /*
          * split the config file on every occurance of '--' at start of a line
@@ -687,10 +690,10 @@ class EncryptTask extends AbstractTask
                 }
             }
         }
-        return array(
+        return [
             's' => $s,
             'p' => $p,
-        );
+        ];
     }
 
     /**
@@ -729,8 +732,8 @@ class EncryptTask extends AbstractTask
      */
     private function getOptionsDefault()
     {
-        $s = array();
-        $p = array();
+        $s = [];
+        $p = [];
         // Set the switches
         $s ['allow-encoding-into-source'] = false;
 
@@ -764,17 +767,17 @@ class EncryptTask extends AbstractTask
 
         // Now set the params
         $p ['encrypt'] [] = '*.tpl.html';
-        $p ['encode']     = array();
-        $p ['copy']       = array();
-        $p ['ignore']     = array(
+        $p ['encode']     = [];
+        $p ['copy']       = [];
+        $p ['ignore']     = [
             '.git',
             '.svn',
             getcwd() . '/.mage',
             '.gitignore',
             '.gitkeep',
             'nohup.out',
-        );
-        $p ['keep']                       = array();
+        ];
+        $p ['keep']                       = [];
         $p ['obfuscate']                  = '';
         $p ['obfuscation-key']            = '';
         $p ['obfuscation-exclusion-file'] = '';
@@ -786,25 +789,25 @@ class EncryptTask extends AbstractTask
         $p ['license-check']              = '';
         $p ['apply-file-user']            = '';
         $p ['apply-file-group']           = '';
-        $p ['register-autoglobal']        = array();
+        $p ['register-autoglobal']        = [];
         $p ['message-if-no-loader']       = '';
         $p ['action-if-no-loader']        = '';
         $p ['loader-path']                = '';
         $p ['preamble-file']              = '';
-        $p ['add-comment']                = array();
+        $p ['add-comment']                = [];
         $p ['add-comments']               = '';
-        $p ['loader-event']               = array();
+        $p ['loader-event']               = [];
         $p ['callback-file']              = '';
         $p ['property']                   = '';
         $p ['propertys']                  = '';
-        $p ['include-if-property']        = array();
+        $p ['include-if-property']        = [];
         $p ['optimise']                   = 'max';
         $p ['shell-script-line']          = '';
         $p ['min-loader-version']         = '';
 
-        return array(
+        return [
             's' => $s,
             'p' => $p,
-        );
+        ];
     }
 }

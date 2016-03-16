@@ -1,6 +1,17 @@
 <?php
 namespace Mage;
 
+/*
+ * (c) 2011-2015 Andrés Montañez <andres@andresmontanez.com>
+ * (c) 2016 by Cyberhouse GmbH <office@cyberhouse.at>
+ *
+ * This is free software; you can redistribute it and/or
+ * modify it under the terms of the MIT License (MIT)
+ *
+ * For the full copyright and license information see
+ * <https://opensource.org/licenses/MIT>
+ */
+
 use Mage\Command\BaseCommand;
 use Mage\DI\ApplicationProvider;
 use Pimple\Container;
@@ -47,24 +58,24 @@ class Mage extends Application
 
         $namespacePaths = $psr4Namespaces['Mage\\'];
 
-        foreach($namespacePaths as $path) {
+        foreach ($namespacePaths as $path) {
             $basePath = $path . '/Command';
-            $files = Finder::create()->files()->name('*Command.php')->in($basePath);
+            $files    = Finder::create()->files()->name('*Command.php')->in($basePath);
 
-            foreach($files as $file) {
-                $subPath = str_replace($basePath, '', $file->getPathName());
+            foreach ($files as $file) {
+                $subPath       = str_replace($basePath, '', $file->getPathName());
                 $fullClasspath = str_replace('/', '\\', 'Mage\\Command' . $subPath);
                 $fullClasspath = substr($fullClasspath, 0, -4);
                 try {
                     $reflectionClass = new \ReflectionClass($fullClasspath);
 
-                    if(!$reflectionClass->isAbstract() && $reflectionClass->newInstance() instanceof BaseCommand) {
+                    if (!$reflectionClass->isAbstract() && $reflectionClass->newInstance() instanceof BaseCommand) {
                         $instance = $reflectionClass->newInstance($this->container);
 
                         $this->add($instance);
                     }
+                } catch (\Exception $ignored) {
                 }
-                catch(\Exception $ignored) {}
             }
         }
     }
@@ -74,11 +85,12 @@ class Mage extends Application
      *
      * @return string the project root directory path
      */
-    private function getProjectRootDirectory() {
+    private function getProjectRootDirectory()
+    {
         $path = __DIR__ . '/../../';
-        if(!file_exists($path . 'vendor/autoload.php')) {
+        if (!file_exists($path . 'vendor/autoload.php')) {
             $path =  __DIR__ . '/../../../../';
-            if(!file_exists($path . 'vendor/autoload.php')) {
+            if (!file_exists($path . 'vendor/autoload.php')) {
                 return __DIR__;
             }
         }

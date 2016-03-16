@@ -1,7 +1,18 @@
 <?php
-use Mage\Command\Environment\AddCommand;
-use Pimple\Container;
 
+
+/*
+ * (c) 2011-2015 Andrés Montañez <andres@andresmontanez.com>
+ * (c) 2016 by Cyberhouse GmbH <office@cyberhouse.at>
+ *
+ * This is free software; you can redistribute it and/or
+ * modify it under the terms of the MIT License (MIT)
+ *
+ * For the full copyright and license information see
+ * <https://opensource.org/licenses/MIT>
+ */
+
+use Pimple\Container;
 
 /**
  * Class ListCommandTest
@@ -20,22 +31,23 @@ class ListCommandTest extends \MageTest\Command\BaseCommandTest
         $container = new Container();
 
         $this->environmentHelperMock = $this->getMockBuilder('EnvironmentHelper')
-            ->setMethods(array('getAvailableEnvironments'))
+            ->setMethods(['getAvailableEnvironments'])
             ->getMock();
 
         $container['environmentHelper'] = $this->environmentHelperMock;
-        $this->listCommand = new \Mage\Command\Environment\ListCommand($container);
+        $this->listCommand              = new \Mage\Command\Environment\ListCommand($container);
     }
 
     /**
      * @covers Mage\Command\Environment\ListCommand::execute
      */
-    public function testExecuteWithNoEnvironmentsShowsWarning() {
-        $arguments = array();
+    public function testExecuteWithNoEnvironmentsShowsWarning()
+    {
+        $arguments        = [];
         $expectedExitCode = 0;
-        $expectedMessage = "[WARNING] There are no environment configurations available";
+        $expectedMessage  = '[WARNING] There are no environment configurations available';
 
-        $this->environmentHelperMock->method('getAvailableEnvironments')->willReturn(array());
+        $this->environmentHelperMock->method('getAvailableEnvironments')->willReturn([]);
 
         $this->executeTest($this->listCommand, 'environment:list', $arguments, $expectedExitCode, $expectedMessage);
     }
@@ -43,11 +55,12 @@ class ListCommandTest extends \MageTest\Command\BaseCommandTest
     /**
      * @covers Mage\Command\Environment\ListCommand::execute
      */
-    public function testExecuteWithExistingEnvironments() {
-        $arguments = array();
+    public function testExecuteWithExistingEnvironments()
+    {
+        $arguments        = [];
         $expectedExitCode = 0;
 
-        $this->environmentHelperMock->method('getAvailableEnvironments')->willReturn(array('foo', 'bar'));
+        $this->environmentHelperMock->method('getAvailableEnvironments')->willReturn(['foo', 'bar']);
 
         $this->executeTest($this->listCommand, 'environment:list', $arguments, $expectedExitCode);
     }

@@ -1,13 +1,16 @@
 <?php
-/*
- * This file is part of the Magallanes package.
-*
-* (c) Andrés Montañez <andres@andresmontanez.com>
-*
-* For the full copyright and license information, please view the LICENSE
-* file that was distributed with this source code.
-*/
 namespace Mage\Task;
+
+/*
+ * (c) 2011-2015 Andrés Montañez <andres@andresmontanez.com>
+ * (c) 2016 by Cyberhouse GmbH <office@cyberhouse.at>
+ *
+ * This is free software; you can redistribute it and/or
+ * modify it under the terms of the MIT License (MIT)
+ *
+ * For the full copyright and license information see
+ * <https://opensource.org/licenses/MIT>
+ */
 
 use Exception;
 use Mage\Config;
@@ -67,7 +70,7 @@ abstract class AbstractTask
      * Extra parameters
      * @var array
      */
-    protected $parameters = array();
+    protected $parameters = [];
 
     /**
      * Returns the Title of the Task
@@ -78,10 +81,10 @@ abstract class AbstractTask
     /**
      * Runs the task
      *
-     * @return bool
      * @throws Exception
      * @throws ErrorWithMessageException
      * @throws SkipException
+     * @return bool
      */
     abstract public function run();
 
@@ -93,7 +96,7 @@ abstract class AbstractTask
      * @param string $stage
      * @param array $parameters
      */
-    final public function __construct(Config $config, $inRollback = false, $stage = null, $parameters = array())
+    final public function __construct(Config $config, $inRollback = false, $stage = null, $parameters = [])
     {
         $this->config     = $config;
         $this->inRollback = $inRollback;
@@ -268,7 +271,7 @@ abstract class AbstractTask
 
         // if not, do so
         if (!$output) {
-            $commands   = array();
+            $commands   = [];
             $commands[] = 'mv ' . $currentReleaseDirectory . ' ' . $currentReleaseDirectoryTemp;
             $commands[] = 'mkdir ' . $currentReleaseDirectory;
             $commands[] = 'tar cfz ' . $currentRelease . ' ' . $currentReleaseDirectoryTemp;
@@ -296,7 +299,7 @@ abstract class AbstractTask
 
         // if tarred, untar now
         if ($output) {
-            $commands   = array();
+            $commands   = [];
             $commands[] = 'tar xfz ' . $currentRelease;
             $commands[] = 'rm -rf ' . $currentReleaseDirectory;
             $commands[] = 'mv ' . $currentReleaseDirectoryTemp . ' ' . $currentReleaseDirectory;

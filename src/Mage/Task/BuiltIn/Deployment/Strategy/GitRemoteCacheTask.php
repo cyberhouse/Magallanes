@@ -1,6 +1,17 @@
 <?php
 namespace Mage\Task\BuiltIn\Deployment\Strategy;
 
+/*
+ * (c) 2011-2015 Andrés Montañez <andres@andresmontanez.com>
+ * (c) 2016 by Cyberhouse GmbH <office@cyberhouse.at>
+ *
+ * This is free software; you can redistribute it and/or
+ * modify it under the terms of the MIT License (MIT)
+ *
+ * For the full copyright and license information see
+ * <https://opensource.org/licenses/MIT>
+ */
+
 use Exception;
 use Mage\Task\AbstractTask;
 use Mage\Task\ErrorWithMessageException;
@@ -32,10 +43,10 @@ class GitRemoteCacheTask extends AbstractTask implements IsReleaseAware
     /**
      * Runs the task
      *
-     * @return bool
      * @throws Exception
      * @throws ErrorWithMessageException
      * @throws SkipException
+     * @return bool
      */
     public function run()
     {
@@ -49,17 +60,17 @@ class GitRemoteCacheTask extends AbstractTask implements IsReleaseAware
             }
         }
 
-        $excludes = array(
+        $excludes = [
             '.git',
             '.svn',
             '.mage',
             '.gitignore',
             '.gitkeep',
             'nohup.out',
-        );
+        ];
 
         // Look for User Excludes
-        $userExcludes = $this->getConfig()->deployment('excludes', array());
+        $userExcludes = $this->getConfig()->deployment('excludes', []);
 
         $deployToDirectory = $this->getConfig()->deployment('to');
         if ($this->getConfig()->release('enabled', false) === true) {

@@ -1,13 +1,16 @@
 <?php
-/*
- * This file is part of the Magallanes package.
-*
-* (c) Andrés Montañez <andres@andresmontanez.com>
-*
-* For the full copyright and license information, please view the LICENSE
-* file that was distributed with this source code.
-*/
 namespace Mage\Command\BuiltIn;
+
+/*
+ * (c) 2011-2015 Andrés Montañez <andres@andresmontanez.com>
+ * (c) 2016 by Cyberhouse GmbH <office@cyberhouse.at>
+ *
+ * This is free software; you can redistribute it and/or
+ * modify it under the terms of the MIT License (MIT)
+ *
+ * For the full copyright and license information see
+ * <https://opensource.org/licenses/MIT>
+ */
 
 use Exception;
 use Mage\Command\AbstractCommand;
@@ -57,7 +60,7 @@ class ListCommand extends AbstractCommand
     protected function listEnvironments()
     {
         $exitCode     = 220;
-        $environments = array();
+        $environments = [];
         $content      = scandir(getcwd() . '/.mage/config/environment/');
         foreach ($content as $file) {
             if (strpos($file, '.yml') !== false) {
