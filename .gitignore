@@ -2,6 +2,7 @@ vendor
 mage.phar
 bin
 !bin/mage
+!bin/mage2
 .php_cs.cache
 .mage
 
