@@ -12,7 +12,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 abstract class BaseCommandTest extends \PHPUnit_Framework_TestCase
 {
 
-    protected function executeTest($commandInstance, $commandName, $arguments, $expectedExitCode, $expectedMessage = null) {
+    protected function executeAndAssert($commandInstance, $commandName, $arguments, $expectedExitCode, $expectedMessage = null) {
         $application = new Application();
         $application->add($commandInstance);
 

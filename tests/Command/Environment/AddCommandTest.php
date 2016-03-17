@@ -35,7 +35,7 @@ class AddCommandTest extends \MageTest\Command\BaseCommandTest
         $expectedExitCode = 1;
         $expectedMessage = "[ERROR] the name parameter cannot be empty.";
 
-        $this->executeTest($this->addCommand, 'environment:add', $arguments, $expectedExitCode, $expectedMessage);
+        $this->executeAndAssert($this->addCommand, 'environment:add', $arguments, $expectedExitCode, $expectedMessage);
     }
 
     /**
@@ -50,7 +50,7 @@ class AddCommandTest extends \MageTest\Command\BaseCommandTest
 
         $this->environmentHelperMock->method('environmentExists')->willReturn(true);
 
-        $this->executeTest($this->addCommand, 'environment:add', $arguments, $expectedExitCode, $expectedMessage);
+        $this->executeAndAssert($this->addCommand, 'environment:add', $arguments, $expectedExitCode, $expectedMessage);
     }
 
     /**
@@ -73,7 +73,7 @@ class AddCommandTest extends \MageTest\Command\BaseCommandTest
             ->method('addEnvironment')
             ->willReturn(true);
 
-        $this->executeTest($this->addCommand, 'environment:add', $arguments, $expectedExitCode);
+        $this->executeAndAssert($this->addCommand, 'environment:add', $arguments, $expectedExitCode);
     }
 
     /**
@@ -96,6 +96,6 @@ class AddCommandTest extends \MageTest\Command\BaseCommandTest
             ->method('addEnvironment')
             ->willReturn(false);
 
-        $this->executeTest($this->addCommand, 'environment:add', $arguments, $expectedExitCode);
+        $this->executeAndAssert($this->addCommand, 'environment:add', $arguments, $expectedExitCode);
     }
 }

@@ -37,7 +37,7 @@ class ListCommandTest extends \MageTest\Command\BaseCommandTest
 
         $this->environmentHelperMock->method('getAvailableEnvironments')->willReturn(array());
 
-        $this->executeTest($this->listCommand, 'environment:list', $arguments, $expectedExitCode, $expectedMessage);
+        $this->executeAndAssert($this->listCommand, 'environment:list', $arguments, $expectedExitCode, $expectedMessage);
     }
 
     /**
@@ -49,6 +49,6 @@ class ListCommandTest extends \MageTest\Command\BaseCommandTest
 
         $this->environmentHelperMock->method('getAvailableEnvironments')->willReturn(array('foo', 'bar'));
 
-        $this->executeTest($this->listCommand, 'environment:list', $arguments, $expectedExitCode);
+        $this->executeAndAssert($this->listCommand, 'environment:list', $arguments, $expectedExitCode);
     }
 }
