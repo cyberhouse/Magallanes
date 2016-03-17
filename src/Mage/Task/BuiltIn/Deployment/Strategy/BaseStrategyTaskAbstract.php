@@ -1,13 +1,16 @@
 <?php
-/*
- * This file is part of the Magallanes package.
-*
-* (c) Andrés Montañez <andres@andresmontanez.com>
-*
-* For the full copyright and license information, please view the LICENSE
-* file that was distributed with this source code.
-*/
 namespace Mage\Task\BuiltIn\Deployment\Strategy;
+
+/*
+ * (c) 2011-2015 Andrés Montañez <andres@andresmontanez.com>
+ * (c) 2016 by Cyberhouse GmbH <office@cyberhouse.at>
+ *
+ * This is free software; you can redistribute it and/or
+ * modify it under the terms of the MIT License (MIT)
+ *
+ * For the full copyright and license information see
+ * <https://opensource.org/licenses/MIT>
+ */
 
 use Mage\Task\AbstractTask;
 use Mage\Task\Releases\IsReleaseAware;
@@ -47,17 +50,17 @@ abstract class BaseStrategyTaskAbstract extends AbstractTask implements IsReleas
      */
     protected function getExcludes()
     {
-        $excludes = array(
+        $excludes = [
             '.git',
             '.svn',
             '.mage',
             '.gitignore',
             '.gitkeep',
             'nohup.out',
-        );
+        ];
 
         // Look for User Excludes
-        $userExcludes = $this->getConfig()->deployment('excludes', array());
+        $userExcludes = $this->getConfig()->deployment('excludes', []);
 
         return array_merge($excludes, $userExcludes);
     }

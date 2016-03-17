@@ -1,20 +1,18 @@
 <?php
-/*
- * This file is part of the Magallanes package.
-*
-* (c) Andrés Montañez <andres@andresmontanez.com>
-*
-* For the full copyright and license information, please view the LICENSE
-* file that was distributed with this source code.
-*/
 namespace Mage\Command;
 
-/**
- * Indicates that a Command depends of an Environment.
+
+/*
+ * (c) 2011-2015 Andrés Montañez <andres@andresmontanez.com>
+ * (c) 2016 by Cyberhouse GmbH <office@cyberhouse.at>
  *
- * @author Andrés Montañez <andres@andresmontanez.com>
- * @deprecated since version 2.0
+ * This is free software; you can redistribute it and/or
+ * modify it under the terms of the MIT License (MIT)
+ *
+ * For the full copyright and license information see
+ * <https://opensource.org/licenses/MIT>
  */
+
 interface RequiresEnvironment
 {
 }

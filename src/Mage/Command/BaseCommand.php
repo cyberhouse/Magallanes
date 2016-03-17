@@ -1,11 +1,20 @@
 <?php
-
-
 namespace Mage\Command;
+
+/*
+ * (c) 2011-2015 Andrés Montañez <andres@andresmontanez.com>
+ * (c) 2016 by Cyberhouse GmbH <office@cyberhouse.at>
+ *
+ * This is free software; you can redistribute it and/or
+ * modify it under the terms of the MIT License (MIT)
+ *
+ * For the full copyright and license information see
+ * <https://opensource.org/licenses/MIT>
+ */
+
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-
 
 /**
  * Class BaseCommand
@@ -13,10 +22,10 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 abstract class BaseCommand extends ContainerAwareCommand
 {
     const CODE_SUCCESS = 0;
-    const CODE_ERROR = 1;
+    const CODE_ERROR   = 1;
 
     /**
- * @var SymfonyStyle 
+ * @var SymfonyStyle
 */
     private $io;
 
@@ -42,9 +51,9 @@ abstract class BaseCommand extends ContainerAwareCommand
      * @param  $message string the message to display on the console
      * @return int the success status code
      */
-    protected function success($message = null) 
+    protected function success($message = null)
     {
-        if(!is_null($message)) {
+        if (!is_null($message)) {
             $this->io->success($message);
         }
 
@@ -57,13 +66,13 @@ abstract class BaseCommand extends ContainerAwareCommand
      * @param  $message string the message to display on the console
      * @return int the error status code
      */
-    protected function error($message) 
+    protected function error($message)
     {
         $this->io->error($message);
         return self::CODE_ERROR;
     }
 
-    protected function getIO() 
+    protected function getIO()
     {
         return $this->io;
     }

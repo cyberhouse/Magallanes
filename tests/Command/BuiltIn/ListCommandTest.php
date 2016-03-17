@@ -1,6 +1,17 @@
 <?php
 namespace MageTest\Command\BuiltIn;
 
+/*
+ * (c) 2011-2015 Andrés Montañez <andres@andresmontanez.com>
+ * (c) 2016 by Cyberhouse GmbH <office@cyberhouse.at>
+ *
+ * This is free software; you can redistribute it and/or
+ * modify it under the terms of the MIT License (MIT)
+ *
+ * For the full copyright and license information see
+ * <https://opensource.org/licenses/MIT>
+ */
+
 use Mage\Command\BuiltIn\ListCommand;
 use MageTest\TestHelper\BaseTest;
 use phpmock\functions\FixedValueFunction;
@@ -46,44 +57,44 @@ class ListCommandTest extends BaseTest
 
     public function listEnvironmentsProvider()
     {
-        return array(
-            'normal' => array(
-                'environmentFiles' => array(
+        return [
+            'normal' => [
+                'environmentFiles' => [
                     'rc.yml',
                     'production.yml',
                     'local.yml',
-                ),
+                ],
                 'expectedOutput' => "\tThese are your configured environments:\n"
                     . "\t\t* local\n"
                     . "\t\t* production\n"
                     . "\t\t* rc\n"
                     . "\t\n",
                 'expectedExitCode' => 0,
-            ),
-            'with_missing_yml_files' => array(
-                'environmentFiles' => array(
+            ],
+            'with_missing_yml_files' => [
+                'environmentFiles' => [
                     'rc',
                     'production.yml',
-                ),
+                ],
                 'expectedOutput' => "\tThese are your configured environments:\n"
                     . "\t\t* production\n"
                     . "\t\n",
                 'expectedExitCode' => 0,
-            ),
-            'with_no_yml_configs' => array(
-                'environmentFiles' => array(
+            ],
+            'with_no_yml_configs' => [
+                'environmentFiles' => [
                     'rc.ini',
                     'production.txt',
-                ),
+                ],
                 'expectedOutput'   => "\tYou don't have any environment configured.\n\n",
                 'expectedExitCode' => 220,
-            ),
-            'with_no_configs' => array(
-                'environmentFiles' => array(),
+            ],
+            'with_no_configs' => [
+                'environmentFiles' => [],
                 'expectedOutput'   => "\tYou don't have any environment configured.\n\n",
                 'expectedExitCode' => 220,
-            ),
-        );
+            ],
+        ];
     }
 
     /**

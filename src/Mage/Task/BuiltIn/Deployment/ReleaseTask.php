@@ -1,13 +1,16 @@
 <?php
-/*
-* This file is part of the Magallanes package.
-*
-* (c) Andrés Montañez <andres@andresmontanez.com>
-*
-* For the full copyright and license information, please view the LICENSE
-* file that was distributed with this source code.
-*/
 namespace Mage\Task\BuiltIn\Deployment;
+
+/*
+ * (c) 2011-2015 Andrés Montañez <andres@andresmontanez.com>
+ * (c) 2016 by Cyberhouse GmbH <office@cyberhouse.at>
+ *
+ * This is free software; you can redistribute it and/or
+ * modify it under the terms of the MIT License (MIT)
+ *
+ * For the full copyright and license information see
+ * <https://opensource.org/licenses/MIT>
+ */
 
 use Mage\Task\AbstractTask;
 use Mage\Task\Releases\IsReleaseAware;
@@ -61,7 +64,7 @@ class ReleaseTask extends AbstractTask implements IsReleaseAware, SkipOnOverride
                 $resultFetch = $this->runCommandRemote('ls -ld .', $directoryInfos);
                 if (!empty($directoryInfos)) {
                     //uniformize format as it depends on the system deployed on
-                    $directoryInfos = trim(str_replace(array('  ', "\t"), ' ', $directoryInfos));
+                    $directoryInfos = trim(str_replace(['  ', "\t"], ' ', $directoryInfos));
                     $infoArray      = explode(' ', $directoryInfos);
                     if (!empty($infoArray[2])) {
                         $user = $infoArray[2];
@@ -125,7 +128,7 @@ class ReleaseTask extends AbstractTask implements IsReleaseAware, SkipOnOverride
                 if ($countReleasesFetch && $releasesList != '') {
                     $releasesList = explode(PHP_EOL, $releasesList);
                     if (count($releasesList) > $maxReleases) {
-                        $releasesToDelete = array_diff($releasesList, array($this->getConfig()->getReleaseId()));
+                        $releasesToDelete = array_diff($releasesList, [$this->getConfig()->getReleaseId()]);
                         sort($releasesToDelete);
                         $releasesToDeleteCount = count($releasesToDelete) - $maxReleases;
                         $releasesToDelete      = array_slice($releasesToDelete, 0, $releasesToDeleteCount + 1);

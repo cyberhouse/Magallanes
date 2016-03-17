@@ -1,6 +1,17 @@
 <?php
 namespace Mage\Task\BuiltIn\Filesystem;
 
+/*
+ * (c) 2011-2015 Andrés Montañez <andres@andresmontanez.com>
+ * (c) 2016 by Cyberhouse GmbH <office@cyberhouse.at>
+ *
+ * This is free software; you can redistribute it and/or
+ * modify it under the terms of the MIT License (MIT)
+ *
+ * For the full copyright and license information see
+ * <https://opensource.org/licenses/MIT>
+ */
+
 use Mage\Task\AbstractTask;
 use Mage\Task\SkipException;
 
@@ -126,7 +137,7 @@ class PermissionsTask extends AbstractTask
      */
     public function run()
     {
-        $commands = array();
+        $commands = [];
 
         if ($this->paths && $this->owner) {
             $commands []= 'chown ' . $this->getOptionsForCmd() . ' ' . $this->owner . ' ' . $this->getPathsForCmd();
@@ -153,9 +164,9 @@ class PermissionsTask extends AbstractTask
     protected function getOptionsForCmd()
     {
         $optionsForCmd = '';
-        $options       = array(
+        $options       = [
             'R' => $this->recursive,
-        );
+        ];
 
         foreach ($options as $option => $apply) {
             if ($apply === true) {
@@ -187,13 +198,13 @@ class PermissionsTask extends AbstractTask
      * checkPathsExist flag.
      *
      * @param array $paths
-     * @return PermissionsTask
      * @throws SkipException
+     * @return PermissionsTask
      */
     protected function setPaths(array $paths)
     {
         if ($this->checkPathsExist === true) {
-            $commands = array();
+            $commands = [];
             foreach ($paths as $path) {
                 $commands[] = '(([ -f ' . $path . ' ]) || ([ -d ' . $path . ' ]))';
             }

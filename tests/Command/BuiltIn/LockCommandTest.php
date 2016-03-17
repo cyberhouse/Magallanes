@@ -1,6 +1,17 @@
 <?php
 namespace MageTest\Command\BuiltIn;
 
+/*
+ * (c) 2011-2015 Andrés Montañez <andres@andresmontanez.com>
+ * (c) 2016 by Cyberhouse GmbH <office@cyberhouse.at>
+ *
+ * This is free software; you can redistribute it and/or
+ * modify it under the terms of the MIT License (MIT)
+ *
+ * For the full copyright and license information see
+ * <https://opensource.org/licenses/MIT>
+ */
+
 use Mage\Command\BuiltIn\LockCommand;
 use MageTest\TestHelper\BaseTest;
 use phpmock\functions\FixedValueFunction;
@@ -124,47 +135,47 @@ class LockCommandTest extends BaseTest
 
     public function lockCommandProvider()
     {
-        return array(
-            'normal' => array(
+        return [
+            'normal' => [
                 'name'                     => 'John Smith',
                 'email'                    => 'john.smith@example.com',
                 'description'              => "There's a critical bug here!",
                 'expectedLockFileContents' => "Locked environment at date: 2015-01-01 12:00:00\n"
                     . "Locked by John Smith (john.smith@example.com)\n"
                     . "There's a critical bug here!\n",
-            ),
-            'with_no_name' => array(
+            ],
+            'with_no_name' => [
                 'name'                     => '',
                 'email'                    => 'john.smith@example.com',
                 'description'              => "There's a critical bug here!",
                 'expectedLockFileContents' => "Locked environment at date: 2015-01-01 12:00:00\n"
                     . "(john.smith@example.com)\n"
                     . "There's a critical bug here!\n",
-            ),
-            'with_no_email' => array(
+            ],
+            'with_no_email' => [
                 'name'                     => 'John Smith',
                 'email'                    => '',
                 'description'              => "There's a critical bug here!",
                 'expectedLockFileContents' => "Locked environment at date: 2015-01-01 12:00:00\n"
                     . "Locked by John Smith \n"
                     . "There's a critical bug here!\n",
-            ),
-            'with_no_name_nor_email' => array(
+            ],
+            'with_no_name_nor_email' => [
                 'name'                     => '',
                 'email'                    => '',
                 'description'              => "There's a critical bug here!",
                 'expectedLockFileContents' => "Locked environment at date: 2015-01-01 12:00:00\n"
                     . "\n"
                     . "There's a critical bug here!\n",
-            ),
-            'with_no_desciption' => array(
+            ],
+            'with_no_desciption' => [
                 'name'                     => 'John Smith',
                 'email'                    => 'john.smith@example.com',
                 'description'              => '',
                 'expectedLockFileContents' => "Locked environment at date: 2015-01-01 12:00:00\n"
                     . 'Locked by John Smith (john.smith@example.com)',
-            ),
-        );
+            ],
+        ];
     }
 
     /**

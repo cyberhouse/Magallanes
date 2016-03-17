@@ -1,13 +1,16 @@
 <?php
-/*
- * This file is part of the Magallanes package.
-*
-* (c) Andrés Montañez <andres@andresmontanez.com>
-*
-* For the full copyright and license information, please view the LICENSE
-* file that was distributed with this source code.
-*/
 namespace Mage;
+
+/*
+ * (c) 2011-2015 Andrés Montañez <andres@andresmontanez.com>
+ * (c) 2016 by Cyberhouse GmbH <office@cyberhouse.at>
+ *
+ * This is free software; you can redistribute it and/or
+ * modify it under the terms of the MIT License (MIT)
+ *
+ * For the full copyright and license information see
+ * <https://opensource.org/licenses/MIT>
+ */
 
 use Exception;
 use Mage\Command\Factory;
@@ -27,11 +30,11 @@ class Console
     /**
      * @var array
      */
-    public static $paramsNotRequiringEnvironment = array(
+    public static $paramsNotRequiringEnvironment = [
         'install' => 'install',
         'upgrade' => 'upgrade',
         'version' => 'version',
-    );
+    ];
 
     /**
      * Handler to the current Log File.
@@ -209,7 +212,7 @@ class Console
         self::log('---- Executing: $ ' . $command);
 
         $return = 1;
-        $log    = array();
+        $log    = [];
         exec($command . ' 2>&1', $log, $return);
         $log = implode(PHP_EOL, $log);
 
@@ -288,7 +291,7 @@ class Console
                 getcwd() . '/.mage/logs',
                 RecursiveDirectoryIterator::SKIP_DOTS
             );
-            $logs = array();
+            $logs = [];
 
             foreach ($files as $log) {
                 /* @var $log SplFileInfo */

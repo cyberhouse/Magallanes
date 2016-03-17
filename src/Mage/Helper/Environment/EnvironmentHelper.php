@@ -1,9 +1,20 @@
 <?php
 namespace Mage\Helper\Environment;
 
-use Mage\Helper\BaseHelper;
+/*
+ * (c) 2011-2015 Andrés Montañez <andres@andresmontanez.com>
+ * (c) 2016 by Cyberhouse GmbH <office@cyberhouse.at>
+ *
+ * This is free software; you can redistribute it and/or
+ * modify it under the terms of the MIT License (MIT)
+ *
+ * For the full copyright and license information see
+ * <https://opensource.org/licenses/MIT>
+ */
+
 use Mage\Configuration\Environment;
 use Mage\Configuration\General;
+use Mage\Helper\BaseHelper;
 
 /**
  * Class EnvironmentHelper
@@ -13,20 +24,20 @@ use Mage\Configuration\General;
 class EnvironmentHelper extends BaseHelper
 {
 
-    public function environmentExists($environmentName) 
+    public function environmentExists($environmentName)
     {
         $environment = new Environment($environmentName);
 
         return $environment->exists();
     }
 
-    public function getAvailableEnvironments() 
+    public function getAvailableEnvironments()
     {
-        $environments = array();
+        $environments = [];
 
         $environmentDirectory = Environment::getConfigurationDirectory();
 
-        if(file_exists($environmentDirectory)) {
+        if (file_exists($environmentDirectory)) {
             $pattern = $environmentDirectory . '/*.yml';
 
             $environmentFiles = glob($pattern);
@@ -41,45 +52,45 @@ class EnvironmentHelper extends BaseHelper
         return $environments;
     }
 
-    public function addEnvironment($environmentName, $enableReleases) 
+    public function addEnvironment($environmentName, $enableReleases)
     {
         $environment = new Environment($environmentName);
-        $environment->initialize(array('enableReleases' => $enableReleases));
+        $environment->initialize(['enableReleases' => $enableReleases]);
 
         return $environment->save();
     }
 
-    public function removeEnvironment($environmentName) 
+    public function removeEnvironment($environmentName)
     {
         $environment = new Environment($environmentName);
         return $environment->remove();
     }
 
-    public function lockEnvironment($environmentName, $name, $email, $reason) 
+    public function lockEnvironment($environmentName, $name, $email, $reason)
     {
         $lockMessage = '';
 
-        if(!empty($name)) {
+        if (!empty($name)) {
             $lockMessage .= "Locked by $name ";
         }
-        if(!empty($email)) {
+        if (!empty($email)) {
             $lockMessage .= "($email)";
         }
-        if(!empty($reason)) {
+        if (!empty($reason)) {
             $lockMessage .= "\nReason: $reason";
         }
 
-        $lockMessage = "Locked environment at date: " . date('Y-m-d H:i:s') . "\n" . $lockMessage;
+        $lockMessage = 'Locked environment at date: ' . date('Y-m-d H:i:s') . "\n" . $lockMessage;
 
         $lockFile = $this->getLockFilename($environmentName);
         file_put_contents($lockFile, $lockMessage);
     }
 
-    public function unlockEnvironment($environmentName) 
+    public function unlockEnvironment($environmentName)
     {
         $lockFile = $this->getLockFilename($environmentName);
 
-        if(file_exists($lockFile)) {
+        if (file_exists($lockFile)) {
             unlink($lockFile);
             return true;
         }
@@ -87,7 +98,7 @@ class EnvironmentHelper extends BaseHelper
         return false;
     }
 
-    private function getLockFilename($environmentName) 
+    private function getLockFilename($environmentName)
     {
         return General::getConfigurationDirectory() . "/$environmentName.lock";
     }

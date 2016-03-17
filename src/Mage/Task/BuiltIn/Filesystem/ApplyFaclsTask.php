@@ -1,6 +1,17 @@
 <?php
 namespace Mage\Task\BuiltIn\Filesystem;
 
+/*
+ * (c) 2011-2015 Andrés Montañez <andres@andresmontanez.com>
+ * (c) 2016 by Cyberhouse GmbH <office@cyberhouse.at>
+ *
+ * This is free software; you can redistribute it and/or
+ * modify it under the terms of the MIT License (MIT)
+ *
+ * For the full copyright and license information see
+ * <https://opensource.org/licenses/MIT>
+ */
+
 use Mage\Task\AbstractTask;
 use Mage\Task\Releases\IsReleaseAware;
 use Mage\Task\SkipException;
@@ -19,8 +30,8 @@ class ApplyFaclsTask extends AbstractTask implements IsReleaseAware
     /**
      * Runs the task
      *
-     * @return bool
      * @throws SkipException
+     * @return bool
      */
     public function run()
     {
@@ -32,7 +43,7 @@ class ApplyFaclsTask extends AbstractTask implements IsReleaseAware
             throw new SkipException('Parameter acl_param not set.');
         }
 
-        $folders   = $this->getParameter('folders', array());
+        $folders   = $this->getParameter('folders', []);
         $recursive = $this->getParameter('recursive', false) ? ' -R ' : ' ';
 
         foreach ($folders as $folder) {

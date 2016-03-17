@@ -1,13 +1,16 @@
 <?php
-/*
- * This file is part of the Magallanes package.
-*
-* (c) Andrés Montañez <andres@andresmontanez.com>
-*
-* For the full copyright and license information, please view the LICENSE
-* file that was distributed with this source code.
-*/
 namespace Mage\Task\BuiltIn\Releases;
+
+/*
+ * (c) 2011-2015 Andrés Montañez <andres@andresmontanez.com>
+ * (c) 2016 by Cyberhouse GmbH <office@cyberhouse.at>
+ *
+ * This is free software; you can redistribute it and/or
+ * modify it under the terms of the MIT License (MIT)
+ *
+ * For the full copyright and license information see
+ * <https://opensource.org/licenses/MIT>
+ */
 
 use DateTime;
 use Mage\Console;
@@ -41,7 +44,7 @@ class ListTask extends AbstractTask implements IsReleaseAware
             // Get Releases
             $output   = '';
             $result   = $this->runCommandRemote('ls -1 ' . $releasesDirectory, $output);
-            $releases = ($output == '') ? array() : explode(PHP_EOL, $output);
+            $releases = ($output == '') ? [] : explode(PHP_EOL, $output);
 
             // Get Current
             $result         = $this->runCommandRemote('ls -l ' . $symlink, $output) && $result;

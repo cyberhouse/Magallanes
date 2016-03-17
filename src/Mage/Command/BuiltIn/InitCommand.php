@@ -1,13 +1,16 @@
 <?php
-/*
- * This file is part of the Magallanes package.
-*
-* (c) Andrés Montañez <andres@andresmontanez.com>
-*
-* For the full copyright and license information, please view the LICENSE
-* file that was distributed with this source code.
-*/
 namespace Mage\Command\BuiltIn;
+
+/*
+ * (c) 2011-2015 Andrés Montañez <andres@andresmontanez.com>
+ * (c) 2016 by Cyberhouse GmbH <office@cyberhouse.at>
+ *
+ * This is free software; you can redistribute it and/or
+ * modify it under the terms of the MIT License (MIT)
+ *
+ * For the full copyright and license information see
+ * <https://opensource.org/licenses/MIT>
+ */
 
 use Mage\Command\AbstractCommand;
 use Mage\Console;
@@ -36,7 +39,7 @@ class InitCommand extends AbstractCommand
         if (file_exists($configDir)) {
             Console::output('<light_red>Error!!</light_red> Already exists <bold>.mage</bold> directory.', 1, 2);
         } else {
-            $results   = array();
+            $results   = [];
             $results[] = mkdir($configDir);
             $results[] = mkdir($configDir . '/logs');
             $results[] = file_put_contents($configDir . '/logs/.gitignore', "*\n!.gitignore");
@@ -71,22 +74,22 @@ class InitCommand extends AbstractCommand
         $notificationEnabled = ($notificationEmail != '') ? 'true' : 'false';
 
         $globalSettings = str_replace(
-            array(
+            [
                 '%projectName%',
                 '%notificationEmail%',
                 '%notificationEnabled%',
                 '%loggingEnabled%',
                 '%maxlogs%',
                 '%ssh_needs_tty%',
-            ),
-            array(
+            ],
+            [
                 $projectName,
                 $notificationEmail,
                 $notificationEnabled,
                 'true',
                 30,
                 'false',
-            ),
+            ],
             $this->getGeneralConfigTemplate()
         );
 

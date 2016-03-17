@@ -1,5 +1,17 @@
 <?php
 namespace Mage\Configuration;
+
+/*
+ * (c) 2011-2015 Andrés Montañez <andres@andresmontanez.com>
+ * (c) 2016 by Cyberhouse GmbH <office@cyberhouse.at>
+ *
+ * This is free software; you can redistribute it and/or
+ * modify it under the terms of the MIT License (MIT)
+ *
+ * For the full copyright and license information see
+ * <https://opensource.org/licenses/MIT>
+ */
+
 use Mage\Configuration;
 
 /**
@@ -23,35 +35,35 @@ class Environment extends Configuration
     {
         $withReleases = empty($arguments) || !array_key_exists('enableReleases', $arguments) ? false : $arguments['enableReleases'];
 
-        $baseConfig = array();
+        $baseConfig = [];
 
-        $baseConfig['deployment'] = array(
+        $baseConfig['deployment'] = [
             'user'     => 'dummy',
             'from'     => './',
             'to'       => '/var/www/vhosts/example.com/www',
-            'excludes' => array(),
-        );
+            'excludes' => [],
+        ];
 
         if ($withReleases) {
-            $baseConfig['releases'] = array(
+            $baseConfig['releases'] = [
                 'enabled'   => true,
                 'max'       => 10,
                 'symlink'   => 'current',
                 'directory' => 'releases',
-            );
+            ];
         }
 
-        $baseConfig['hosts'] = array();
-        $baseConfig['tasks'] = array(
-            'pre-deploy' => array(),
-            'on-deploy'  => array(),
-        );
+        $baseConfig['hosts'] = [];
+        $baseConfig['tasks'] = [
+            'pre-deploy' => [],
+            'on-deploy'  => [],
+        ];
 
         if ($withReleases) {
-            $baseConfig['tasks']['post-release'] = array();
+            $baseConfig['tasks']['post-release'] = [];
         }
 
-        $baseConfig['tasks']['post-deploy'] = array();
+        $baseConfig['tasks']['post-deploy'] = [];
 
         $this->setConfigurationData($baseConfig);
     }

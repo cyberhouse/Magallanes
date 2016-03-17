@@ -1,6 +1,17 @@
 <?php
 namespace Mage\Task\BuiltIn\Filesystem;
 
+/*
+ * (c) 2011-2015 Andrés Montañez <andres@andresmontanez.com>
+ * (c) 2016 by Cyberhouse GmbH <office@cyberhouse.at>
+ *
+ * This is free software; you can redistribute it and/or
+ * modify it under the terms of the MIT License (MIT)
+ *
+ * For the full copyright and license information see
+ * <https://opensource.org/licenses/MIT>
+ */
+
 use Mage\Task\AbstractTask;
 use Mage\Task\Releases\IsReleaseAware;
 use Mage\Task\SkipException;
@@ -37,10 +48,10 @@ class LinkSharedFilesTask extends AbstractTask implements IsReleaseAware
     /**
      * @var array
      */
-    private static $linkingStrategies = array(
+    private static $linkingStrategies = [
         self::ABSOLUTE_LINKING,
         self::RELATIVE_LINKING,
-    );
+    ];
 
     /**
      * Returns the Title of the Task
@@ -55,14 +66,14 @@ class LinkSharedFilesTask extends AbstractTask implements IsReleaseAware
     /**
      * Runs the task
      *
-     * @return bool
      * @throws SkipException
+     * @return bool
      */
     public function run()
     {
         $linkedEntities = array_merge(
-            $this->getParameter(self::LINKED_FILES, array()),
-            $this->getParameter(self::LINKED_FOLDERS, array())
+            $this->getParameter(self::LINKED_FILES, []),
+            $this->getParameter(self::LINKED_FOLDERS, [])
         );
 
         if (empty($linkedEntities)) {
@@ -147,6 +158,6 @@ class LinkSharedFilesTask extends AbstractTask implements IsReleaseAware
             $path     = $linkedEntity;
         }
 
-        return array($path, $strategy);
+        return [$path, $strategy];
     }
 }

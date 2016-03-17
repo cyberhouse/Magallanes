@@ -1,14 +1,16 @@
 <?php
-/*
- * This file is part of the Magallanes package.
-*
-* (c) Andrés Montañez <andres@andresmontanez.com>
-* (c) Alex V Kotelnikov <gudron@gudron.me>
-*
-* For the full copyright and license information, please view the LICENSE
-* file that was distributed with this source code.
-*/
 namespace Mage\Command\BuiltIn;
+
+/*
+ * (c) 2011-2015 Andrés Montañez <andres@andresmontanez.com>
+ * (c) 2016 by Cyberhouse GmbH <office@cyberhouse.at>
+ *
+ * This is free software; you can redistribute it and/or
+ * modify it under the terms of the MIT License (MIT)
+ *
+ * For the full copyright and license information see
+ * <https://opensource.org/licenses/MIT>
+ */
 
 use Exception;
 use Mage\Command\AbstractCommand;
@@ -62,10 +64,10 @@ class DeployCommand extends AbstractCommand implements RequiresEnvironment
      * Stage where possible throw Rollback Exception
      * @var array
      */
-    public $acceptedStagesToRollback = array(
+    public $acceptedStagesToRollback = [
         AbstractTask::STAGE_POST_RELEASE,
         AbstractTask::STAGE_POST_DEPLOY,
-    );
+    ];
 
     /**
      * Time the Deployment has Started
@@ -252,7 +254,7 @@ class DeployCommand extends AbstractCommand implements RequiresEnvironment
         if ($stage == AbstractTask::STAGE_POST_DEPLOY) {
             // If Deploy failed, clear post deploy tasks
             if (self::$deployStatus == self::FAILED) {
-                $tasksToRun = array();
+                $tasksToRun = [];
             }
 
             // Change Branch Back
@@ -488,10 +490,10 @@ class DeployCommand extends AbstractCommand implements RequiresEnvironment
                 $this->getConfig()->setReleaseId(-1);
 
                 $task = Factory::get(
-                    array(
+                    [
                     'name'       => 'releases/rollback',
-                    'parameters' => array('inDeploy'=> true),
-                    ),
+                    'parameters' => ['inDeploy'=> true],
+                    ],
                     $this->getConfig(),
                     false,
                     $task->getStage()
@@ -569,7 +571,7 @@ class DeployCommand extends AbstractCommand implements RequiresEnvironment
         $hours    = floor($time / 3600);
         $minutes  = floor(($time - ($hours * 3600)) / 60);
         $seconds  = $time - ($minutes * 60) - ($hours * 3600);
-        $timeText = array();
+        $timeText = [];
 
         if ($hours > 0) {
             $timeText[] = $hours . ' hours';

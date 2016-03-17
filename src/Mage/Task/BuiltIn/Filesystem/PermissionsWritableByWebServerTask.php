@@ -1,6 +1,18 @@
 <?php
 namespace Mage\Task\BuiltIn\Filesystem;
 
+
+/*
+ * (c) 2011-2015 Andrés Montañez <andres@andresmontanez.com>
+ * (c) 2016 by Cyberhouse GmbH <office@cyberhouse.at>
+ *
+ * This is free software; you can redistribute it and/or
+ * modify it under the terms of the MIT License (MIT)
+ *
+ * For the full copyright and license information see
+ * <https://opensource.org/licenses/MIT>
+ */
+
 use Mage\Task\SkipException;
 
 /**
@@ -41,8 +53,8 @@ class PermissionsWritableByWebServerTask extends PermissionsTask
     /**
      * Tries to guess the web server user by going thru the running processes.
      *
-     * @return string
      * @throws SkipException
+     * @return string
      */
     protected function getWebServerUser()
     {
