@@ -11,7 +11,7 @@ use Pimple\Container;
 class RemoveCommandTest extends \MageTest\Command\BaseCommandTest
 {
     /** @var RemoveCommand */
-    private $addCommand;
+    private $removeCommand;
     /** @var PHPUnit_Framework_MockObject_MockObject */
     private $environmentHelperMock;
 
@@ -26,7 +26,7 @@ class RemoveCommandTest extends \MageTest\Command\BaseCommandTest
             ->getMock();
 
         $container['environmentHelper'] = $this->environmentHelperMock;
-        $this->addCommand = new RemoveCommand($container);
+        $this->removeCommand = new RemoveCommand($container);
     }
 
     /**
@@ -37,7 +37,7 @@ class RemoveCommandTest extends \MageTest\Command\BaseCommandTest
         $expectedExitCode = 1;
         $expectedMessage = "[ERROR] The name parameter cannot be empty.";
 
-        $this->executeAndAssert($this->addCommand, 'environment:remove', $arguments, $expectedExitCode, $expectedMessage);
+        $this->executeAndAssert($this->removeCommand, 'environment:remove', $arguments, $expectedExitCode, $expectedMessage);
     }
 
     /**
@@ -54,7 +54,7 @@ class RemoveCommandTest extends \MageTest\Command\BaseCommandTest
             ->method('environmentExists')
             ->willReturn(false);
 
-        $this->executeAndAssert($this->addCommand, 'environment:remove', $arguments, $expectedExitCode, $expectedMessage);
+        $this->executeAndAssert($this->removeCommand, 'environment:remove', $arguments, $expectedExitCode, $expectedMessage);
     }
 
     /**
@@ -75,7 +75,7 @@ class RemoveCommandTest extends \MageTest\Command\BaseCommandTest
             ->method('removeEnvironment')
             ->willReturn(false);
 
-        $this->executeAndAssert($this->addCommand, 'environment:remove', $arguments, $expectedExitCode, $expectedMessage);
+        $this->executeAndAssert($this->removeCommand, 'environment:remove', $arguments, $expectedExitCode, $expectedMessage);
     }
 
     public function testExecuteSuccess() {
@@ -92,6 +92,6 @@ class RemoveCommandTest extends \MageTest\Command\BaseCommandTest
             ->method('removeEnvironment')
             ->willReturn(true);
 
-        $this->executeAndAssert($this->addCommand, 'environment:remove', $arguments, $expectedExitCode);
+        $this->executeAndAssert($this->removeCommand, 'environment:remove', $arguments, $expectedExitCode);
     }
 }
