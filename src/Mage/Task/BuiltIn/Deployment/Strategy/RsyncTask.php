@@ -85,7 +85,7 @@ class RsyncTask extends BaseStrategyTaskAbstract implements IsReleaseAware
                             "$releasesDirectory/$currentRelease/ $releasesDirectory/{$id}"
                         );
                     } else {
-                        $this->runCommandRemote('cp -R ' . $releasesDirectory . '/' .
+                        $this->runCommandRemote('cp -a ' . $releasesDirectory . '/' .
                                                 $currentRelease . ' ' . $releasesDirectory . '/' .
                                                 $this->getConfig()->getReleaseId());
                     }
