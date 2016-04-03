@@ -1,8 +1,19 @@
 <?php
-use Mage\Command\Environment\RemoveCommand;
+
+
+/*
+ * (c) 2011-2015 Andrés Montañez <andres@andresmontanez.com>
+ * (c) 2016 by Cyberhouse GmbH <office@cyberhouse.at>
+ *
+ * This is free software; you can redistribute it and/or
+ * modify it under the terms of the MIT License (MIT)
+ *
+ * For the full copyright and license information see
+ * <https://opensource.org/licenses/MIT>
+ */
+
 use Mage\Command\Environment\UnlockCommand;
 use Pimple\Container;
-
 
 /**
  * Class UnlockCommandTest
@@ -23,20 +34,21 @@ class UnlockCommandTest extends \MageTest\Command\BaseCommandTest
         $container = new Container();
 
         $this->environmentHelperMock = $this->getMockBuilder('EnvironmentHelper')
-            ->setMethods(array('environmentExists', 'unlockEnvironment'))
+            ->setMethods(['environmentExists', 'unlockEnvironment'])
             ->getMock();
 
         $container['environmentHelper'] = $this->environmentHelperMock;
-        $this->unlockCommand = new UnlockCommand($container);
+        $this->unlockCommand            = new UnlockCommand($container);
     }
 
     /**
      * @covers ::execute
      */
-    public function testExecuteWithoutNameOption() {
-        $arguments = array();
+    public function testExecuteWithoutNameOption()
+    {
+        $arguments        = [];
         $expectedExitCode = 1;
-        $expectedMessage = "[ERROR] the name parameter cannot be empty.";
+        $expectedMessage  = '[ERROR] the name parameter cannot be empty.';
 
         $this->executeAndAssert($this->unlockCommand, 'environment:unlock', $arguments, $expectedExitCode, $expectedMessage);
     }
@@ -44,12 +56,13 @@ class UnlockCommandTest extends \MageTest\Command\BaseCommandTest
     /**
      * @covers ::execute
      */
-    public function testExecuteFailsOnUnlock() {
+    public function testExecuteFailsOnUnlock()
+    {
         $environmentName = 'foobar';
 
-        $arguments = array('--name' => $environmentName);
+        $arguments        = ['--name' => $environmentName];
         $expectedExitCode = 1;
-        $expectedMessage = "[ERROR] Unable to release deployment lock for environment $environmentName.";
+        $expectedMessage  = "[ERROR] Unable to release deployment lock for environment $environmentName.";
 
         $this->environmentHelperMock
             ->method('unlockEnvironment')
@@ -58,10 +71,11 @@ class UnlockCommandTest extends \MageTest\Command\BaseCommandTest
         $this->executeAndAssert($this->unlockCommand, 'environment:unlock', $arguments, $expectedExitCode, $expectedMessage);
     }
 
-    public function testExecuteSuccess() {
+    public function testExecuteSuccess()
+    {
         $environmentName = 'foobar';
 
-        $arguments = array('--name' => $environmentName);
+        $arguments        = ['--name' => $environmentName];
         $expectedExitCode = 0;
 
         $this->environmentHelperMock

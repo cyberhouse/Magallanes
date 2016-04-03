@@ -1,7 +1,19 @@
 <?php
+
+
+/*
+ * (c) 2011-2015 Andrés Montañez <andres@andresmontanez.com>
+ * (c) 2016 by Cyberhouse GmbH <office@cyberhouse.at>
+ *
+ * This is free software; you can redistribute it and/or
+ * modify it under the terms of the MIT License (MIT)
+ *
+ * For the full copyright and license information see
+ * <https://opensource.org/licenses/MIT>
+ */
+
 use Mage\Command\Environment\RemoveCommand;
 use Pimple\Container;
-
 
 /**
  * Class RemoveCommandTest
@@ -22,20 +34,21 @@ class RemoveCommandTest extends \MageTest\Command\BaseCommandTest
         $container = new Container();
 
         $this->environmentHelperMock = $this->getMockBuilder('EnvironmentHelper')
-            ->setMethods(array('environmentExists', 'removeEnvironment'))
+            ->setMethods(['environmentExists', 'removeEnvironment'])
             ->getMock();
 
         $container['environmentHelper'] = $this->environmentHelperMock;
-        $this->removeCommand = new RemoveCommand($container);
+        $this->removeCommand            = new RemoveCommand($container);
     }
 
     /**
      * @covers ::execute
      */
-    public function testExecuteWithoutNameOption() {
-        $arguments = array();
+    public function testExecuteWithoutNameOption()
+    {
+        $arguments        = [];
         $expectedExitCode = 1;
-        $expectedMessage = "[ERROR] The name parameter cannot be empty.";
+        $expectedMessage  = '[ERROR] The name parameter cannot be empty.';
 
         $this->executeAndAssert($this->removeCommand, 'environment:remove', $arguments, $expectedExitCode, $expectedMessage);
     }
@@ -43,12 +56,13 @@ class RemoveCommandTest extends \MageTest\Command\BaseCommandTest
     /**
      * @covers ::execute
      */
-    public function testExecuteWithNotExistingEnvironment() {
+    public function testExecuteWithNotExistingEnvironment()
+    {
         $environmentName = 'foobar';
 
-        $arguments = array('--name' => $environmentName);
+        $arguments        = ['--name' => $environmentName];
         $expectedExitCode = 1;
-        $expectedMessage = "[ERROR] The environment \"$environmentName\" does not exist.";
+        $expectedMessage  = "[ERROR] The environment \"$environmentName\" does not exist.";
 
         $this->environmentHelperMock
             ->method('environmentExists')
@@ -60,12 +74,13 @@ class RemoveCommandTest extends \MageTest\Command\BaseCommandTest
     /**
      * @covers ::execute
      */
-    public function testExecuteFailsOnRemoval() {
+    public function testExecuteFailsOnRemoval()
+    {
         $environmentName = 'foobar';
 
-        $arguments = array('--name' => $environmentName);
+        $arguments        = ['--name' => $environmentName];
         $expectedExitCode = 1;
-        $expectedMessage = "[ERROR] The environment \"$environmentName\" cannot be removed.";
+        $expectedMessage  = "[ERROR] The environment \"$environmentName\" cannot be removed.";
 
         $this->environmentHelperMock
             ->method('environmentExists')
@@ -78,10 +93,11 @@ class RemoveCommandTest extends \MageTest\Command\BaseCommandTest
         $this->executeAndAssert($this->removeCommand, 'environment:remove', $arguments, $expectedExitCode, $expectedMessage);
     }
 
-    public function testExecuteSuccess() {
+    public function testExecuteSuccess()
+    {
         $environmentName = 'foobar';
 
-        $arguments = array('--name' => $environmentName);
+        $arguments        = ['--name' => $environmentName];
         $expectedExitCode = 0;
 
         $this->environmentHelperMock

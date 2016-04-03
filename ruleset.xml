@@ -2,9 +2,9 @@
 <ruleset name="Cyberhouse">
     <description>Cyberhouse PHP Codestyle</description>
 
+    <exclude-pattern>*/docs/*</exclude-pattern>
     <exclude-pattern>*/vendor/*</exclude-pattern>
     <exclude-pattern>*/tests/Fixtures/*</exclude-pattern>
-    <exclude-pattern>*/docs/*</exclude-pattern>
 
     <rule ref="PSR2" />
 

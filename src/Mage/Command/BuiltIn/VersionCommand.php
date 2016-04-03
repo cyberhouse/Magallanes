@@ -1,7 +1,6 @@
 <?php
 namespace Mage\Command\BuiltIn;
 
-
 /*
  * (c) 2011-2015 Andrés Montañez <andres@andresmontanez.com>
  * (c) 2016 by Cyberhouse GmbH <office@cyberhouse.at>

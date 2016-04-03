@@ -7,6 +7,8 @@ test: vendor/autoload.php
 
 fix: composer.phar
 	./bin/php-cs-fixer fix --config-file=.php_cs
+	./bin/phpcbf --encoding=utf-8 --colors -p --standard=ruleset.xml --extensions=php --severity=1 src/
+	./bin/phpcbf --encoding=utf-8 --colors -p --standard=ruleset.xml --extensions=php --severity=1 tests/
 
 phar: mage.phar
 

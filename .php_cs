@@ -21,17 +21,8 @@ if (PHP_SAPI !== 'cli') {
     die('Nope');
 }
 
-$cstart = 2016;
-$cend = (int) date('Y');
-
-$cline = (string) $cstart;
-
-if ($cend > $cstart) {
-    $cline = $cstart . '-' . $cend;
-}
-
 $header = '(c) 2011-2015 Andrés Montañez <andres@andresmontanez.com>
-(c) ' . $cline . ' by Cyberhouse GmbH <office@cyberhouse.at>
+(c) 2016 by Cyberhouse GmbH <office@cyberhouse.at>
 
 This is free software; you can redistribute it and/or
 modify it under the terms of the MIT License (MIT)
@@ -42,7 +33,8 @@ For the full copyright and license information see
 LowerHeaderCommentFixer::setHeader($header);
 
 $finder = DefaultFinder::create()
-    ->exclude('docs')
+    ->exclude('res')
+    ->exclude('vendor')
     ->exclude('tests/Fixtures')
     ->name('/\.php$/')
     ->in(__DIR__);
