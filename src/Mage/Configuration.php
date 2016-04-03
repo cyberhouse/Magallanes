@@ -12,8 +12,6 @@ namespace Mage;
  * <https://opensource.org/licenses/MIT>
  */
 
-use Symfony\Component\Yaml\Yaml;
-
 /**
  * Class Configuration
  */
@@ -68,7 +66,7 @@ abstract class Configuration
     public function save()
     {
         $path = $this->getConfigurationFilepath();
-        return file_put_contents($path, Yaml::dump($this->configurationData, 3, 2));
+        return Yaml::dump($this->configurationData, $path);
     }
 
     /**

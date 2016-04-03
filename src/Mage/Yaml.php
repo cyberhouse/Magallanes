@@ -55,7 +55,7 @@ class Yaml
             $success = yaml_emit_file($file, $data, YAML_UTF8_ENCODING, YAML_LN_BREAK);
         } else {
             $success = false;
-            $data    = \Symfony\Component\Yaml\Yaml::dump($data);
+            $data    = \Symfony\Component\Yaml\Yaml::dump($data, 4, 2);
 
             if (is_string($data)) {
                 $success = file_put_contents($file, $data, LOCK_EX);
