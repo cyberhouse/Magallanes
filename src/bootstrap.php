@@ -11,7 +11,6 @@
  * <https://opensource.org/licenses/MIT>
  */
 
-
 $timezone = ini_get('date.timezone');
 
 if (empty($timezone)) {
@@ -21,17 +20,44 @@ if (empty($timezone)) {
 define('MAGALLANES_VERSION', '2.0.0-dev');
 
 $paths = [
+    __DIR__ . '/../vendor/autoload.php',
     __DIR__ . '/../../vendor/autoload.php',
     __DIR__ . '/../../../../vendor/autoload.php',
 ];
 
-foreach ($paths as $path) {
-    if (is_file($path)) {
-        require $path;
-        $mage = new Mage\Mage();
-        exit($mage->run());
-    }
-}
+try {
+    foreach ($paths as $path) {
+        if (is_file($path)) {
+            require $path;
 
-echo "\033[31m[FATAL ERROR] you need to install the project dependencies!\033[0m\n";
-exit(1);
+            if (class_exists('Mage\\Mage')) {
+                $mage = new Mage\Mage();
+                exit((int)$mage->run());
+            }
+        }
+    }
+
+    throw new \RuntimeException('Cannot load magallanes. Make sure dependencies are installed!');
+
+} catch (\Exception $ex) {
+    $msg = $ex->getMessage();
+
+    if ((DIRECTORY_SEPARATOR === '\\'
+         && (false !== getenv('ANSICON') || 'ON' === getenv('ConEmuANSI') || 'xterm' === getenv('TERM')))
+        || (function_exists('posix_isatty') && @posix_isatty(STDERR))) {
+        $parts = [
+            str_repeat(' ', strlen($msg) + 4),
+            '  ' . $msg . '  ',
+            str_repeat(' ', strlen($msg) + 4),
+        ];
+        $msg   = implode(
+            PHP_EOL,
+            array_map(function ($line) {
+                return "    \033[41;1;37m$line\e[49;22;39m";
+            }, $parts)
+        );
+    }
+
+    fwrite(STDERR, PHP_EOL . $msg . PHP_EOL . PHP_EOL);
+    exit(1);
+}
