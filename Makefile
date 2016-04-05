@@ -23,13 +23,13 @@ clean:
 .PHONY: test fix default clean phar install
 
 vendor/autoload.php: composer.phar
-	php composer.phar install -o
+	php composer.phar install -o --prefer-dist --no-dev
 
 composer.phar:
 	php -r "readfile('https://getcomposer.org/installer');" | php
 
-mage.phar: test
-	php phar.php
+mage.phar:
+	php -f src/phar.php; chmod +x mage.phar
 
 /usr/local/bin/mage: mage.phar
 	cp mage.phar /usr/local/bin/mage && chmod +x /usr/local/bin/mage
