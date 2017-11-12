@@ -193,14 +193,7 @@ abstract class AbstractTask
             $releasesDirectory = '';
         }
 
-        // if general.yml includes "ssy_needs_tty: true", then add "-t" to the ssh command
-        $needs_tty = ($this->getConfig()->general('ssh_needs_tty', false) ? '-t' : '');
-
-        $localCommand = 'ssh ' . $this->getConfig()->getHostIdentityFileOption() . $needs_tty . ' -p ' . $this->getConfig()->getHostPort() . ' '
-            . '-q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no '
-            . $this->getConfig()->getConnectTimeoutOption()
-            . ($this->getConfig()->deployment('user') != '' ? $this->getConfig()->deployment('user') . '@' : '')
-            . $this->getConfig()->getHostName();
+        $localCommand = $this->buildSSHCommand();
 
         $remoteCommand = str_replace('"', '\"', $command);
         if ($cdToDirectoryFirst) {
@@ -304,5 +297,22 @@ abstract class AbstractTask
             return $result;
         }
         return $result;
+    }
+
+    protected function buildSSHCommand()
+    {
+        // if general.yml includes "ssh_needs_tty: true", then add "-t" to the ssh command
+        $needs_tty = ($this->getConfig()->general('ssh_needs_tty', false) ? '-t' : '');
+
+        $command =
+            'ssh ' . $this->getConfig()->getHostIdentityFileOption()
+            . $needs_tty
+            . ' -p ' . $this->getConfig()->getHostPort() . ' '
+            . '-q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no '
+            . $this->getConfig()->getConnectTimeoutOption()
+            . ($this->getConfig()->deployment('user') != '' ? $this->getConfig()->deployment('user') . '@' : '')
+            . $this->getConfig()->getHostName();
+
+        return $command;
     }
 }

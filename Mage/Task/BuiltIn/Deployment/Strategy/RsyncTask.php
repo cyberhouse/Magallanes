@@ -94,9 +94,12 @@ class RsyncTask extends BaseStrategyTaskAbstract implements IsReleaseAware
             $strategyFlags = '';
         }
 
+        $sshCommand = $this->buildSSHCommand();
+        $sshCommand = addcslashes($sshCommand, '"');
+
         $command = 'rsync -avz '
                  . $strategyFlags . ' '
-                 . '--rsh="ssh ' . $this->getConfig()->getHostIdentityFileOption() . '-p' . $this->getConfig()->getHostPort() . '" '
+                 . '--rsh="' . $sshCommand . '" '
                  . $this->excludes($excludes) . ' '
                  . $this->excludesListFile($excludesListFilePath) . ' '
                  . $this->getConfig()->deployment('from') . ' '
