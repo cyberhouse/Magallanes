@@ -193,7 +193,9 @@ abstract class AbstractTask
             $releasesDirectory = '';
         }
 
-        $localCommand = $this->buildSSHCommand();
+        $localCommand = $this->buildSSHCommand()
+            . ($this->getConfig()->deployment('user') != '' ? $this->getConfig()->deployment('user') . '@' : '')
+            . $this->getConfig()->getHostName();
 
         $remoteCommand = str_replace('"', '\"', $command);
         if ($cdToDirectoryFirst) {
@@ -309,9 +311,7 @@ abstract class AbstractTask
             . $needs_tty
             . ' -p ' . $this->getConfig()->getHostPort() . ' '
             . '-q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no '
-            . $this->getConfig()->getConnectTimeoutOption()
-            . ($this->getConfig()->deployment('user') != '' ? $this->getConfig()->deployment('user') . '@' : '')
-            . $this->getConfig()->getHostName();
+            . $this->getConfig()->getConnectTimeoutOption();
 
         return $command;
     }
