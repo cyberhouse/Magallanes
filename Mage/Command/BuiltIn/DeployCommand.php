@@ -466,7 +466,8 @@ class DeployCommand extends AbstractCommand implements RequiresEnvironment
                 $this->getConfig()->setHostConfig($hostConfig);
                 $this->getConfig()->setReleaseId(-1);
 
-                $task = Factory::get(array(
+                $task = Factory::get(
+                    array(
                         'name'=>'releases/rollback',
                         'parameters' => array('inDeploy'=>true)
                     ),

@@ -80,7 +80,9 @@ class ListTask extends AbstractTask implements IsReleaseAware
                     Console::output(
                         'Release: <purple>' . $release . '</purple> '
                         . '- Date: <bold>' . $releaseDate . '</bold> '
-                        . '- Index: <bold>' . $releaseIndex . '</bold>' . $dateDiff . $isCurrent, 2);
+                        . '- Index: <bold>' . $releaseIndex . '</bold>' . $dateDiff . $isCurrent,
+                        2
+                    );
                 }
             }
 

@@ -38,7 +38,7 @@ class AddCommand extends AbstractCommand
                     $this->addEnvironment();
                     break;
 
-                default;
+                default:
                     throw new Exception('The Type of Add is needed.');
                     break;
             }

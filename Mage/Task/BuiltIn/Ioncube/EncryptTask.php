@@ -557,24 +557,24 @@ class EncryptTask extends AbstractTask
         $s = array();
         $p = array();
         switch (strtolower($this->ionOverRide)) {
-            case 'fyd' :
+            case 'fyd':
                 // FILE / YAML / DEFAULT
                 $s = array_merge($this->file ['s'], $this->yaml ['s'], $this->default ['s']);
                 $p = array_merge($this->file ['p'], $this->yaml ['p'], $this->default ['p']);
                 break;
 
-            case 'yfd' :
+            case 'yfd':
                 // YAML / FILE / DEFAULT
                 $s = array_merge($this->yaml ['s'], $this->file ['s'], $this->default ['s']);
                 $p = array_merge($this->yaml ['p'], $this->file ['p'], $this->default ['p']);
                 break;
-            case 'dyf' :
+            case 'dyf':
                 // DEFAULT / YAML / FILE
                 $s = array_merge($this->default ['s'], $this->yaml ['s'], $this->file ['s']);
                 $p = array_merge($this->default ['p'], $this->yaml ['p'], $this->file ['p']);
                 break;
-            case 'd' :
-            default :
+            case 'd':
+            default:
                 // Use defaults only
                 $s = $this->default ['s'];
                 $p = $this->default ['p'];
