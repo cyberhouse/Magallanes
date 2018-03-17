@@ -61,7 +61,8 @@ class Dumper
             foreach ($input as $key => $value) {
                 $willBeInlined = $inline - 1 <= 0 || !is_array($value) || empty($value);
 
-                $output .= sprintf('%s%s%s%s',
+                $output .= sprintf(
+                    '%s%s%s%s',
                         $prefix,
                         $isAHash ? Inline::dump($key, $exceptionOnInvalidType, $objectSupport) . ':' : '-',
                         $willBeInlined ? ' ' : "\n",

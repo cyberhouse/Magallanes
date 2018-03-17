@@ -161,7 +161,8 @@ class Config
      *
      * @return array the default environment configuration
      */
-    protected function getDefaultEnvironment() {
+    protected function getDefaultEnvironment()
+    {
         $defaults = $this->general('defaults', null);
         return !empty($defaults) ? $defaults : array();
     }

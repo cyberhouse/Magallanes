@@ -176,7 +176,7 @@ class Parser
                 if ($isProcessed) {
                     // Merge keys
                     $data = $isProcessed;
-                    // hash
+                // hash
                 } elseif (!isset($values['value']) || '' == trim($values['value'], ' ') || 0 === strpos(ltrim($values['value'], ' '), '#')) {
                     // if next line is less indented or equal, then it means that the current value is null
                     if (!$this->isNextLineIndented() && !$this->isNextLineUnIndentedCollection()) {

@@ -63,8 +63,10 @@ class RollbackTask extends AbstractTask implements IsReleaseAware
                 Console::output('Release are not available for <bold>' . $this->getConfig()->getHost() . '</bold> ... <red>FAIL</red>');
             } else {
                 rsort($releases);
-                $deleteCurrent = $this->getConfig()->getParameter('deleteCurrent',
-                    $this->getConfig()->deployment('delete-on-rollback',
+                $deleteCurrent = $this->getConfig()->getParameter(
+                    'deleteCurrent',
+                    $this->getConfig()->deployment(
+                        'delete-on-rollback',
                         $this->getConfig()->general('delete-on-rollback', false)
                     )
                 );

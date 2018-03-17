@@ -41,7 +41,7 @@ class InstallCommand extends AbstractCommand
         if (!is_dir($baseDir) || !is_writable($baseDir)) {
             Console::output('<red>Failure: install directory is invalid.</red>', 0, 2);
 
-            // Chck if it is a system wide install the user is root
+        // Chck if it is a system wide install the user is root
         } elseif ($systemWide && (getenv('LOGNAME') != 'root')) {
             Console::output('<red>Failure: you have to be root to perform a system wide install.</red>', 0, 2);
         } else {
